@@ -4,10 +4,10 @@ import com.google.android.gms.nearby.connection.Payload
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
-class NearbyClient : INearbyClient {
+class NearbyClient(override var isListening: Boolean = false) : INearbyClient, INearbyListener {
     override fun sendSkip(musicName: String) {
         //Command name
-        val commandName = CommandsName.SKIP;
+        val commandName = CommandsName.SKIP
 
         //Payload
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
@@ -15,7 +15,7 @@ class NearbyClient : INearbyClient {
 
     override fun sendWhat() {
         //Command name
-        val commandName = CommandsName.WHAT;
+        val commandName = CommandsName.WHAT
 
         //Payload
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
@@ -23,7 +23,7 @@ class NearbyClient : INearbyClient {
 
     override fun sendMusics() {
         //Command name
-        val commandName = CommandsName.MUSICS;
+        val commandName = CommandsName.MUSICS
 
         //Payload
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
@@ -31,20 +31,26 @@ class NearbyClient : INearbyClient {
 
     override fun sendAdd(musicName: String) {
         //Command name
-        val commandName = CommandsName.ADD;
+        val commandName = CommandsName.ADD
 
         //Payload
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
     }
 
-    override fun onPlaylist(lmbd: (playlist: Array<String>, votes: Map<String, UInt>, currentlyPlaying: String, currentMusicTime: Float, currentMusicLength: Float) -> Void) {
-        //Command name
-        val commandName = CommandsName.PLAYLIST;
+    override fun onPlaylist(callback: (playlist: Array<String>, votes: Map<String, UInt>, currentlyPlaying: String, currentMusicTime: Float, currentMusicLength: Float) -> Void) {
     }
 
-    override fun onKick(lmbd: () -> Void) {
-        //Command name
-        val commandName = CommandsName.KICK;
+    override fun onKick(callback: () -> Void) {
+    }
+
+    override fun listening() {
+        while(isListening)
+        {
+            //Get JSON object
+            val jsonObject = null
+
+            //val commandName = jsonObject.commandName;
+        }
     }
 
 }

@@ -28,23 +28,15 @@ class NearbyServer : INearbyServer {
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
     }
 
-    override fun onSkip(lmbd: (musicName: String) -> Void) {
-        //Command name
-        val commandName = CommandsName.SKIP
+    override fun onSkip(callback: (musicName: String) -> Void) {
     }
 
-    override fun onWhat() {
-        //Command name
-        val commandName = CommandsName.WHAT
+    override fun onWhat(callback: () -> Void) {
     }
 
-    override fun onMusics() {
-        //Command name
-        val commandName = CommandsName.MUSICS
+    override fun onMusics(callback: () -> Void) {
     }
 
-    override fun onAdd(lmbd: (musicName: String) -> Void) {
-        //Command name
-        val commandName = CommandsName.ADD
+    override fun onAdd(callback: (musicName: String) -> Void) {
     }
 }

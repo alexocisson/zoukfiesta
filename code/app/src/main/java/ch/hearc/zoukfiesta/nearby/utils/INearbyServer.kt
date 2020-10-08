@@ -4,8 +4,8 @@ interface INearbyServer {
 
     //Receive
     public fun onSkip(lmbd: (musicName : String) -> Void)
-    public fun onWhat()
-    public fun onMusics()
+    public fun onWhat(lmbd: () -> Void)
+    public fun onMusics(lmbd: () -> Void)
     public fun onAdd( lmbd: (musicName : String) -> Void)
     
     //Send

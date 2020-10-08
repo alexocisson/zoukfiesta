@@ -4,7 +4,7 @@ import com.google.android.gms.nearby.connection.Payload
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
-class NearbyClient : INearbyClient {
+class NearbyClient : INearbyClient, INearbyListener {
     override fun sendSkip(musicName: String) {
         //Command name
         val commandName = CommandsName.SKIP
@@ -37,14 +37,14 @@ class NearbyClient : INearbyClient {
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
     }
 
-    override fun onPlaylist(lmbd: (playlist: Array<String>, votes: Map<String, UInt>, currentlyPlaying: String, currentMusicTime: Float, currentMusicLength: Float) -> Void) {
-        //Command name
-        val commandName = CommandsName.PLAYLIST
+    override fun onPlaylist(callback: (playlist: Array<String>, votes: Map<String, UInt>, currentlyPlaying: String, currentMusicTime: Float, currentMusicLength: Float) -> Void) {
     }
 
-    override fun onKick(lmbd: () -> Void) {
-        //Command name
-        val commandName = CommandsName.KICK
+    override fun onKick(callback: () -> Void) {
+    }
+
+    override fun listening() {
+
     }
 
 }

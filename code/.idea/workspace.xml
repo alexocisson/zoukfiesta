@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="471cf482-42a4-459a-af0c-a56192cd51c2" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -7,6 +10,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_27" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -24,12 +28,20 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Interface" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1iXj2RUJXWTXsIwxBHAoQWUUfdX" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
+    <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -224,25 +236,25 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="484" y="37" key="#MainActivity/0.0.1536.824@0.0.1536.824" timestamp="1602061195487" />
-    <state width="1491" height="210" key="GridCell.Tab.0.bottom" timestamp="1602060871605">
+    <state width="745" height="168" key="GridCell.Tab.0.bottom" timestamp="1602140479692">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602060871605" />
-    <state width="1491" height="210" key="GridCell.Tab.0.center" timestamp="1602060871605">
+    <state width="745" height="168" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602140479692" />
+    <state width="745" height="168" key="GridCell.Tab.0.center" timestamp="1602140479692">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1602060871605" />
-    <state width="1491" height="210" key="GridCell.Tab.0.left" timestamp="1602060871603">
+    <state width="745" height="168" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1602140479692" />
+    <state width="745" height="168" key="GridCell.Tab.0.left" timestamp="1602140479692">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1602060871603" />
-    <state width="1491" height="210" key="GridCell.Tab.0.right" timestamp="1602060871605">
+    <state width="745" height="168" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1602140479692" />
+    <state width="745" height="168" key="GridCell.Tab.0.right" timestamp="1602140479692">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1602060871605" />
-    <state x="409" y="216" key="com.intellij.ide.util.TipDialog" timestamp="1602061187132">
+    <state width="745" height="168" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1602140479692" />
+    <state x="409" y="216" key="com.intellij.ide.util.TipDialog" timestamp="1602139734825">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="409" y="216" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1602061187132" />
+    <state x="409" y="216" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1602139734825" />
   </component>
 </project>

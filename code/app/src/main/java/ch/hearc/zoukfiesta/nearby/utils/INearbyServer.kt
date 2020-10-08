@@ -8,7 +8,7 @@ interface INearbyServer {
     fun onMusics()
     fun onAdd( lmbd: (musicName : String) -> Void)
     
-    //Receive
+    //Send
     fun sendPlaylist(
             playlist : Array<String>,
             votes : Map<String, UInt>,

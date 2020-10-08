@@ -5,7 +5,6 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
 class NearbyServer : INearbyServer {
-
     override fun sendPlaylist(
         playlist: Array<String>,
         votes: Map<String, UInt>,

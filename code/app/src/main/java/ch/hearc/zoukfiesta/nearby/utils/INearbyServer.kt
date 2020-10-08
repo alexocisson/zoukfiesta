@@ -1,7 +1,6 @@
 package ch.hearc.zoukfiesta.nearby.utils
 
 interface INearbyServer {
-
     //Receive
     public fun onSkip(lmbd: (musicName : String) -> Void)
     public fun onWhat(lmbd: () -> Void)

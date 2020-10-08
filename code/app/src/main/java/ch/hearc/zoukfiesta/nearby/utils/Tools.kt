@@ -4,7 +4,7 @@ import kotlinx.serialization.json.Json
 
 class Tools{
     companion object {
-        fun CreatePayload(commandsName: CommandsName, datas: Array<String> = emptyArray()): ByteArray {
+        fun CreatePayload(commandsName: CommandsName, datas: Array<Any> = emptyArray()): ByteArray {
             val data = arrayOf(commandsName, datas)
             val json = Json.encodeToString(data)
             val bytes = json.toByteArray()

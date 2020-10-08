@@ -6,29 +6,45 @@ import kotlinx.serialization.json.Json
 
 class NearbyClient : INearbyClient {
     override fun sendSkip(musicName: String) {
-        Json.encodeToString("test")
+        //Command name
+        val commandName = CommandsName.SKIP;
+
         //Payload
-        var payload = Payload.fromBytes(musicName.toByteArray());
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
     }
 
     override fun sendWhat() {
-        TODO("Not yet implemented")
+        //Command name
+        val commandName = CommandsName.WHAT;
+
+        //Payload
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
     }
 
     override fun sendMusics() {
-        TODO("Not yet implemented")
+        //Command name
+        val commandName = CommandsName.MUSICS;
+
+        //Payload
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
     }
 
     override fun sendAdd(musicName: String) {
-        TODO("Not yet implemented")
+        //Command name
+        val commandName = CommandsName.ADD;
+
+        //Payload
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
     }
 
     override fun onPlaylist(lmbd: (playlist: Array<String>, votes: Map<String, UInt>, currentlyPlaying: String, currentMusicTime: Float, currentMusicLength: Float) -> Void) {
-        TODO("Not yet implemented")
+        //Command name
+        val commandName = CommandsName.PLAYLIST;
     }
 
     override fun onKick(lmbd: () -> Void) {
-        TODO("Not yet implemented")
+        //Command name
+        val commandName = CommandsName.KICK;
     }
 
 }

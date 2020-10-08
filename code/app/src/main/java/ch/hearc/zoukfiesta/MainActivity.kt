@@ -169,12 +169,14 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "onEndpointFound: endpoint found, connecting")
                 val hashMap: HashMap<String, String?> =
                     HashMap() //create a hashmap to store the data in key value pair
-                hashMap["name"] = endpointId
+                hashMap["name"] = "ID : " + info.serviceId + " Name : " + info.endpointName
                 arrayList.add(hashMap) //add the hashmap into arrayList
                 simpleAdapter!!.notifyDataSetChanged()
             }
 
-            override fun onEndpointLost(endpointId: String) {}
+            override fun onEndpointLost(endpointId: String) {
+
+            }
         }
 
     // Callbacks for connections to other devices (SERVER SIDE)

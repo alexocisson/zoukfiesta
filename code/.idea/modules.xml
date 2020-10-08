@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Zoukfiesta.iml" filepath="$PROJECT_DIR$/.idea/modules/Zoukfiesta.iml" group="Zoukfiesta" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Zoukfiesta-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Zoukfiesta-app.iml" group="Zoukfiesta/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="Zoukfiesta/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/code-Zoukfiesta.iml" filepath="$PROJECT_DIR$/.idea/modules/code-Zoukfiesta.iml" group="Zoukfiesta" />
     </modules>
   </component>
 </project>

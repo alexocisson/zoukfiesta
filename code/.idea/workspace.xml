@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="471cf482-42a4-459a-af0c-a56192cd51c2" name="Default Changelist" comment="" />
+    <list default="true" id="471cf482-42a4-459a-af0c-a56192cd51c2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/hearc/zoukfiesta/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/hearc/zoukfiesta/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_API_28" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -24,11 +34,20 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="layoutResourceFile" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1iXj2RUJXWTXsIwxBHAoQWUUfdX" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -37,7 +56,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SelectDeploymentTargetsDialog.selectedDevices" value="Pixel_3a_API_28&#10;Pixel_2_API_28" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Solution_03" />
   </component>
   <component name="RunManager" selected="Android App.Zoukfiesta-app">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -98,7 +118,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Zoukfiesta-app" type="AndroidRunConfigurationType" factoryName="Android App">
+    <configuration name="Zoukfiesta-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="Zoukfiesta-app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -224,6 +244,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="484" y="37" key="#MainActivity/0.0.1536.824@0.0.1536.824" timestamp="1602061195487" />
+    <state x="1020" y="299" key="FileChooserDialogImpl" timestamp="1602139748126">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1020" y="299" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1602139748126" />
     <state width="1491" height="210" key="GridCell.Tab.0.bottom" timestamp="1602060871605">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -240,6 +264,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1491" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1602060871605" />
+    <state x="868" y="100" width="959" height="847" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1602147204786">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="868" y="100" width="959" height="847" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1602147204786" />
     <state x="409" y="216" key="com.intellij.ide.util.TipDialog" timestamp="1602061187132">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

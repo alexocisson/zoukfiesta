@@ -1,15 +1,15 @@
 package ch.hearc.zoukfiesta
-
+import ch.hearc.zoukfiesta.R
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.util.Log
 import android.widget.ListView
+import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlin.random.Random
@@ -38,33 +38,49 @@ class MainActivity : AppCompatActivity() {
 
     private val STRATEGY: Strategy = Strategy.P2P_STAR
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    var simpleListView: ListView? = null
+    var fruitsNames = arrayOf("Apple", "Banana", "Litchi", "Mango", "PineApple") //fruit names array
 
-    private lateinit var listView: ListView
+    val arrayList: ArrayList<HashMap<String, String?>> = ArrayList()
+    var simpleAdapter : SimpleAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        listView = findViewById<ListView>(R.id.listSession)
+        simpleListView = findViewById(R.id.simpleListView) as ListView
 
-        val listItems = arrayOfNulls<String>(10)
 
-//        for (i in 0 until recipeList.size) {
-//            val recipe = recipeList[i]
-//            listItems[i] = recipe.title
-//        }
+        for (i in 0 until fruitsNames.size) {
+            val hashMap: HashMap<String, String?> =
+                HashMap() //create a hashmap to store the data in key value pair
+            hashMap["name"] = fruitsNames[i]
+            arrayList.add(hashMap) //add the hashmap into arrayList
+        }
+        val from = arrayOf("name", "image") //string array
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
-        listView.adapter = adapter
-        adapter.add("yooooo")
+        val to = intArrayOf(R.id.textView) //int array of views id's
+
+        simpleAdapter = SimpleAdapter(
+            this,
+            arrayList,
+            R.layout.list_view_items,
+            from,
+            to
+        ) //Create object and set the parameters for simpleAdapter
+
+        simpleListView!!.adapter = simpleAdapter //sets the adapter for listView
+
+        val hashMap: HashMap<String, String?> =
+            HashMap() //create a hashmap to store the data in key value pair
+        hashMap["name"] = "YOOOOOOOOO"
+        arrayList.add(hashMap) //add the hashmap into arrayList
+        simpleAdapter!!.notifyDataSetChanged()
 
         connectionsClient = Nearby.getConnectionsClient(this);
 
-//        startAdvertising();
-//        startDiscovery();
+        startAdvertising();
+        startDiscovery();
     }
 
     override fun onStart() {
@@ -150,6 +166,12 @@ class MainActivity : AppCompatActivity() {
 //                    endpointId,
 //                    connectionLifecycleCallback
 //                )
+                Log.i(TAG, "onEndpointFound: endpoint found, connecting")
+                val hashMap: HashMap<String, String?> =
+                    HashMap() //create a hashmap to store the data in key value pair
+                hashMap["name"] = endpointId
+                arrayList.add(hashMap) //add the hashmap into arrayList
+                simpleAdapter!!.notifyDataSetChanged()
             }
 
             override fun onEndpointLost(endpointId: String) {}

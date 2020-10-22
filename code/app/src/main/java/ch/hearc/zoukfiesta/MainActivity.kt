@@ -211,12 +211,16 @@ class MainActivity : AppCompatActivity() {
 
                 Log.i(TAG, "onEndpointFound: endpoint found")
                 NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint(endpointId, info.endpointName ,info))
+                nearbyEndPointAdapter?.notifyDataSetChanged()
 //                var con = NearbyEndpoint(endpointId, info.endpointName ,info)
 //                con.connect(connectionsClient!!,codeName,connectionLifecycleCallback)
             }
 
             override fun onEndpointLost(endpointId: String) {
-
+                Log.i(TAG, "onEndpointFound: endpoint lost :(")
+                var ep = NearbyEndPointStore.findEndPointByName(endpointId)
+                NearbyEndPointStore.ENDPOINTS.remove(ep)
+                nearbyEndPointAdapter?.notifyDataSetChanged()
             }
         }
 

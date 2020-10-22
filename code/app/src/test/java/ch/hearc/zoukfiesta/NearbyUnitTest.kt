@@ -66,4 +66,24 @@ class NearbyUnitTest {
         //Receive the message
         server.onAdd { musicName -> assertEquals(expected, musicName) }
     }
+
+    @Test
+    fun playlist() {
+        val konnisHupen = "Konnis Hupen"
+        val expectedVotes = mapOf(konnisHupen to 3u, "L'amour toujours" to 7u, "Le cactus" to 0u)
+        val test = mapOf(konnisHupen to 3u, "L'amour toujours" to 7u, "Le cactus" to 0u)
+        val expetedCurrentMusic = konnisHupen
+        val expectedTimestamp = 120u
+        val expectedDuration = 200u
+
+        assertTrue(expectedVotes.equals(test))
+
+        //Send the msg
+        //server.sendPlaylist(expectedVotes, expectedTimestamp, expectedDuration)
+
+        //Receive the message
+        //client.onPlaylist { votes, currentMusicTime, currentMusicLength ->
+
+        //}
+    }
 }

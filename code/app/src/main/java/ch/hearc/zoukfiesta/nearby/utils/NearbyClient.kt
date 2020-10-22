@@ -37,10 +37,10 @@ class NearbyClient(override var isListening: Boolean = false) : INearbyClient, I
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
     }
 
-    override fun onPlaylist(callback: (playlist: Array<String>, votes: Map<String, UInt>, currentlyPlaying: String, currentMusicTime: Float, currentMusicLength: Float) -> Void) {
+    override fun onPlaylist(lmbd: (votes: Map<String, UInt>, currentMusicTime: UInt, currentMusicLength: UInt) -> Unit) {
     }
 
-    override fun onKick(callback: () -> Void) {
+    override fun onKick(lmbd: () -> Unit) {
     }
 
     override fun listening() {

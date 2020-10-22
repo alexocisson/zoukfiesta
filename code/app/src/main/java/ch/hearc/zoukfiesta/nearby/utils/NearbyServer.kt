@@ -6,17 +6,15 @@ import kotlinx.serialization.json.Json
 
 class NearbyServer(override var isListening: Boolean = false) : INearbyServer, INearbyListener {
     override fun sendPlaylist(
-        playlist: Array<String>,
         votes: Map<String, UInt>,
-        currentlyPlaying: String,
-        currentMusicTime: Float,
-        currentMusicLength: Float
+        currentMusicTime: UInt,
+        currentMusicLength: UInt
     ) {
         //Command name
         val commandName = CommandsName.PLAYLIST
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(playlist, votes, currentlyPlaying, currentMusicTime, currentMusicLength)))
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(votes, currentMusicTime, currentMusicLength)))
     }
 
     override fun sendKick() {

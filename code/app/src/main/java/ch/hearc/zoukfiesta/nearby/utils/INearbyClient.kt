@@ -15,7 +15,7 @@ interface INearbyClient {
             votes : Map<String, UInt>,
             currentlyPlaying : String,
             currentMusicTime : Float,
-            currentMusicLength : Float) -> Void
+            currentMusicLength : Float) -> Unit
     )
-    public fun onKick(lmbd : () -> Void)
+    public fun onKick(lmbd : () -> Unit)
 }

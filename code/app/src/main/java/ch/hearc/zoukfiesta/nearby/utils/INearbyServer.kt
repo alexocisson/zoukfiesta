@@ -3,9 +3,9 @@ package ch.hearc.zoukfiesta.nearby.utils
 interface INearbyServer {
     //Receive
     public fun onSkip(lmbd: (musicName : String) -> Unit)
-    public fun onWhat(lmbd: () -> Void)
-    public fun onMusics(lmbd: () -> Void)
-    public fun onAdd( lmbd: (musicName : String) -> Void)
+    public fun onWhat(lmbd: () -> Unit)
+    public fun onMusics(lmbd: () -> Unit)
+    public fun onAdd( lmbd: (musicName : String) -> Unit)
     
     //Send
     public fun sendPlaylist(

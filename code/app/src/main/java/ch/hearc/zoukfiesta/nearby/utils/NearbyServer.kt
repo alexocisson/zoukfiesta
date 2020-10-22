@@ -4,7 +4,7 @@ import com.google.android.gms.nearby.connection.Payload
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
-class NearbyServer(override var isListening: Boolean) : INearbyServer, INearbyListener {
+class NearbyServer(override var isListening: Boolean = false) : INearbyServer, INearbyListener {
     override fun sendPlaylist(
         playlist: Array<String>,
         votes: Map<String, UInt>,
@@ -30,13 +30,13 @@ class NearbyServer(override var isListening: Boolean) : INearbyServer, INearbyLi
     override fun onSkip(callback: (musicName: String) -> Unit) {
     }
 
-    override fun onWhat(callback: () -> Void) {
+    override fun onWhat(callback: () -> Unit) {
     }
 
-    override fun onMusics(callback: () -> Void) {
+    override fun onMusics(callback: () -> Unit) {
     }
 
-    override fun onAdd(callback: (musicName: String) -> Void) {
+    override fun onAdd(callback: (musicName: String) -> Unit) {
     }
 
     override fun listening() {

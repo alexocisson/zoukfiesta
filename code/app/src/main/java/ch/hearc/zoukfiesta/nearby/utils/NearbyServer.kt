@@ -17,6 +17,14 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
         val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(votes, currentMusicTime, currentMusicLength)))
     }
 
+    override fun sendAvailable(musics: Array<String>) {
+        //Command name
+        val commandName = CommandsName.AVAILABLE
+
+        //Payload
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musics)))
+    }
+
     override fun sendKick() {
         //Command name
         val commandName = CommandsName.SKIP;

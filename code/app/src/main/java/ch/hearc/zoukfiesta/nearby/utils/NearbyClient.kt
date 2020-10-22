@@ -40,6 +40,10 @@ class NearbyClient(override var isListening: Boolean = false) : INearbyClient, I
     override fun onPlaylist(lmbd: (votes: Map<String, UInt>, currentMusicTime: UInt, currentMusicLength: UInt) -> Unit) {
     }
 
+    override fun onAvailable(lmbd: (musics: Array<String>) -> Unit) {
+
+    }
+
     override fun onKick(lmbd: () -> Unit) {
     }
 

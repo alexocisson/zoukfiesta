@@ -15,5 +15,8 @@ interface INearbyClient {
             currentMusicTime : UInt,
             currentMusicLength : UInt) -> Unit
     )
+    public fun onAvailable(
+        lmbd: (musics : Array<String>)-> Unit
+    )
     public fun onKick(lmbd : () -> Unit)
 }

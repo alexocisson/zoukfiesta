@@ -12,5 +12,6 @@ interface INearbyServer {
             votes : Map<String, UInt>,
             currentMusicTime : UInt,
             currentMusicLength : UInt)
+    public fun sendAvailable(musics : Array<String>)
     public fun sendKick()
 }

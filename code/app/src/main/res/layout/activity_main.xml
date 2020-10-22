@@ -28,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="Add">
+        android:text="Host">
     </Button>
 
 </RelativeLayout>

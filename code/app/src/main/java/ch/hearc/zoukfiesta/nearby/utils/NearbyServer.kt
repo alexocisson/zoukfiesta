@@ -4,19 +4,25 @@ import com.google.android.gms.nearby.connection.Payload
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
-class NearbyServer(override var isListening: Boolean) : INearbyServer, INearbyListener {
+class NearbyServer(override var isListening: Boolean = false) : INearbyServer, INearbyListener {
     override fun sendPlaylist(
-        playlist: Array<String>,
         votes: Map<String, UInt>,
-        currentlyPlaying: String,
-        currentMusicTime: Float,
-        currentMusicLength: Float
+        currentMusicTime: UInt,
+        currentMusicLength: UInt
     ) {
         //Command name
         val commandName = CommandsName.PLAYLIST
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(playlist, votes, currentlyPlaying, currentMusicTime, currentMusicLength)))
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(votes, currentMusicTime, currentMusicLength)))
+    }
+
+    override fun sendAvailable(musics: Array<String>) {
+        //Command name
+        val commandName = CommandsName.AVAILABLE
+
+        //Payload
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musics)))
     }
 
     override fun sendKick() {
@@ -30,13 +36,13 @@ class NearbyServer(override var isListening: Boolean) : INearbyServer, INearbyLi
     override fun onSkip(callback: (musicName: String) -> Unit) {
     }
 
-    override fun onWhat(callback: () -> Void) {
+    override fun onWhat(callback: () -> Unit) {
     }
 
-    override fun onMusics(callback: () -> Void) {
+    override fun onMusics(callback: () -> Unit) {
     }
 
-    override fun onAdd(callback: (musicName: String) -> Void) {
+    override fun onAdd(callback: (musicName: String) -> Unit) {
     }
 
     override fun listening() {

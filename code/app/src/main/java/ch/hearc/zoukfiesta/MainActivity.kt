@@ -1,13 +1,12 @@
 package ch.hearc.zoukfiesta
-import ch.hearc.zoukfiesta.R
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
-import android.widget.ListView
-import android.widget.SimpleAdapter
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.gms.nearby.Nearby
@@ -38,49 +37,98 @@ class MainActivity : AppCompatActivity() {
 
     private val STRATEGY: Strategy = Strategy.P2P_STAR
 
-    var simpleListView: ListView? = null
-    var fruitsNames = arrayOf("Apple", "Banana", "Litchi", "Mango", "PineApple") //fruit names array
-
     val arrayList: ArrayList<HashMap<String, String?>> = ArrayList()
     var simpleAdapter : SimpleAdapter? = null
+
+    private var addGarbageButton: Button? = null
+    private var garbageListView: ListView? = null
+    private var garbageSearchView: SearchView? = null
+    private var nearbyEndPointAdapter: NearbyEndPointAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        simpleListView = findViewById(R.id.simpleListView) as ListView
-
-
-        for (i in 0 until fruitsNames.size) {
-            val hashMap: HashMap<String, String?> =
-                HashMap() //create a hashmap to store the data in key value pair
-            hashMap["name"] = fruitsNames[i]
-            arrayList.add(hashMap) //add the hashmap into arrayList
-        }
-        val from = arrayOf("name", "image") //string array
-
-        val to = intArrayOf(R.id.textView) //int array of views id's
-
-        simpleAdapter = SimpleAdapter(
-            this,
-            arrayList,
-            R.layout.list_view_items,
-            from,
-            to
-        ) //Create object and set the parameters for simpleAdapter
-
-        simpleListView!!.adapter = simpleAdapter //sets the adapter for listView
-
-        val hashMap: HashMap<String, String?> =
-            HashMap() //create a hashmap to store the data in key value pair
-        hashMap["name"] = "YOOOOOOOOO"
-        arrayList.add(hashMap) //add the hashmap into arrayList
-        simpleAdapter!!.notifyDataSetChanged()
+        retrieveViews()
+        setUpViews()
 
         connectionsClient = Nearby.getConnectionsClient(this);
 
         startAdvertising();
         startDiscovery();
+
+        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("SAlut", "ça va ?",null))
+    }
+
+    /**
+     * Retrieve all views inside res/layout/garbage_list_activity.xml.
+     */
+    private fun retrieveViews() {
+        addGarbageButton = findViewById<View>(R.id.addGarbageButton) as Button
+        garbageListView = findViewById<View>(R.id.garbageListView) as ListView
+        garbageSearchView = findViewById<View>(R.id.garbageSearchView) as SearchView
+    }
+
+    /**
+     * Construct our logic. What we wants is the following:
+     *
+     * - being able to filter the garbage list;
+     * - being able to see a garbage details by clicking an item in the list;
+     * - being able to start the creation of a new garbage by clicking the "Add" button.
+     */
+    private fun setUpViews() {
+        nearbyEndPointAdapter = NearbyEndPointAdapter(this)
+
+        // Tell by which adapter we will handle our list
+        garbageListView!!.adapter = nearbyEndPointAdapter
+
+        // See a garbage details when clicking on it
+//        garbageListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+//            val garbage = garbageListView!!.getItemAtPosition(position) as NearbyEndpoint
+//
+//            val intent = Intent(this@GarbageListActivity, GarbageDetailsActivity::class.java)
+//
+//            intent.putExtra("garbageName", garbage.name)
+//
+//            startActivity(intent)
+//        }
+
+        // Miscellaneous configuration for our search view
+        garbageSearchView!!.isSubmitButtonEnabled = true
+        garbageSearchView!!.queryHint = "Endpoint name..."
+
+        // The core for the search view: what to do when the text change!
+        garbageSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // Do nothing when clicking the submit button (displayed ">") -> return false
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                // When the text change, filter our list of garbages
+
+                val filter = nearbyEndPointAdapter!!.filter!!
+
+                if (TextUtils.isEmpty(newText)) {
+                    // Empty search field = no filtering
+                    filter.filter(null)
+                } else {
+                    filter.filter(newText)
+                }
+
+                // Something was done -> return true instead of false
+                return true
+            }
+        })
+
+        // Start the activity to add a garbage when clicking the "Add" button
+//        addGarbageButton!!.setOnClickListener {
+//            val intent = Intent(this@GarbageListActivity, AddGarbageActivity::class.java)
+//
+//            startActivity(intent)
+//        }
     }
 
     override fun onStart() {
@@ -160,18 +208,11 @@ class MainActivity : AppCompatActivity() {
     private val endpointDiscoveryCallback: EndpointDiscoveryCallback =
         object : EndpointDiscoveryCallback() {
             override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
-//                Log.i(TAG, "onEndpointFound: endpoint found, connecting")
-//                connectionsClient!!.requestConnection(
-//                    codeName,
-//                    endpointId,
-//                    connectionLifecycleCallback
-//                )
-                Log.i(TAG, "onEndpointFound: endpoint found, connecting")
-                val hashMap: HashMap<String, String?> =
-                    HashMap() //create a hashmap to store the data in key value pair
-                hashMap["name"] = "ID : " + info.serviceId + " Name : " + info.endpointName
-                arrayList.add(hashMap) //add the hashmap into arrayList
-                simpleAdapter!!.notifyDataSetChanged()
+
+                Log.i(TAG, "onEndpointFound: endpoint found")
+                NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint(endpointId, info.endpointName ,info))
+//                var con = NearbyEndpoint(endpointId, info.endpointName ,info)
+//                con.connect(connectionsClient!!,codeName,connectionLifecycleCallback)
             }
 
             override fun onEndpointLost(endpointId: String) {

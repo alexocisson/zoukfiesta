@@ -11,11 +11,12 @@ interface INearbyClient {
     //Receive
     public fun onPlaylist(
         lmbd: (
-            playlist : Array<String>,
             votes : Map<String, UInt>,
-            currentlyPlaying : String,
-            currentMusicTime : Float,
-            currentMusicLength : Float) -> Void
+            currentMusicTime : UInt,
+            currentMusicLength : UInt) -> Unit
     )
-    public fun onKick(lmbd : () -> Void)
+    public fun onAvailable(
+        lmbd: (musics : Array<String>)-> Unit
+    )
+    public fun onKick(lmbd : () -> Unit)
 }

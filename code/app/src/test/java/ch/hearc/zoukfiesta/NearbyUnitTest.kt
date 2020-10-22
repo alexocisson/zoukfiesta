@@ -1,5 +1,7 @@
 package ch.hearc.zoukfiesta
 
+import ch.hearc.zoukfiesta.nearby.utils.NearbyClient
+import ch.hearc.zoukfiesta.nearby.utils.NearbyServer
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,10 +13,27 @@ import org.junit.Assert.*
  */
 class NearbyUnitTest {
 
-    //Utility functions, return an array of
+    //Create a server
+    private val server = NearbyServer()
 
+    //Create a client
+    private val client = NearbyClient()
+
+    init {
+        //Start both listener
+        server.listening()
+        client.listening()
+    }
+
+    //Do a test for each command
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun skip() {
+        val expected = "Konnis Hupen"
+
+        //Send the msg
+        client.sendSkip(expected)
+
+        //Receive the message
+        server.onSkip { musicName : String -> assertEquals(expected, musicName)}
     }
 }

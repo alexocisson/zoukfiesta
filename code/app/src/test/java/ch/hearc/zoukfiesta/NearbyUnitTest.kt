@@ -85,7 +85,7 @@ class NearbyUnitTest {
             assertEquals(expectedDuration, currentMusicLength)
 
             //Is the current music the right one ?
-            assertEquals(votes.values.first(), konnisHupen)
+            assertEquals(votes.values.first(), expetedCurrentMusic)
         }
     }
 

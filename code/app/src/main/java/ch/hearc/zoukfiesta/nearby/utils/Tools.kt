@@ -4,9 +4,12 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 import java.util.*
 
+@Serializable
+class DataPlaylist(val commandsName: String, val musis: Map<String, Int>, val currentMusicTime: Int, val currentMusicLength: Int)
+
 class Tools{
     companion object {
-        fun CreatePayload(commandsName: CommandsName, params: Array<String> = emptyArray()): ByteArray {
+        fun createPayload(commandsName: CommandsName, params: Array<String> = emptyArray()): ByteArray {
             // Concact command name and params in one array of string
             val data =  Array<String>(params.size + 1
             ) { i -> (if (i != 0) params[i - 1] else commandsName.toString()) }
@@ -15,21 +18,8 @@ class Tools{
             return json.toByteArray()
         }
 
-        fun CreatePayload(commandsName: CommandsName, musis: Map<String, UInt>, currentMusicTime: UInt, currentMusicLength: UInt): ByteArray {
-            print("here")
-            val json = Json.encodeToString(
-                object  {
-                    val test = "yo"
-                }
-            )
-            /*
-            val data = arrayOf(commandsName, params)
-            Json.encodeToString(params)
-            val json = Json.encodeToString(data)
-            val bytes = json.toByteArray()
-
-             */
-
+        fun createPayload(commandsName: CommandsName, musis: Map<String, Int>, currentMusicTime: Int, currentMusicLength: Int): ByteArray {
+            val json = Json.encodeToString(DataPlaylist(commandsName.toString(), musis, currentMusicTime, currentMusicLength)) //Work
             return json.toByteArray()
         }
     }

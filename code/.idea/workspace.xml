@@ -72,7 +72,7 @@
       <recent name="ch.hearc.zoukfiesta.nearby.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.MainActivity">
+  <component name="RunManager" selected="Android JUnit.NearbyUnitTest">
     <configuration name="NearbyUnitTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
       <module name="code-app" />
       <extension name="coverage">
@@ -89,7 +89,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NearbyUnitTest.playlist" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="NearbyUnitTest.available" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
       <module name="code-app" />
       <extension name="coverage">
         <pattern>
@@ -99,7 +99,24 @@
       </extension>
       <option name="PACKAGE_NAME" value="ch.hearc.zoukfiesta" />
       <option name="MAIN_CLASS_NAME" value="ch.hearc.zoukfiesta.NearbyUnitTest" />
-      <option name="METHOD_NAME" value="playlist" />
+      <option name="METHOD_NAME" value="available" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NearbyUnitTest.kick" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="code-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.hearc.zoukfiesta.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.hearc.zoukfiesta" />
+      <option name="MAIN_CLASS_NAME" value="ch.hearc.zoukfiesta.NearbyUnitTest" />
+      <option name="METHOD_NAME" value="kick" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
@@ -123,60 +140,26 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
-      <option name="TEST_OBJECT" value="class" />
+    <configuration name="NearbyUnitTest.what" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="code-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.hearc.zoukfiesta.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.hearc.zoukfiesta" />
+      <option name="MAIN_CLASS_NAME" value="ch.hearc.zoukfiesta.NearbyUnitTest" />
+      <option name="METHOD_NAME" value="what" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" temporary="true">
-      <module name="code-app" />
-      <option name="DEPLOY" value="true" />
-      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
-      <option name="DEPLOY_AS_INSTANT" value="false" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="PM_INSTALL_OPTIONS" value="" />
-      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Hybrid>
-      <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Native>
-      <Profilers>
-        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
-      </Profilers>
-      <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="ch.hearc.zoukfiesta.MainActivity" />
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
@@ -387,10 +370,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Android App.MainActivity" />
-        <item itemvalue="Android JUnit.NearbyUnitTest.playlist" />
-        <item itemvalue="Android JUnit.NearbyUnitTest.skip" />
         <item itemvalue="Android JUnit.NearbyUnitTest" />
+        <item itemvalue="Android JUnit.NearbyUnitTest.available" />
+        <item itemvalue="Android JUnit.NearbyUnitTest.what" />
+        <item itemvalue="Android JUnit.NearbyUnitTest.skip" />
+        <item itemvalue="Android JUnit.NearbyUnitTest.kick" />
       </list>
     </recent_temporary>
   </component>
@@ -421,26 +405,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="560" y="128" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1603359211151" />
-    <state width="1491" height="210" key="GridCell.Tab.0.bottom" timestamp="1603358491376">
+    <state width="1476" height="255" key="GridCell.Tab.0.bottom" timestamp="1604509362522">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603358491376" />
-    <state width="1491" height="210" key="GridCell.Tab.0.center" timestamp="1603358491375">
+    <state width="1476" height="255" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604509362522" />
+    <state width="1476" height="255" key="GridCell.Tab.0.center" timestamp="1604509362521">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1603358491375" />
-    <state width="1491" height="210" key="GridCell.Tab.0.left" timestamp="1603358491375">
+    <state width="1476" height="255" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1604509362521" />
+    <state width="1476" height="255" key="GridCell.Tab.0.left" timestamp="1604509362521">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1603358491375" />
-    <state width="1491" height="210" key="GridCell.Tab.0.right" timestamp="1603358491376">
+    <state width="1476" height="255" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1604509362521" />
+    <state width="1476" height="255" key="GridCell.Tab.0.right" timestamp="1604509362521">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1603358491376" />
-    <state x="409" y="216" key="com.intellij.ide.util.TipDialog" timestamp="1603373810767">
+    <state width="1476" height="255" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1604509362521" />
+    <state x="409" y="216" key="com.intellij.ide.util.TipDialog" timestamp="1604507276599">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="409" y="216" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1603373810767" />
+    <state x="409" y="216" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1604507276599" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1602149156272">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

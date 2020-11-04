@@ -14,7 +14,7 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
         val commandName = CommandsName.PLAYLIST
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(votes, currentMusicTime, currentMusicLength)))
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, votes, currentMusicTime, currentMusicLength))
     }
 
     override fun sendAvailable(musics: Array<String>) {
@@ -22,7 +22,7 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
         val commandName = CommandsName.AVAILABLE
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musics)))
+        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, musics))
     }
 
     override fun sendKick() {

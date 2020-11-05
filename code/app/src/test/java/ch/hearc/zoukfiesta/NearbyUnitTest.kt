@@ -26,7 +26,6 @@ class NearbyUnitTest {
     }
 
     //Do a test for each command of the protocol (See documentation/protocoles/ZoukFiestProtocole.docx)
-
     @Test
     fun skip() {
         val expected = "Konnis Hupen"
@@ -70,10 +69,10 @@ class NearbyUnitTest {
     @Test
     fun playlist() {
         val konnisHupen = "Konnis Hupen"
-        val expectedVotes = mapOf(konnisHupen to 3u, "L'amour toujours" to 7u, "Le cactus" to 0u)
+        val expectedVotes = mapOf(konnisHupen to 3, "L'amour toujours" to 7, "Le cactus" to 0)
         val expetedCurrentMusic = konnisHupen
-        val expectedTimestamp = 120u
-        val expectedDuration = 200u
+        val expectedTimestamp = 120
+        val expectedDuration = 200
 
         //Send the msg
         server.sendPlaylist(expectedVotes, expectedTimestamp, expectedDuration)
@@ -97,7 +96,7 @@ class NearbyUnitTest {
         server.sendAvailable(expectedMusics)
 
         //Receive the message
-        client.onAvailable { musics ->  assertArrayEquals(expectedMusics, musics) }
+        client.onAvailable { musics -> assertArrayEquals(expectedMusics, musics) }
     }
 
     @Test

@@ -1,20 +1,18 @@
 package ch.hearc.zoukfiesta.nearby.utils
 
 import com.google.android.gms.nearby.connection.Payload
-import kotlinx.serialization.*
-import kotlinx.serialization.json.Json
 
 class NearbyServer(override var isListening: Boolean = false) : INearbyServer, INearbyListener {
     override fun sendPlaylist(
-        votes: Map<String, UInt>,
-        currentMusicTime: UInt,
-        currentMusicLength: UInt
+        votes: Map<String, Int>,
+        currentMusicTime: Int,
+        currentMusicLength: Int
     ) {
         //Command name
         val commandName = CommandsName.PLAYLIST
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(votes, currentMusicTime, currentMusicLength)))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName, votes, currentMusicTime, currentMusicLength))
     }
 
     override fun sendAvailable(musics: Array<String>) {
@@ -22,7 +20,7 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
         val commandName = CommandsName.AVAILABLE
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musics)))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName, musics))
     }
 
     override fun sendKick() {
@@ -30,7 +28,7 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
         val commandName = CommandsName.SKIP;
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName))
     }
 
     override fun onSkip(callback: (musicName: String) -> Unit) {

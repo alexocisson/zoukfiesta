@@ -1,8 +1,6 @@
 package ch.hearc.zoukfiesta.nearby.utils
 
 import com.google.android.gms.nearby.connection.Payload
-import kotlinx.serialization.*
-import kotlinx.serialization.json.Json
 
 class NearbyClient(override var isListening: Boolean = false) : INearbyClient, INearbyListener {
     override fun sendSkip(musicName: String) {
@@ -10,7 +8,7 @@ class NearbyClient(override var isListening: Boolean = false) : INearbyClient, I
         val commandName = CommandsName.SKIP
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName, arrayOf(musicName)))
     }
 
     override fun sendWhat() {
@@ -18,7 +16,7 @@ class NearbyClient(override var isListening: Boolean = false) : INearbyClient, I
         val commandName = CommandsName.WHAT
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName))
     }
 
     override fun sendMusics() {
@@ -26,7 +24,7 @@ class NearbyClient(override var isListening: Boolean = false) : INearbyClient, I
         val commandName = CommandsName.MUSICS
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName))
     }
 
     override fun sendAdd(musicName: String) {
@@ -34,7 +32,7 @@ class NearbyClient(override var isListening: Boolean = false) : INearbyClient, I
         val commandName = CommandsName.ADD
 
         //Payload
-        val payload = Payload.fromBytes(Tools.CreatePayload(commandName, arrayOf(musicName)))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName, arrayOf(musicName)))
     }
 
     override fun onPlaylist(lmbd: (votes: Map<String, UInt>, currentMusicTime: UInt, currentMusicLength: UInt) -> Unit) {

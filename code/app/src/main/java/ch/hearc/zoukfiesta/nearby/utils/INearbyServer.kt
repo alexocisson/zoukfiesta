@@ -9,9 +9,10 @@ interface INearbyServer {
     
     //Send
     public fun sendPlaylist(
+            endpointId: String,
             votes : Map<String, Int>,
             currentMusicTime : Int,
             currentMusicLength : Int)
-    public fun sendAvailable(musics : Array<String>)
-    public fun sendKick()
+    public fun sendAvailable(endpointId: String, musics : Array<String>)
+    public fun sendKick(endpointId: String)
 }

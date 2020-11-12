@@ -96,7 +96,7 @@ class NearbyUnitTest {
         val expectedMusics = arrayOf("Konnis Huppen", "L'amour toujours", "Le cactus")
 
         //Send the msg
-        server.sendAvailable(expectedMusics)
+        //server.sendAvailable(expectedMusics)
 
         //Receive the message
         client.onAvailable = { musics -> assertArrayEquals(expectedMusics, musics) }

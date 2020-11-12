@@ -8,7 +8,7 @@ import kotlinx.serialization.json.Json
 
 
 class NearbyServer(
-    private val endpointId: String, private val context : Activity,
+    private val context : Activity,
     override var onSkip: ((musicName: String) -> Unit)? = null,
     override var onWhat: (() -> Unit)? = null,
     override var onMusics: (() -> Unit)? = null,
@@ -16,6 +16,7 @@ class NearbyServer(
 ) : INearbyServer, NearbyListener() {
 
     override fun sendPlaylist(
+        endpointId: String,
         votes: Map<String, Int>,
         currentMusicTime: Int,
         currentMusicLength: Int
@@ -37,7 +38,7 @@ class NearbyServer(
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
-    override fun sendAvailable(musics: Array<String>) {
+    override fun sendAvailable(endpointId: String, musics: Array<String>) {
         //Command name
         val commandName = CommandsName.AVAILABLE
 
@@ -48,7 +49,7 @@ class NearbyServer(
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
-    override fun sendKick() {
+    override fun sendKick(endpointId: String) {
         //Command name
         val commandName = CommandsName.SKIP;
 

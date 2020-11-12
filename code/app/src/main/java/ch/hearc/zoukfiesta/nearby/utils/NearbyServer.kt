@@ -1,8 +1,20 @@
 package ch.hearc.zoukfiesta.nearby.utils
 
+import android.app.Activity
+import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.Payload
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
-class NearbyServer(override var isListening: Boolean = false) : INearbyServer, INearbyListener {
+
+class NearbyServer(
+    private val endpointId: String, private val context : Activity,
+    override var onSkip: ((musicName: String) -> Unit)? = null,
+    override var onWhat: (() -> Unit)? = null,
+    override var onMusics: (() -> Unit)? = null,
+    override var onAdd: ((musicName: String) -> Unit)? = null
+) : INearbyServer, NearbyListener() {
+
     override fun sendPlaylist(
         votes: Map<String, Int>,
         currentMusicTime: Int,
@@ -12,7 +24,17 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
         val commandName = CommandsName.PLAYLIST
 
         //Payload
-        val payload = Payload.fromBytes(Tools.createPayload(commandName, votes, currentMusicTime, currentMusicLength))
+        val payload = Payload.fromBytes(
+            Tools.createPayload(
+                commandName,
+                votes,
+                currentMusicTime,
+                currentMusicLength
+            )
+        )
+
+        //Send
+        Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
     override fun sendAvailable(musics: Array<String>) {
@@ -21,6 +43,9 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
 
         //Payload
         val payload = Payload.fromBytes(Tools.createPayload(commandName, musics))
+
+        //Send
+        Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
     override fun sendKick() {
@@ -29,27 +54,28 @@ class NearbyServer(override var isListening: Boolean = false) : INearbyServer, I
 
         //Payload
         val payload = Payload.fromBytes(Tools.createPayload(commandName))
+
+        //Send
+        Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
-    override fun onSkip(callback: (musicName: String) -> Unit) {
-    }
+    override fun myCallback(bytes: ByteArray) {
+        //Convert bytes to string
+        val string = String(bytes)
 
-    override fun onWhat(callback: () -> Unit) {
-    }
+        //Try deserialize string
+        val obj = Json.decodeFromString<Array<String>>(string)
 
-    override fun onMusics(callback: () -> Unit) {
-    }
+        //Get the command name
+        val commandName = obj[0]
 
-    override fun onAdd(callback: (musicName: String) -> Unit) {
-    }
-
-    override fun listening() {
-        while(isListening)
-        {
-            //Get JSON object
-            val jsonObject = null
-
-            //val commandName = jsonObject.commandName;
+        //If the first argument is a string
+        when (CommandsName.valueOf(obj[0])) {
+            //Send obj[1-...] to the command
+            CommandsName.SKIP -> onSkip?.let { it(obj[1]) }
+            CommandsName.WHAT -> onWhat?.let { it() }
+            CommandsName.MUSICS -> onMusics?.let { it() }
+            CommandsName.ADD -> onAdd?.let { it(obj[1]) }
         }
     }
 }

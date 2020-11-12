@@ -1,6 +1,7 @@
 package ch.hearc.zoukfiesta
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.TextUtils
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import ch.hearc.zoukfiesta.fragments.ConnectionFragment
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlin.random.Random
@@ -41,8 +43,8 @@ class MainActivity : AppCompatActivity() {
     var simpleAdapter : SimpleAdapter? = null
 
     private var addGarbageButton: Button? = null
-    private var garbageListView: ListView? = null
-    private var garbageSearchView: SearchView? = null
+    private var endpointListView: ListView? = null
+    private var endpointSearchView: SearchView? = null
     private var nearbyEndPointAdapter: NearbyEndPointAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,8 +67,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun retrieveViews() {
         addGarbageButton = findViewById<View>(R.id.addGarbageButton) as Button
-        garbageListView = findViewById<View>(R.id.garbageListView) as ListView
-        garbageSearchView = findViewById<View>(R.id.garbageSearchView) as SearchView
+        endpointListView = findViewById<View>(R.id.garbageListView) as ListView
+        endpointSearchView = findViewById<View>(R.id.garbageSearchView) as SearchView
     }
 
     /**
@@ -80,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         nearbyEndPointAdapter = NearbyEndPointAdapter(this)
 
         // Tell by which adapter we will handle our list
-        garbageListView!!.adapter = nearbyEndPointAdapter
+        endpointListView!!.adapter = nearbyEndPointAdapter
 
         // See a garbage details when clicking on it
 //        garbageListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -94,11 +96,22 @@ class MainActivity : AppCompatActivity() {
 //        }
 
         // Miscellaneous configuration for our search view
-        garbageSearchView!!.isSubmitButtonEnabled = true
-        garbageSearchView!!.queryHint = "Endpoint name..."
+        endpointSearchView!!.isSubmitButtonEnabled = true
+        endpointSearchView!!.queryHint = "Endpoint name..."
+
+        endpointListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val endpoint = endpointListView!!.getItemAtPosition(position) as NearbyEndpoint
+
+            val intent = Intent(this, ConnectionActivity::class.java)
+
+            intent.putExtra("endpointName", endpoint.name)
+
+            startActivity(intent)
+
+        }
 
         // The core for the search view: what to do when the text change!
-        garbageSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        endpointSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 // Do nothing when clicking the submit button (displayed ">") -> return false

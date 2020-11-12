@@ -2,7 +2,7 @@ package ch.hearc.zoukfiesta.nearby.utils
 
 interface INearbyClient {
     //Receive
-    var onPlaylist: ((votes: Map<String, UInt>, currentMusicTime: UInt, currentMusicLength: UInt) -> Unit)?
+    var onPlaylist: ((votes: Map<String, Int>, currentMusicTime: Int, currentMusicLength: Int) -> Unit)?
     var onAvailable: ((musics: Array<String>) -> Unit)?
     var onKick: (() -> Unit)?
 

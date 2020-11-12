@@ -3,6 +3,8 @@ package ch.hearc.zoukfiesta.nearby.utils
 import android.app.Activity
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.Payload
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 
 class NearbyServer(
@@ -43,7 +45,7 @@ class NearbyServer(
         val payload = Payload.fromBytes(Tools.createPayload(commandName, musics))
 
         //Send
-        //Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
+        Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
     override fun sendKick() {
@@ -58,6 +60,22 @@ class NearbyServer(
     }
 
     override fun myCallback(bytes: ByteArray) {
+        //Convert bytes to string
+        val string = String(bytes)
 
+        //Try deserialize string
+        val obj = Json.decodeFromString<Array<String>>(string)
+
+        //Get the command name
+        val commandName = obj[0]
+
+        //If the first argument is a string
+        when (CommandsName.valueOf(obj[0])) {
+            //Send obj[1-...] to the command
+            CommandsName.SKIP -> onSkip?.let { it(obj[1]) }
+            CommandsName.WHAT -> onWhat?.let { it() }
+            CommandsName.MUSICS -> onMusics?.let { it() }
+            CommandsName.ADD -> onAdd?.let { it(obj[1]) }
+        }
     }
 }

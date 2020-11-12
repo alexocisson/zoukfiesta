@@ -25,8 +25,8 @@ abstract class NearbyListener {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
             val receivedBytes = payload.asBytes()
 
-            //IF they are bytes, call our callback function
-            if (receivedBytes != null) {
+            //IF they are bytes, call our callback function and listening
+            if (receivedBytes != null && isListening) {
                 myCallback(receivedBytes)
             }
         }

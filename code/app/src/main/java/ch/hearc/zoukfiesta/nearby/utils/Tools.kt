@@ -5,7 +5,7 @@ import kotlinx.serialization.json.Json
 import java.util.*
 
 @Serializable
-class DataPlaylist(val commandsName: String, val musis: Map<String, Int>, val currentMusicTime: Int, val currentMusicLength: Int)
+class DataPlaylist(val commandsName: String, val musics: Map<String, Int>, val currentMusicTime: Int, val currentMusicLength: Int)
 
 class Tools{
     companion object {

@@ -7,44 +7,48 @@
     android:layout_height="match_parent"
     tools:context="ch.hearc.zoukfiesta.fragments.ConnectionFragment">
 
+    <TextView
+        android:id="@+id/fiestaName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="97dp"
+        android:text="Placeholder Nom du salon"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="440dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="50dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/fiestaName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="324dp"
-        android:layout_marginEnd="127dp"
-        android:text="Placeholder Nom du salon"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/startZouking"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.041" />
+        app:layout_constraintTop_toBottomOf="@+id/fiestaName" />
 
     <Button
         android:id="@+id/startZouking"
         android:layout_width="178dp"
         android:layout_height="97dp"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="532dp"
-        android:layout_marginBottom="24dp"
-        android:text="Zouk"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="113dp"
+        android:layout_marginBottom="150dp"
+        android:text="Let's Zouk !"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
-        app:layout_constraintVertical_bias="1.0"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/password"></Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

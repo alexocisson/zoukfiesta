@@ -2,24 +2,20 @@ package ch.hearc.zoukfiesta.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import ch.hearc.zoukfiesta.R
-import ch.hearc.zoukfiesta.ZoukHubActivity
+import ch.hearc.zoukfiesta.*
 
-class ConnectionFragment : Fragment() {
-
-    private var startButton: Button? = null
-    private var fiestaNameTextView: TextView? = null
-
+class PlayerFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.connection_fragment, container, false)
+        return inflater.inflate(R.layout.player_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -29,12 +25,8 @@ class ConnectionFragment : Fragment() {
         setUpViews(activity!!)
     }
 
-    /**
-     * Retrieve all views inside res/layout/garbage_list_fragment.xml.
-     */
     private fun retrieveViews(view: View) {
-        startButton = view.findViewById<View>(R.id.startZouking) as Button
-        fiestaNameTextView = view.findViewById<View>(R.id.fiestaName) as TextView
+
     }
 
     /**
@@ -45,14 +37,7 @@ class ConnectionFragment : Fragment() {
      * - being able to start the creation of a new garbage by clicking the "Add" button.
      */
     private fun setUpViews(activity: Activity) {
-        val fiestaName = activity.intent.getStringExtra("endpointName")
-        fiestaNameTextView!!.text = fiestaName.toString()
-
-        startButton!!.setOnClickListener {
-            val intent = Intent(activity, ZoukHubActivity::class.java)
-
-            startActivity(intent)
-        }
+        
     }
 
     override fun onResume() {

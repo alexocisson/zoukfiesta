@@ -39,9 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     private val STRATEGY: Strategy = Strategy.P2P_STAR
 
-    val arrayList: ArrayList<HashMap<String, String?>> = ArrayList()
-    var simpleAdapter : SimpleAdapter? = null
-
     private var addGarbageButton: Button? = null
     private var endpointListView: ListView? = null
     private var endpointSearchView: SearchView? = null

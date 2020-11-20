@@ -51,6 +51,9 @@ class ConnectionFragment : Fragment() {
         startButton!!.setOnClickListener {
             val intent = Intent(activity, ZoukHubActivity::class.java)
 
+            //Pass the endpoint id as the parameter
+            intent.putExtra("endpointId","THIS IS AND EXAMPLE ENDPOINT ID")
+
             startActivity(intent)
         }
     }

@@ -3,19 +3,26 @@ package ch.hearc.zoukfiesta
 import java.util.ArrayList
 
 object MusicStore   {
-    val MUSICS: MutableList<Music> = ArrayList()
+    var musics: MutableList<Music> = emptyList<Music>().toMutableList()
+
+    var id : Int = 0
 
     init {
-
-        MUSICS.add(Music(1,"Arouf Gangsta - PALALA"))
-        MUSICS.add(Music(2,"Kaaris - Bouchon de Liège"))
-        MUSICS.add(Music(3,"Gigi d'agostino - L'Amours Toujours"))
+        musics.add(Music("Arouf Gangsta - PALALA", 11,1))
+        musics.add(Music("Kaaris - Bouchon de Liège", 22,2))
+        musics.add(Music("Gigi d'agostino - L'Amours Toujours", 33,3))
     }
 
-    fun findMusicByID(id: Int): Music? {
+    public fun addToStore(musicName : String, voteSkip : Int)
+    {
+        musics.add(Music(musicName, voteSkip, id));
+        id++;
+    }
+
+    public fun findMusicByID(id: Int): Music? {
         var result: Music? = null
 
-        for (music in MUSICS) {
+        for (music in musics) {
             if (music.id == id) {
                 result = music
             }
@@ -23,10 +30,10 @@ object MusicStore   {
         return result
     }
 
-    fun findMusicByName(name: String): Music? {
+    public fun findMusicByName(name: String): Music? {
         var result: Music? = null
 
-        for (music in MUSICS) {
+        for (music in musics) {
             if (music.name == name) {
                 result = music
             }

@@ -26,7 +26,7 @@ class MusicAdapter(
 
     private fun construct() {
         // Display all music by default
-        filteredMusics = MusicStore.MUSICS
+        filteredMusics = MusicStore.musics
 
         // Create our musics' filter
         musicFilter = object : Filter() {
@@ -35,11 +35,11 @@ class MusicAdapter(
                 if (constraint == null) {
                     // No constraint -> show all
 
-                    filteredMusics = MusicStore.MUSICS
+                    filteredMusics = MusicStore.musics
                 } else {
                     filteredMusics = ArrayList()
 
-                    for (music in MusicStore.MUSICS) {
+                    for (music in MusicStore.musics) {
                         // Filter by music name
 
                         if (music.name!!.toLowerCase()
@@ -87,8 +87,8 @@ class MusicAdapter(
             holder = MusicHolder()
 
             holder.idTextView = convertView!!.findViewById<View>(R.id.idTextView) as TextView
-            holder.nameTextView =
-                convertView.findViewById<View>(R.id.nameTextView) as TextView
+            holder.nameTextView = convertView.findViewById<View>(R.id.nameTextView) as TextView
+            holder.voteSkipTextView = convertView.findViewById<View>(R.id.voteSkipTextView) as TextView
 
             /*
              * We have 2 views, but we only can set one object (tag) into our convertView object.
@@ -104,6 +104,7 @@ class MusicAdapter(
 
         holder.idTextView!!.text = music.id.toString()
         holder.nameTextView!!.text = music.name
+        holder.voteSkipTextView!!.text = music.voteSkip.toString()
 
         return convertView
     }
@@ -118,5 +119,6 @@ class MusicAdapter(
     private class MusicHolder {
         internal var idTextView: TextView? = null
         internal var nameTextView: TextView? = null
+        internal var voteSkipTextView: TextView? = null
     }
 }

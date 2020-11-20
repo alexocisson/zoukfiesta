@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ConnectionActivity::class.java)
 
             intent.putExtra("endpointName", endpoint.name)
+            intent.putExtra("endpointId", endpoint.id)
 
             startActivity(intent)
 
@@ -134,11 +135,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         // Start the activity to add a garbage when clicking the "Add" button
-//        addGarbageButton!!.setOnClickListener {
-//            val intent = Intent(this@GarbageListActivity, AddGarbageActivity::class.java)
-//
-//            startActivity(intent)
-//        }
+        addGarbageButton!!.setOnClickListener {
+            val intent = Intent(this, CreateActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {

@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.ZoukHostActivity
 import ch.hearc.zoukfiesta.ZoukHubActivity
 
-class ConnectionFragment : Fragment() {
+class CreateFragment : Fragment() {
 
     private var startButton: Button? = null
     private var fiestaNameTextView: TextView? = null
@@ -18,7 +19,7 @@ class ConnectionFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.connection_fragment, container, false)
+        return inflater.inflate(R.layout.create_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -44,18 +45,9 @@ class ConnectionFragment : Fragment() {
      * - being able to start the creation of a new garbage by clicking the "Add" button.
      */
     private fun setUpViews(activity: Activity) {
-        //Get the endpoint id and the endpont name (the fiesta name !)
-        val fiestaName = activity.intent.getStringExtra("endpointName")
-        val endpointId = activity.intent.getStringExtra("endpointId")
-
-        fiestaNameTextView!!.text = fiestaName.toString()
-
         startButton!!.setOnClickListener {
-            val intent = Intent(activity, ZoukHubActivity::class.java)
 
-            //Pass the endpoint id as the parameter
-            intent.putExtra("endpointId", endpointId)
-
+            val intent = Intent(activity, ZoukHostActivity::class.java)
             startActivity(intent)
         }
     }

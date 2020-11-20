@@ -1,14 +1,18 @@
 package ch.hearc.zoukfiesta.fragments
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ListView
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import ch.hearc.zoukfiesta.*
+import ch.hearc.zoukfiesta.MusicAdapter
+import ch.hearc.zoukfiesta.R
+
 
 class MusicQueueFragment : Fragment() {
 
@@ -18,7 +22,11 @@ class MusicQueueFragment : Fragment() {
     private var musicPointAdapter: MusicAdapter? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.music_queue_fragment, container, false)
     }
@@ -49,7 +57,6 @@ class MusicQueueFragment : Fragment() {
 
         musicSearchView!!.isSubmitButtonEnabled = true
         musicSearchView!!.queryHint = "Music name..."
-
 
         musicSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 

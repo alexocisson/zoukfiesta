@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ch.hearc.zoukfiesta.fragments.ConnectionFragment
 
-class ConnectionActivity : AppCompatActivity(){
+class ZoukHostActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.connection_activity)
+        setContentView(R.layout.zouk_host_activity)
     }
 }

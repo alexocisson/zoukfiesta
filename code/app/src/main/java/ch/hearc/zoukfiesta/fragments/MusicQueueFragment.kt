@@ -43,13 +43,6 @@ class MusicQueueFragment : Fragment() {
         musicSearchView = view.findViewById<View>(R.id.musicSearchView) as SearchView
     }
 
-    /**
-     * Construct our logic. What we wants is the following:
-     *
-     * - being able to filter the garbage list;
-     * - being able to see a garbage details by clicking an item in the list;
-     * - being able to start the creation of a new garbage by clicking the "Add" button.
-     */
     private fun setUpViews(activity: Activity) {
         musicPointAdapter = MusicAdapter(activity)
         musicListView!!.adapter = musicPointAdapter

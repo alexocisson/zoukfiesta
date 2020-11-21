@@ -28,21 +28,11 @@ class CreateFragment : Fragment() {
         setUpViews(activity!!)
     }
 
-    /**
-     * Retrieve all views inside res/layout/garbage_list_fragment.xml.
-     */
     private fun retrieveViews(view: View) {
         startButton = view.findViewById<View>(R.id.startZouking) as Button
         fiestaNameTextView = view.findViewById<View>(R.id.fiestaNameLabel) as TextView
     }
-
-    /**
-     * Construct our logic. What we wants is the following:
-     *
-     * - being able to filter the garbage list;
-     * - being able to see a garbage details by clicking an item in the list;
-     * - being able to start the creation of a new garbage by clicking the "Add" button.
-     */
+    
     private fun setUpViews(activity: Activity) {
         startButton!!.setOnClickListener {
 

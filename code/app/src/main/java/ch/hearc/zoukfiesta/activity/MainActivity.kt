@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private val STRATEGY: Strategy = Strategy.P2P_STAR
 
-    private var addGarbageButton: Button? = null
+    private var addHostButton: Button? = null
     private var endpointListView: ListView? = null
     private var endpointSearchView: SearchView? = null
     private var nearbyEndPointAdapter: NearbyEndPointAdapter? = null
@@ -62,38 +62,17 @@ class MainActivity : AppCompatActivity() {
         NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("SAlut", "ça va ?",null))
     }
 
-    /**
-     * Retrieve all views inside res/layout/garbage_list_activity.xml.
-     */
     private fun retrieveViews() {
-        addGarbageButton = findViewById<View>(R.id.addGarbageButton) as Button
-        endpointListView = findViewById<View>(R.id.garbageListView) as ListView
-        endpointSearchView = findViewById<View>(R.id.garbageSearchView) as SearchView
+        addHostButton = findViewById<View>(R.id.addButton) as Button
+        endpointListView = findViewById<View>(R.id.listView) as ListView
+        endpointSearchView = findViewById<View>(R.id.searchView) as SearchView
     }
 
-    /**
-     * Construct our logic. What we wants is the following:
-     *
-     * - being able to filter the garbage list;
-     * - being able to see a garbage details by clicking an item in the list;
-     * - being able to start the creation of a new garbage by clicking the "Add" button.
-     */
     private fun setUpViews() {
         nearbyEndPointAdapter = NearbyEndPointAdapter(this)
 
         // Tell by which adapter we will handle our list
         endpointListView!!.adapter = nearbyEndPointAdapter
-
-        // See a garbage details when clicking on it
-//        garbageListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-//            val garbage = garbageListView!!.getItemAtPosition(position) as NearbyEndpoint
-//
-//            val intent = Intent(this@GarbageListActivity, GarbageDetailsActivity::class.java)
-//
-//            intent.putExtra("garbageName", garbage.name)
-//
-//            startActivity(intent)
-//        }
 
         // Miscellaneous configuration for our search view
         endpointSearchView!!.isSubmitButtonEnabled = true
@@ -121,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                // When the text change, filter our list of garbages
 
                 val filter = nearbyEndPointAdapter!!.filter!!
 
@@ -137,8 +115,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // Start the activity to add a garbage when clicking the "Add" button
-        addGarbageButton!!.setOnClickListener {
+        // Start the activity to add an host when clicking the "Add" button
+        addHostButton!!.setOnClickListener {
             val intent = Intent(this, CreateActivity::class.java)
             startActivity(intent)
         }

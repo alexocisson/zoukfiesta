@@ -19,14 +19,8 @@ class NearbyEndPointAdapter(
     private val context: Context
 ) : BaseAdapter(), Filterable {
 
-    /**
-     * The filtered garbages; the garbages currently shown on the list.
-     */
     private var filteredEndpoints: MutableList<NearbyEndpoint>? = null
 
-    /**
-     * The filter object, handling the filtering of our garbages.
-     */
     private var endpointFilter: Filter? = null
 
     init {
@@ -35,11 +29,9 @@ class NearbyEndPointAdapter(
     }
 
     private fun construct() {
-        // Display all garbages by default
-//        filteredEndpoints = GarbageStore.GARBAGES
         filteredEndpoints = NearbyEndPointStore.ENDPOINTS
 
-        // Create our garbages' filter
+        // Create our end points' filter
         endpointFilter = object : Filter() {
 
             override fun performFiltering(constraint: CharSequence?): Filter.FilterResults {
@@ -51,7 +43,7 @@ class NearbyEndPointAdapter(
                     filteredEndpoints = ArrayList()
 
                     for (endpoint in NearbyEndPointStore.ENDPOINTS) {
-                        // Filter by garbage name
+                        // Filter by endpoint name
 
                         if (endpoint.id!!.toLowerCase()
                                 .contains(constraint.toString().toLowerCase())
@@ -123,9 +115,6 @@ class NearbyEndPointAdapter(
         return endpointFilter
     }
 
-    /**
-     * Wrapper class for our garbage views.
-     */
     private class EndpointHolder {
         internal var idTextView: TextView? = null
         internal var nameTextView: TextView? = null

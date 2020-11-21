@@ -76,8 +76,7 @@ class MusicQueueFragment : Fragment() {
 
         settingsButton!!.setOnClickListener {
 
-            val intent = Intent(activity, SettingsFragment::class.java)
-            startActivity(intent)
+            //TODO: OUVRIR LE SETTINGSFRAGMENT
 
         }
     }

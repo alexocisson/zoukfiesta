@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.activity.ZoukHubActivity
+import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import com.google.android.gms.nearby.Nearby
+
 
 class ConnectionFragment : Fragment() {
 
@@ -16,9 +20,14 @@ class ConnectionFragment : Fragment() {
     private var fiestaNameTextView: TextView? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.connection_fragment, container, false)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,12 +50,14 @@ class ConnectionFragment : Fragment() {
         fiestaNameTextView!!.text = fiestaName.toString()
 
         startButton!!.setOnClickListener {
-            val intent = Intent(activity, ZoukHubActivity::class.java)
 
-            //Pass the endpoint id as the parameter
-            intent.putExtra("endpointId", endpointId)
-
-            startActivity(intent)
+            if (endpointId != null) {
+                NearbySingleton.nearbyClient?.onConnection = {
+                    val intent = Intent(context, ZoukHubActivity::class.java)
+                    startActivity(intent)
+                }
+                NearbySingleton.nearbyClient?.requestConnection(endpointId)
+            };
         }
     }
 

@@ -2,13 +2,14 @@ package ch.hearc.zoukfiesta.utils.nearby
 
 import android.app.Activity
 import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.connection.Payload
+import com.google.android.gms.nearby.connection.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 
 class NearbyServer(
     private val context : Activity,
+    private val username: String,
     override var onSkip: ((musicName: String) -> Unit)? = null,
     override var onWhat: (() -> Unit)? = null,
     override var onMusics: (() -> Unit)? = null,
@@ -79,4 +80,46 @@ class NearbyServer(
             CommandsName.ADD -> onAdd?.let { it(obj[1]) }
         }
     }
+
+    fun startAdvertising(
+        id: String,
+        STRATEGY: Strategy
+    ){
+        /** Broadcasts our presence using Nearby Connections so other players can find us.  */
+        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
+        Nearby.getConnectionsClient(context)?.startAdvertising(
+            username, id, connectionLifecycleCallback,
+            AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
+        )?.addOnSuccessListener { unused: Void? -> println("We're advertising!")}
+            ?.addOnFailureListener { e: Exception? -> println("We were unable to start advertising")}
+
+    }
+
+    private val connectionLifecycleCallback: ConnectionLifecycleCallback =
+        object : ConnectionLifecycleCallback() {
+            override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
+                // Automatically accept the connection on both sides.
+                Nearby.getConnectionsClient(context).acceptConnection(endpointId, payloadCallback)
+            }
+
+            override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
+                when (result.status.statusCode) {
+                    ConnectionsStatusCodes.STATUS_OK -> {
+                        println("We're connected! Can now start sending and receiving data.")
+                    }
+                    ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
+                        println("The connection was rejected by one or both sides.")
+                    }
+                    ConnectionsStatusCodes.STATUS_ERROR -> {
+                        println("The connection broke before it was able to be accepted.")
+                    }
+                    else -> {
+                    }
+                }
+            }
+
+            override fun onDisconnected(endpointId: String) {
+                println("We've been disconnected from this endpoint. No more data can be sent or received.")
+            }
+        }
 }

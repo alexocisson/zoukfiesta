@@ -10,10 +10,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import ch.hearc.zoukfiesta.utils.nearby.NearbyEndPointAdapter
-import ch.hearc.zoukfiesta.utils.nearby.NearbyEndPointStore
-import ch.hearc.zoukfiesta.utils.nearby.NearbyEndpoint
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.utils.nearby.*
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlin.random.Random
@@ -22,7 +20,7 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     // Our handle to Nearby Connections
-    private var connectionsClient: ConnectionsClient? = null
+//    private var connectionsClient: ConnectionsClient? = null
 
     // Our randomly generated name
     private val codeName: String = "Yo " + Random(32131).nextInt().toString()
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
 
-    private val STRATEGY: Strategy = Strategy.P2P_STAR
+
 
     private var addHostButton: Button? = null
     private var endpointListView: ListView? = null
@@ -54,10 +52,12 @@ class MainActivity : AppCompatActivity() {
         retrieveViews()
         setUpViews()
 
-        connectionsClient = Nearby.getConnectionsClient(this);
+        NearbySingleton.PACKAGE_NAME = packageName
+        NearbySingleton.nearbyClient = NearbyClient(this,codeName);
 
-        startAdvertising();
-        startDiscovery();
+//        startAdvertising();
+        NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,endpointDiscoveryCallback,
+            NearbySingleton.STRATEGY);
 
         NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("SAlut", "ça va ?",null))
     }
@@ -163,24 +163,7 @@ class MainActivity : AppCompatActivity() {
         recreate()
     }
 
-    /** Starts looking for other players using Nearby Connections.  */
-    private fun startDiscovery() {
-        // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
-        connectionsClient?.startDiscovery(
-            packageName, endpointDiscoveryCallback,
-            DiscoveryOptions.Builder().setStrategy(STRATEGY).build()
-        )
-    }
 
-    /** Broadcasts our presence using Nearby Connections so other players can find us.  */
-    private fun startAdvertising() {
-        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
-        connectionsClient?.startAdvertising(
-            codeName, packageName, connectionLifecycleCallback,
-            AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
-        )?.addOnSuccessListener { unused: Void? -> }
-            ?.addOnFailureListener { e: Exception? -> }
-    }
 
 //    // Callbacks for receiving payloads
 //    private val payloadCallback: PayloadCallback = object : PayloadCallback() {

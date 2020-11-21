@@ -12,7 +12,7 @@ object MusicStore   {
     }
 
     public fun addToStore(musicName : String, voteSkip : Int)
-    {x§
+    {
         musics.add(Music(musicName, voteSkip, id));
         id++;
     }

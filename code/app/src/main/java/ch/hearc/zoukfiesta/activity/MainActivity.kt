@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.nearby.*
 import com.google.android.gms.nearby.connection.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import kotlin.random.Random
 
 
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     private var usernameTextField: TextView? = null
     private var setUsernameButton: Button? = null
-    private var addHostButton: Button? = null
+    private var addHostButton: FloatingActionButton? = null
     private var endpointListView: ListView? = null
     private var endpointSearchView: SearchView? = null
     private var nearbyEndPointAdapter: NearbyEndPointAdapter? = null
@@ -67,9 +69,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun retrieveViews() {
-        usernameTextField = findViewById<View>(R.id.usernameField) as TextView
+        usernameTextField = findViewById<View>(R.id.usernameEditField) as TextInputEditText
         setUsernameButton = findViewById<View>(R.id.setUsername) as Button
-        addHostButton = findViewById<View>(R.id.addButton) as Button
+        addHostButton = findViewById<View>(R.id.addButton) as FloatingActionButton
         endpointListView = findViewById<View>(R.id.listView) as ListView
         endpointSearchView = findViewById<View>(R.id.searchView) as SearchView
     }

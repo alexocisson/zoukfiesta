@@ -1,6 +1,4 @@
-package ch.hearc.zoukfiesta
-
-import java.util.ArrayList
+package ch.hearc.zoukfiesta.utils.music
 
 object MusicStore   {
     var musics: MutableList<Music> = emptyList<Music>().toMutableList()
@@ -14,7 +12,7 @@ object MusicStore   {
     }
 
     public fun addToStore(musicName : String, voteSkip : Int)
-    {
+    {x§
         musics.add(Music(musicName, voteSkip, id));
         id++;
     }

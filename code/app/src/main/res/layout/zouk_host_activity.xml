@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ch.hearc.zoukfiesta.ZoukHostActivity">
+    tools:context="ch.hearc.zoukfiesta.activity.ZoukHostActivity">
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

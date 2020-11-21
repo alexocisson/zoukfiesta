@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.R
-import ch.hearc.zoukfiesta.ZoukHostActivity
-import ch.hearc.zoukfiesta.ZoukHubActivity
+import ch.hearc.zoukfiesta.activity.ZoukHostActivity
 
 class CreateFragment : Fragment() {
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ch.hearc.zoukfiesta.ConnectionActivity">
+    tools:context="ch.hearc.zoukfiesta.activity.ConnectionActivity">
 
     <fragment
         android:layout_width="match_parent"

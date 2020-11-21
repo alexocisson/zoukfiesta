@@ -1,4 +1,4 @@
-package ch.hearc.zoukfiesta.nearby.utils
+package ch.hearc.zoukfiesta.utils.nearby
 
 interface INearbyServer {
     //Receive

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.hearc.zoukfiesta.ZoukHubActivity">
+    tools:context="ch.hearc.zoukfiesta.activity.ZoukHubActivity">
 
     <fragment
         android:id="@+id/fragment"

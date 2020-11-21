@@ -1,7 +1,6 @@
-package ch.hearc.zoukfiesta.nearby.utils
+package ch.hearc.zoukfiesta.utils.nearby
 
 import android.app.Activity
-import android.provider.ContactsContract
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.Payload
 import kotlinx.serialization.decodeFromString

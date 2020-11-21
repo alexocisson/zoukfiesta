@@ -1,4 +1,4 @@
-package ch.hearc.zoukfiesta
+package ch.hearc.zoukfiesta.utils.music
 
 import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback
 import com.google.android.gms.nearby.connection.ConnectionsClient

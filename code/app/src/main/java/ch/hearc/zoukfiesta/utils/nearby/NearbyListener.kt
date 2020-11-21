@@ -1,4 +1,4 @@
-package ch.hearc.zoukfiesta.nearby.utils
+package ch.hearc.zoukfiesta.utils.nearby
 
 import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadCallback

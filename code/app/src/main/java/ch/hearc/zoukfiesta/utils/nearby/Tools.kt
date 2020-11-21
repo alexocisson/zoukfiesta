@@ -1,8 +1,6 @@
-package ch.hearc.zoukfiesta.nearby.utils
-import android.os.Debug
+package ch.hearc.zoukfiesta.utils.nearby
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
-import java.util.*
 
 @Serializable
 class DataPlaylist(val commandsName: String, val musics: Map<String, Int>, val currentMusicTime: Int, val currentMusicLength: Int)

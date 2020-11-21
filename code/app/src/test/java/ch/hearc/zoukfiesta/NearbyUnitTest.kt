@@ -1,8 +1,8 @@
 package ch.hearc.zoukfiesta
 
 import android.app.Activity
-import ch.hearc.zoukfiesta.nearby.utils.NearbyClient
-import ch.hearc.zoukfiesta.nearby.utils.NearbyServer
+import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
+import ch.hearc.zoukfiesta.utils.nearby.NearbyServer
 import org.junit.Test
 
 import org.junit.Assert.*

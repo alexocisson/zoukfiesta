@@ -1,4 +1,4 @@
-package ch.hearc.zoukfiesta
+package ch.hearc.zoukfiesta.utils.nearby
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import ch.hearc.zoukfiesta.R
 
 import java.util.ArrayList
 

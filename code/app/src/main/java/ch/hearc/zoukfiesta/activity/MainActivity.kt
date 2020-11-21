@@ -1,4 +1,4 @@
-package ch.hearc.zoukfiesta
+package ch.hearc.zoukfiesta.activity
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,10 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import ch.hearc.zoukfiesta.fragments.ConnectionFragment
+import ch.hearc.zoukfiesta.utils.nearby.NearbyEndPointAdapter
+import ch.hearc.zoukfiesta.utils.nearby.NearbyEndPointStore
+import ch.hearc.zoukfiesta.utils.nearby.NearbyEndpoint
+import ch.hearc.zoukfiesta.R
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlin.random.Random

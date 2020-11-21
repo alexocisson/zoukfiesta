@@ -1,4 +1,4 @@
-package ch.hearc.zoukfiesta
+package ch.hearc.zoukfiesta.utils.nearby
 
 import java.util.ArrayList
 

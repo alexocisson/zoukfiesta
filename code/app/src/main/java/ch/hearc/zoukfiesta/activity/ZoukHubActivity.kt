@@ -1,11 +1,9 @@
-package ch.hearc.zoukfiesta
+package ch.hearc.zoukfiesta.activity
 
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import ch.hearc.zoukfiesta.nearby.utils.NearbyClient
+import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
 
 class ZoukHubActivity() : AppCompatActivity(){
 

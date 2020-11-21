@@ -1,8 +1,8 @@
-package ch.hearc.zoukfiesta
+package ch.hearc.zoukfiesta.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import ch.hearc.zoukfiesta.fragments.ConnectionFragment
+import ch.hearc.zoukfiesta.R
 
 class CreateActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
 import android.widget.SearchView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import ch.hearc.zoukfiesta.MusicAdapter
+import ch.hearc.zoukfiesta.utils.music.MusicAdapter
 import ch.hearc.zoukfiesta.R
 
 

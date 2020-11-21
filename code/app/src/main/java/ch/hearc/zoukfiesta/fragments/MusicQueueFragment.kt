@@ -1,5 +1,6 @@
 package ch.hearc.zoukfiesta.fragments
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -11,11 +12,13 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.utils.music.MusicAdapter
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.activity.ZoukHostActivity
 
 
 class MusicQueueFragment : Fragment() {
 
     private var addButton: Button? = null
+    private var settingsButton: Button? = null
     private var musicListView: ListView? = null
     private var musicSearchView: SearchView? = null
     private var musicPointAdapter: MusicAdapter? = null
@@ -39,6 +42,7 @@ class MusicQueueFragment : Fragment() {
 
     private fun retrieveViews(view: View) {
         addButton = view.findViewById<View>(R.id.addMusicButton) as Button
+        settingsButton = view.findViewById<View>(R.id.settingsButton) as Button
         musicListView = view.findViewById<View>(R.id.musicListView) as ListView
         musicSearchView = view.findViewById<View>(R.id.musicSearchView) as SearchView
     }
@@ -69,6 +73,12 @@ class MusicQueueFragment : Fragment() {
                 return true
             }
         })
+
+        settingsButton!!.setOnClickListener {
+
+            //TODO: OUVRIR LE SETTINGSFRAGMENT
+
+        }
     }
 
     override fun onResume() {

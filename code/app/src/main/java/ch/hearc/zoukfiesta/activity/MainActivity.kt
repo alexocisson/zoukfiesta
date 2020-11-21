@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.nearby.*
-import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlin.random.Random
 
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 //    private var connectionsClient: ConnectionsClient? = null
 
     // Our randomly generated name
-    private val codeName: String = "Yo " + Random(32131).nextInt().toString()
+    private val username: String = "Yo " + Random(32131).nextInt().toString()
 
     private val TAG : String = "Zoukfiesta"
 
@@ -40,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    private var usernameTextField: TextView? = null
+    private var setUsernameButton: Button? = null
     private var addHostButton: Button? = null
     private var endpointListView: ListView? = null
     private var endpointSearchView: SearchView? = null
@@ -49,20 +50,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        NearbySingleton.USERNAME = "Yo " + Random(32131).nextInt().toString()
+        NearbySingleton.PACKAGE_NAME = packageName
+
         retrieveViews()
         setUpViews()
 
-        NearbySingleton.PACKAGE_NAME = packageName
-        NearbySingleton.nearbyClient = NearbyClient(this,codeName);
+
+        NearbySingleton.nearbyClient = NearbyClient(this,NearbySingleton.USERNAME);
 
 //        startAdvertising();
         NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,endpointDiscoveryCallback,
             NearbySingleton.STRATEGY);
 
-        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("SAlut", "ça va ?",null))
+        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("endpointID", "Username",null))
     }
 
     private fun retrieveViews() {
+        usernameTextField = findViewById<View>(R.id.usernameField) as TextView
+        setUsernameButton = findViewById<View>(R.id.setUsername) as Button
         addHostButton = findViewById<View>(R.id.addButton) as Button
         endpointListView = findViewById<View>(R.id.listView) as ListView
         endpointSearchView = findViewById<View>(R.id.searchView) as SearchView
@@ -119,6 +125,26 @@ class MainActivity : AppCompatActivity() {
         addHostButton!!.setOnClickListener {
             val intent = Intent(this, CreateActivity::class.java)
             startActivity(intent)
+        }
+
+        usernameTextField?.text = NearbySingleton.USERNAME
+        setUsernameButton!!.setOnClickListener {
+            var name :String = usernameTextField?.text.toString()
+            var toastText = "Hello toast!"
+            if (!TextUtils.isEmpty(name))
+            {
+                NearbySingleton.USERNAME = name
+                toastText = "Username changed"
+            }
+            else
+            {
+                usernameTextField?.text = NearbySingleton.USERNAME
+                toastText = "ERROR : Username cannot be empty"
+            }
+
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(this, toastText, duration)
+            toast.show()
         }
     }
 

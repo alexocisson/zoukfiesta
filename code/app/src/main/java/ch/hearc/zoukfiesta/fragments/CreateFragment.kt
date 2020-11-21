@@ -40,7 +40,7 @@ class CreateFragment : Fragment() {
     private fun setUpViews(activity: Activity) {
         startButton!!.setOnClickListener {
 
-            NearbySingleton.nearbyServer = NearbyServer(activity,"Yo " + Random(32131).nextInt().toString())
+            NearbySingleton.nearbyServer = NearbyServer(activity,NearbySingleton.USERNAME)
             NearbySingleton.nearbyServer!!.startAdvertising(NearbySingleton.PACKAGE_NAME,NearbySingleton.STRATEGY)
 
             val intent = Intent(activity, ZoukHostActivity::class.java)

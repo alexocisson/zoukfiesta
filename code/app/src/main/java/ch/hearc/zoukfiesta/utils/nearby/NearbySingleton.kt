@@ -17,6 +17,7 @@ object NearbySingleton {
     var nearbyServer: NearbyServer? = null
     val STRATEGY: Strategy = Strategy.P2P_STAR
     var PACKAGE_NAME: String = ""
+    var USERNAME: String = ""
 
 //    fun play(context: Context, resid: Int) {
 //

@@ -103,6 +103,7 @@ class NearbyServer(
             }
 
             override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
+                println("Recieve connection result from : " + endpointId)
                 when (result.status.statusCode) {
                     ConnectionsStatusCodes.STATUS_OK -> {
                         println("We're connected! Can now start sending and receiving data.")

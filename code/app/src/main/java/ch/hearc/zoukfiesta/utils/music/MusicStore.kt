@@ -1,27 +1,21 @@
 package ch.hearc.zoukfiesta.utils.music
 
+import android.content.res.AssetFileDescriptor
+import ch.hearc.zoukfiesta.R
+
 object MusicStore   {
     var musics: MutableList<Music> = emptyList<Music>().toMutableList()
 
-    var id : Int = 0
-
-    init {
-        musics.add(Music("Arouf Gangsta - PALALA", 11,1))
-        musics.add(Music("Kaaris - Bouchon de Liège", 22,2))
-        musics.add(Music("Gigi d'agostino - L'Amours Toujours", 33,3))
-    }
-
-    public fun addToStore(musicName : String, voteSkip : Int)
+    public fun addToStore(musicName : String, voteSkip : Int, ressourceId : Int, assetFileDescriptor: AssetFileDescriptor)
     {
-        musics.add(Music(musicName, voteSkip, id));
-        id++;
+        musics.add(Music(musicName, voteSkip, ressourceId, assetFileDescriptor));
     }
 
     public fun findMusicByID(id: Int): Music? {
         var result: Music? = null
 
         for (music in musics) {
-            if (music.id == id) {
+            if (music.resourceId == id) {
                 result = music
             }
         }

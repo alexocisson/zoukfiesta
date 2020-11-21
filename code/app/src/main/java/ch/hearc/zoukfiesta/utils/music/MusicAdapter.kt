@@ -103,7 +103,7 @@ class MusicAdapter(
 
         val music = filteredMusics!![position]
 
-        holder.idTextView!!.text = music.id.toString()
+        holder.idTextView!!.text = music.resourceId.toString()
         holder.nameTextView!!.text = music.name
         holder.voteSkipTextView!!.text = music.voteSkip.toString()
 

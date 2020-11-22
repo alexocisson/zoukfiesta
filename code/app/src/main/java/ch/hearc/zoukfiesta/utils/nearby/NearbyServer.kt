@@ -52,13 +52,15 @@ class NearbyServer(
 
     override fun sendKick(endpointId: String) {
         //Command name
-        val commandName = CommandsName.SKIP;
+        val commandName = CommandsName.KICK;
 
         //Payload
         val payload = Payload.fromBytes(Tools.createPayload(commandName))
 
         //Send
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
+
+        Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
     }
 
     override fun myCallback(bytes: ByteArray) {

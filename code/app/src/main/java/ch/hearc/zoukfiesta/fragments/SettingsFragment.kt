@@ -15,10 +15,12 @@ import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.activity.ZoukHubActivity
 import ch.hearc.zoukfiesta.utils.music.MusicAdapter
+import ch.hearc.zoukfiesta.utils.music.PlayerAdapter
 
 class SettingsFragment : Fragment() {
 
     private var zoukerList: ListView? = null
+    private var playerAdapter: PlayerAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -37,6 +39,9 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setUpViews(activity: Activity) {
-        //TODO: charger la liste des zoukers et créer les component avec le btn kick
+        playerAdapter = PlayerAdapter(activity)
+
+        zoukerList!!.adapter = playerAdapter
+
     }
 }

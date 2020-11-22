@@ -6,16 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ch.hearc.zoukfiesta.activity.ZoukHostActivity">
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="ch.hearc.zoukfiesta.fragments.MusicQueueFragment"
-        android:layout_width="406dp"
-        android:layout_height="605dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentPlayer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/music_queue_fragment" />
+    <androidx.viewpager2.widget.ViewPager2
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -77,7 +77,7 @@ class MusicAdapter(
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         var convertView = convertView
         val holder: MusicHolder
 
@@ -87,7 +87,6 @@ class MusicAdapter(
 
             holder = MusicHolder()
 
-            holder.idTextView = convertView!!.findViewById<View>(R.id.idTextView) as TextView
             holder.nameTextView = convertView.findViewById<View>(R.id.nameTextView) as TextView
             holder.voteSkipTextView = convertView.findViewById<View>(R.id.voteSkipTextView) as TextView
 
@@ -103,7 +102,6 @@ class MusicAdapter(
 
         val music = filteredMusics!![position]
 
-        holder.idTextView!!.text = music.resourceId.toString()
         holder.nameTextView!!.text = music.name
         holder.voteSkipTextView!!.text = music.voteSkip.toString()
 
@@ -118,7 +116,6 @@ class MusicAdapter(
      * Wrapper class for our music views.
      */
     private class MusicHolder {
-        internal var idTextView: TextView? = null
         internal var nameTextView: TextView? = null
         internal var voteSkipTextView: TextView? = null
     }

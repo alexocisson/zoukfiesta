@@ -45,7 +45,7 @@ class NearbyEndPointAdapter(
                     for (endpoint in NearbyEndPointStore.ENDPOINTS) {
                         // Filter by endpoint name
 
-                        if (endpoint.id!!.toLowerCase()
+                        if (endpoint.name!!.toLowerCase()
                                 .contains(constraint.toString().toLowerCase())
                         ) {
                             filteredEndpoints!!.add(endpoint)

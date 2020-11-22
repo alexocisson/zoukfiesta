@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity() {
 //    private var connectionsClient: ConnectionsClient? = null
 
     // Our randomly generated name
-    private val username: String = "Yo " + Random(32131).nextInt().toString()
+//    private val username: String = "Yo " + Random(32131).nextInt().toString()
+//    private val username: String = "Utilisateur " + (0..100).random().toString()
 
     private val TAG : String = "Zoukfiesta"
 
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        NearbySingleton.USERNAME = "Yo " + Random(32131).nextInt().toString()
+        NearbySingleton.USERNAME = "Utilisateur " + (0..100).random().toString()
         NearbySingleton.PACKAGE_NAME = packageName
 
         retrieveViews()

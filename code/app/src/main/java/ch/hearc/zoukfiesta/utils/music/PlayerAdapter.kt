@@ -22,26 +22,6 @@ class PlayerAdapter(
 
     private fun construct() {
         //test
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
-        players!!.add("Bjr")
-        players!!.add("Nigglet")
     }
 
     override fun getCount(): Int {

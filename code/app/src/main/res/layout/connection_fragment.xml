@@ -8,47 +8,42 @@
     tools:context="ch.hearc.zoukfiesta.fragments.ConnectionFragment">
 
     <TextView
-        android:id="@+id/fiestaNameLabel"
+        android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="76dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="76dp"
-        android:layout_marginBottom="97dp"
-        android:text="Placeholder Nom du salon"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/fiestaName"
+        android:text="Fiesta de :"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/fiestaName"
+    <TextView
+        android:id="@+id/fiestaNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="77dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginBottom="50dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/startZouking"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="76dp"
+        android:text="Placeholder Nom du salon"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fiestaNameLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
     <Button
         android:id="@+id/startZouking"
-        android:layout_width="178dp"
-        android:layout_height="97dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="113dp"
-        android:layout_marginBottom="150dp"
-        android:text="Let's Zouk !"
+        android:layout_width="290dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="Rejoindre la Fiesta !"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fiestaName"></Button>
+        app:layout_constraintStart_toStartOf="parent"></Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

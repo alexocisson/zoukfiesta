@@ -9,10 +9,11 @@ import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 
 class ClientAdapter(
-    private val context: Context
+    private val context: Context,
+    var clientsById: MutableMap<String, String>
 ) : BaseAdapter(){
 
-    private var clients: MutableMap<String, String>? = null
+//    private var clientsById: MutableMap<String, String>? = null
 
     init {
         construct()
@@ -20,15 +21,15 @@ class ClientAdapter(
 
     private fun construct() {
         //test
-        clients = NearbySingleton.nearbyServer?.clientsById
     }
 
     override fun getCount(): Int {
-        return clients!!.size
+        if (clientsById != null) return clientsById!!.size
+        return 0
     }
 
     override fun getItem(position: Int): Any {
-        return clients!!.values.elementAt(position)
+        return clientsById!!.values.elementAt(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -59,7 +60,7 @@ class ClientAdapter(
             holder = convertView.tag as PlayerHolder
         }
 
-        holder.playerTextView!!.text = clients!!.values.elementAt(position)
+        holder.playerTextView!!.text = clientsById!!.values.elementAt(position)
 
         holder.kickButton?.setOnClickListener {
             //Get player name

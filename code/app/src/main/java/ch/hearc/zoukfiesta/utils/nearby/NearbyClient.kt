@@ -12,7 +12,7 @@ import kotlinx.serialization.json.Json
 
 
 class NearbyClient(
-    private val context: Activity,
+    val context: Activity,
     private val username: String,
 //    var connectionsClient: ConnectionsClient,
     override var onPlaylist: ((Map<String, Int>, Int, Int) -> Unit)? = null,
@@ -115,7 +115,7 @@ class NearbyClient(
 
     fun requestConnection(endpointId: String){
         Nearby.getConnectionsClient(context)
-            .requestConnection(username, endpointId, connectionLifecycleCallback)
+            .requestConnection(NearbySingleton.USERNAME, endpointId, connectionLifecycleCallback)
             .addOnSuccessListener { unused: Void? ->
                 println("We successfully requested a connection.")
                 endpointServerId = endpointId }

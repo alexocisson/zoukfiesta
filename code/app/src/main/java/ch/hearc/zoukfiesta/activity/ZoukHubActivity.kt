@@ -1,10 +1,12 @@
 package ch.hearc.zoukfiesta.activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import com.google.android.gms.nearby.Nearby
 
 class ZoukHubActivity() : AppCompatActivity(){
 
@@ -51,8 +53,16 @@ class ZoukHubActivity() : AppCompatActivity(){
                 availableMusics -> this.availableMusics = availableMusics
         }
         NearbySingleton.nearbyClient?.onKick = {
-            println("I JUST GOT KICKED");
+            Nearby.getConnectionsClient(baseContext).disconnectFromEndpoint(endpointId)
+            println("I JUST GOT KICKED OMG");
+            val toastText = "You have been kicked"
+            val duration = Toast.LENGTH_LONG
+            val toast = Toast.makeText(baseContext, toastText, duration)
+            toast.show()
+            this.finish()
         }
+
+        NearbySingleton.nearbyClient?.start()
 
         setContentView(R.layout.zouk_hub_activity)
     }

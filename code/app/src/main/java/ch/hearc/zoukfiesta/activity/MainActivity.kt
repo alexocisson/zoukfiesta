@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
             if (!TextUtils.isEmpty(name))
             {
                 NearbySingleton.USERNAME = name
-                toastText = "Username changed"
+                toastText = "Username changed to " + NearbySingleton.USERNAME
             }
             else
             {

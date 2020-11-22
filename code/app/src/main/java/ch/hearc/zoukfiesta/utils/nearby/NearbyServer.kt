@@ -1,7 +1,6 @@
 package ch.hearc.zoukfiesta.utils.nearby
 
 import android.app.Activity
-import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.player.ClientAdapter
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
@@ -19,7 +18,7 @@ class NearbyServer(
 ) : INearbyServer, NearbyListener() {
 
     var clientsById: MutableMap<String,String> = emptyMap<String,String>().toMutableMap()
-    var clientAdapter: ClientAdapter? = ClientAdapter(context)
+    var clientAdapter: ClientAdapter? = ClientAdapter(context,clientsById)
 
     override fun sendPlaylist(
         endpointId: String,
@@ -65,7 +64,7 @@ class NearbyServer(
         //Send
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
 
-        Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
+//        Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
     }
 
     override fun myCallback(bytes: ByteArray) {
@@ -132,6 +131,8 @@ class NearbyServer(
 
             override fun onDisconnected(endpointId: String) {
                 println("We've been disconnected from this endpoint. No more data can be sent or received.")
+                clientsById.remove(endpointId)
+                clientAdapter?.notifyDataSetChanged()
             }
         }
 }

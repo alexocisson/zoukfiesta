@@ -1,11 +1,6 @@
 package ch.hearc.zoukfiesta.activity
 
-import android.accounts.NetworkErrorException
-import android.graphics.drawable.GradientDrawable
-import android.media.MediaMetadataRetriever
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -17,11 +12,7 @@ import ch.hearc.zoukfiesta.fragments.MusicQueueFragment
 import ch.hearc.zoukfiesta.fragments.SettingsFragment
 import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicStore
-import ch.hearc.zoukfiesta.utils.music.Player
-import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
-import kotlinx.android.synthetic.main.music_queue_fragment.*
-import kotlinx.android.synthetic.main.zouk_host_activity.*
-import java.time.Duration
+import ch.hearc.zoukfiesta.utils.music.MusicPlayer
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -73,7 +64,7 @@ class ZoukHostActivity : AppCompatActivity(){
         var duration = music.duration
 
         //Play it
-        Player.play(this, music.resourceId)
+        MusicPlayer.play(this, music.resourceId)
 
         //Pass to the next music at the end of thze current one
         Timer("waitingForMusicToFinish", false).schedule(duration.toLong()) {

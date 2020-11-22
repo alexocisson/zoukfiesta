@@ -1,26 +1,20 @@
 package ch.hearc.zoukfiesta.fragments
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ListView
-import android.widget.SearchView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.R
-import ch.hearc.zoukfiesta.activity.ZoukHubActivity
-import ch.hearc.zoukfiesta.utils.music.MusicAdapter
-import ch.hearc.zoukfiesta.utils.music.PlayerAdapter
+import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import ch.hearc.zoukfiesta.utils.player.ClientAdapter
 
 class SettingsFragment : Fragment() {
 
     private var zoukerList: ListView? = null
-    private var playerAdapter: PlayerAdapter? = null
+//    private var clientAdapter: ClientAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -39,9 +33,8 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setUpViews(activity: Activity) {
-        playerAdapter = PlayerAdapter(activity)
+//        clientAdapter = ClientAdapter(activity)
 
-        zoukerList!!.adapter = playerAdapter
-
+        zoukerList!!.adapter = NearbySingleton.nearbyServer?.clientAdapter
     }
 }

@@ -1,6 +1,8 @@
 package ch.hearc.zoukfiesta.utils.nearby
 
 import android.app.Activity
+import ch.hearc.zoukfiesta.utils.music.Music
+import ch.hearc.zoukfiesta.utils.player.ClientAdapter
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlinx.serialization.decodeFromString
@@ -15,6 +17,9 @@ class NearbyServer(
     override var onMusics: (() -> Unit)? = null,
     override var onAdd: ((musicName: String) -> Unit)? = null
 ) : INearbyServer, NearbyListener() {
+
+    var clientsById: MutableMap<String,String> = emptyMap<String,String>().toMutableMap()
+    var clientAdapter: ClientAdapter? = ClientAdapter(context)
 
     override fun sendPlaylist(
         endpointId: String,
@@ -102,6 +107,7 @@ class NearbyServer(
             override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
                 // Automatically accept the connection on both sides.
                 Nearby.getConnectionsClient(context).acceptConnection(endpointId, payloadCallback)
+                clientsById.putIfAbsent(endpointId,connectionInfo.endpointName)
             }
 
             override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
@@ -109,12 +115,15 @@ class NearbyServer(
                 when (result.status.statusCode) {
                     ConnectionsStatusCodes.STATUS_OK -> {
                         println("We're connected! Can now start sending and receiving data.")
+                        clientAdapter?.notifyDataSetChanged()
                     }
                     ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                         println("The connection was rejected by one or both sides.")
+                        clientsById.remove(endpointId)
                     }
                     ConnectionsStatusCodes.STATUS_ERROR -> {
                         println("The connection broke before it was able to be accepted.")
+                        clientsById.remove(endpointId)
                     }
                     else -> {
                     }

@@ -3,7 +3,7 @@ package ch.hearc.zoukfiesta.utils.music
 import android.content.Context
 import android.media.MediaPlayer
 
-object Player {
+object MusicPlayer {
 
     init {
         }

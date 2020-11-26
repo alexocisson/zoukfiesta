@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="ch.hearc.zoukfiesta.activity.ZoukHubActivity">
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Connecté à la Fiesta !"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
         android:id="@+id/fragment"
         android:name="ch.hearc.zoukfiesta.fragments.MusicQueueFragment"
-        android:layout_width="406dp"
-        android:layout_height="605dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="9dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentPlayer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:layout="@layout/music_queue_fragment" />
 
     <fragment
         android:id="@+id/fragmentPlayer"
         android:name="ch.hearc.zoukfiesta.fragments.PlayerFragment"
-        android:layout_width="408dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="9dp"
+        android:layout_width="410dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment"
         tools:layout="@layout/player_fragment" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

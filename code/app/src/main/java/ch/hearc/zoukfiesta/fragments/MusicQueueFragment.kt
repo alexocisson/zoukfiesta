@@ -42,8 +42,6 @@ class MusicQueueFragment : Fragment() {
     }
 
     private fun retrieveViews(view: View) {
-        addButton = view.findViewById<View>(R.id.addMusicButton) as Button
-        settingsButton = view.findViewById<View>(R.id.settingsButton) as Button
         musicListView = view.findViewById<View>(R.id.musicListView) as ListView
         musicSearchView = view.findViewById<View>(R.id.musicSearchView) as SearchView
     }
@@ -75,12 +73,6 @@ class MusicQueueFragment : Fragment() {
                 return true
             }
         })
-
-        settingsButton!!.setOnClickListener {
-
-            //TODO: OUVRIR LE SETTINGSFRAGMENT
-
-        }
     }
 
     override fun onResume() {

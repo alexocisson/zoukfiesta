@@ -1,9 +1,12 @@
 package ch.hearc.zoukfiesta.activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
+import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import com.google.android.gms.nearby.Nearby
 
 class ZoukHubActivity() : AppCompatActivity(){
 
@@ -20,25 +23,46 @@ class ZoukHubActivity() : AppCompatActivity(){
         //Get the endpoint
         endpointId = intent.getStringExtra("endpointId").toString()
 
-        //Init nearby client
-        nearbyClient = NearbyClient(
-            endpointId,
-            this,
-            {
+//        //Init nearby client
+//        nearbyClient = NearbyClient(
+//            endpointId,
+//            this,
+//            {
+//                playlist, currentTime, totalTime ->
+//                this.playlist = playlist;
+//                this.currentTime = currentTime;
+//                this.totalTime = totalTime;
+//            }, //On playlist call back
+//            //On available call back
+//            {
+//                availableMusics -> this.availableMusics = availableMusics
+//            },
+//            // On kick call back
+//            {
+//                println("I JUST GOT KICKED");
+//            }
+//        )
+
+        NearbySingleton.nearbyClient?.onPlaylist = {
                 playlist, currentTime, totalTime ->
-                this.playlist = playlist;
-                this.currentTime = currentTime;
-                this.totalTime = totalTime;
-            }, //On playlist call back
-            //On available call back
-            {
+            this.playlist = playlist;
+            this.currentTime = currentTime;
+            this.totalTime = totalTime;
+        }
+        NearbySingleton.nearbyClient?.onAvailable = {
                 availableMusics -> this.availableMusics = availableMusics
-            },
-            // On kick call back
-            {
-                println("I JUST GOT KICKED");
-            }
-        )
+        }
+        NearbySingleton.nearbyClient?.onKick = {
+            Nearby.getConnectionsClient(baseContext).disconnectFromEndpoint(endpointId)
+            println("I JUST GOT KICKED OMG");
+            val toastText = "You have been kicked"
+            val duration = Toast.LENGTH_LONG
+            val toast = Toast.makeText(baseContext, toastText, duration)
+            toast.show()
+            this.finish()
+        }
+
+        NearbySingleton.nearbyClient?.start()
 
         setContentView(R.layout.zouk_hub_activity)
     }

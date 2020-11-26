@@ -1,19 +1,24 @@
 package ch.hearc.zoukfiesta.utils.nearby
 
 import android.app.Activity
+import ch.hearc.zoukfiesta.utils.player.ClientAdapter
 import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.connection.Payload
+import com.google.android.gms.nearby.connection.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 
 class NearbyServer(
     private val context : Activity,
+    private val username: String,
     override var onSkip: ((musicName: String) -> Unit)? = null,
     override var onWhat: (() -> Unit)? = null,
     override var onMusics: (() -> Unit)? = null,
     override var onAdd: ((musicName: String) -> Unit)? = null
 ) : INearbyServer, NearbyListener() {
+
+    var clientsById: MutableMap<String,String> = emptyMap<String,String>().toMutableMap()
+    var clientAdapter: ClientAdapter? = ClientAdapter(context,clientsById)
 
     override fun sendPlaylist(
         endpointId: String,
@@ -51,13 +56,15 @@ class NearbyServer(
 
     override fun sendKick(endpointId: String) {
         //Command name
-        val commandName = CommandsName.SKIP;
+        val commandName = CommandsName.KICK;
 
         //Payload
         val payload = Payload.fromBytes(Tools.createPayload(commandName))
 
         //Send
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
+
+//        Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
     }
 
     override fun myCallback(bytes: ByteArray) {
@@ -79,4 +86,53 @@ class NearbyServer(
             CommandsName.ADD -> onAdd?.let { it(obj[1]) }
         }
     }
+
+    fun startAdvertising(
+        id: String,
+        STRATEGY: Strategy
+    ){
+        /** Broadcasts our presence using Nearby Connections so other players can find us.  */
+        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
+        Nearby.getConnectionsClient(context)?.startAdvertising(
+            username, id, connectionLifecycleCallback,
+            AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
+        )?.addOnSuccessListener { unused: Void? -> println("We're advertising!")}
+            ?.addOnFailureListener { e: Exception? -> println("We were unable to start advertising")}
+
+    }
+
+    private val connectionLifecycleCallback: ConnectionLifecycleCallback =
+        object : ConnectionLifecycleCallback() {
+            override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
+                // Automatically accept the connection on both sides.
+                Nearby.getConnectionsClient(context).acceptConnection(endpointId, payloadCallback)
+                clientsById.putIfAbsent(endpointId,connectionInfo.endpointName)
+            }
+
+            override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
+                println("Recieve connection result from : " + endpointId)
+                when (result.status.statusCode) {
+                    ConnectionsStatusCodes.STATUS_OK -> {
+                        println("We're connected! Can now start sending and receiving data.")
+                        clientAdapter?.notifyDataSetChanged()
+                    }
+                    ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
+                        println("The connection was rejected by one or both sides.")
+                        clientsById.remove(endpointId)
+                    }
+                    ConnectionsStatusCodes.STATUS_ERROR -> {
+                        println("The connection broke before it was able to be accepted.")
+                        clientsById.remove(endpointId)
+                    }
+                    else -> {
+                    }
+                }
+            }
+
+            override fun onDisconnected(endpointId: String) {
+                println("We've been disconnected from this endpoint. No more data can be sent or received.")
+                clientsById.remove(endpointId)
+                clientAdapter?.notifyDataSetChanged()
+            }
+        }
 }

@@ -21,7 +21,7 @@ abstract class NearbyListener {
     protected abstract fun myCallback(bytes: ByteArray)
 
     // Callbacks for receiving payloads
-    private val payloadCallback: PayloadCallback = object : PayloadCallback() {
+    protected val payloadCallback: PayloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
             val receivedBytes = payload.asBytes()
 

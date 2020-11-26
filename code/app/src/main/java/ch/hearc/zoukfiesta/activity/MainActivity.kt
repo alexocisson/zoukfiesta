@@ -10,22 +10,22 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import ch.hearc.zoukfiesta.utils.nearby.NearbyEndPointAdapter
-import ch.hearc.zoukfiesta.utils.nearby.NearbyEndPointStore
-import ch.hearc.zoukfiesta.utils.nearby.NearbyEndpoint
 import ch.hearc.zoukfiesta.R
-import com.google.android.gms.nearby.Nearby
+import ch.hearc.zoukfiesta.utils.nearby.*
 import com.google.android.gms.nearby.connection.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
 
     // Our handle to Nearby Connections
-    private var connectionsClient: ConnectionsClient? = null
+//    private var connectionsClient: ConnectionsClient? = null
 
     // Our randomly generated name
-    private val codeName: String = "Yo " + Random(32131).nextInt().toString()
+//    private val username: String = "Yo " + Random(32131).nextInt().toString()
+//    private val username: String = "Utilisateur " + (0..100).random().toString()
 
     private val TAG : String = "Zoukfiesta"
 
@@ -40,9 +40,11 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
 
-    private val STRATEGY: Strategy = Strategy.P2P_STAR
 
-    private var addHostButton: Button? = null
+
+    private var usernameTextField: TextView? = null
+    private var setUsernameButton: Button? = null
+    private var addHostButton: FloatingActionButton? = null
     private var endpointListView: ListView? = null
     private var endpointSearchView: SearchView? = null
     private var nearbyEndPointAdapter: NearbyEndPointAdapter? = null
@@ -51,19 +53,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        NearbySingleton.USERNAME = "Utilisateur " + (0..100).random().toString()
+        NearbySingleton.PACKAGE_NAME = packageName
+
         retrieveViews()
         setUpViews()
 
-        connectionsClient = Nearby.getConnectionsClient(this);
 
-        startAdvertising();
-        startDiscovery();
+        NearbySingleton.nearbyClient = NearbyClient(this,NearbySingleton.USERNAME);
 
-        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("SAlut", "ça va ?",null))
+//        startAdvertising();
+        NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,endpointDiscoveryCallback,
+            NearbySingleton.STRATEGY);
+
+        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("endpointID", "Username",null))
     }
 
     private fun retrieveViews() {
-        addHostButton = findViewById<View>(R.id.addButton) as Button
+        usernameTextField = findViewById<View>(R.id.usernameEditField) as TextInputEditText
+        setUsernameButton = findViewById<View>(R.id.setUsername) as Button
+        addHostButton = findViewById<View>(R.id.addButton) as FloatingActionButton
         endpointListView = findViewById<View>(R.id.listView) as ListView
         endpointSearchView = findViewById<View>(R.id.searchView) as SearchView
     }
@@ -120,6 +129,26 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CreateActivity::class.java)
             startActivity(intent)
         }
+
+        usernameTextField?.text = NearbySingleton.USERNAME
+        setUsernameButton!!.setOnClickListener {
+            var name :String = usernameTextField?.text.toString()
+            var toastText = "Hello toast!"
+            if (!TextUtils.isEmpty(name))
+            {
+                NearbySingleton.USERNAME = name
+                toastText = "Username changed to " + NearbySingleton.USERNAME
+            }
+            else
+            {
+                usernameTextField?.text = NearbySingleton.USERNAME
+                toastText = "ERROR : Username cannot be empty"
+            }
+
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(this, toastText, duration)
+            toast.show()
+        }
     }
 
     override fun onStart() {
@@ -163,24 +192,7 @@ class MainActivity : AppCompatActivity() {
         recreate()
     }
 
-    /** Starts looking for other players using Nearby Connections.  */
-    private fun startDiscovery() {
-        // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
-        connectionsClient?.startDiscovery(
-            packageName, endpointDiscoveryCallback,
-            DiscoveryOptions.Builder().setStrategy(STRATEGY).build()
-        )
-    }
 
-    /** Broadcasts our presence using Nearby Connections so other players can find us.  */
-    private fun startAdvertising() {
-        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
-        connectionsClient?.startAdvertising(
-            codeName, packageName, connectionLifecycleCallback,
-            AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
-        )?.addOnSuccessListener { unused: Void? -> }
-            ?.addOnFailureListener { e: Exception? -> }
-    }
 
 //    // Callbacks for receiving payloads
 //    private val payloadCallback: PayloadCallback = object : PayloadCallback() {

@@ -10,7 +10,8 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.*
 
-class PlayerFragment : Fragment() {
+class
+PlayerFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

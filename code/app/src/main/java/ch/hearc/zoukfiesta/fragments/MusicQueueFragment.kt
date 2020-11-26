@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.utils.music.MusicAdapter
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.activity.ZoukHostActivity
+import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 
 
 class MusicQueueFragment : Fragment() {
@@ -49,6 +50,7 @@ class MusicQueueFragment : Fragment() {
 
     private fun setUpViews(activity: Activity) {
         musicPointAdapter = MusicAdapter(activity)
+
         musicListView!!.adapter = musicPointAdapter
 
         musicSearchView!!.isSubmitButtonEnabled = true

@@ -39,6 +39,7 @@ class MusicQueueFragment : Fragment() {
 
         retrieveViews(view!!)
         setUpViews(activity!!)
+
     }
 
     private fun retrieveViews(view: View) {

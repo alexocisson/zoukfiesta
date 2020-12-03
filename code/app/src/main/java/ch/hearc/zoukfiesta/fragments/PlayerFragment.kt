@@ -9,13 +9,20 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.*
+import ch.hearc.zoukfiesta.utils.music.MusicPlayer
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.slider.Slider
 
 class
 PlayerFragment : Fragment() {
 
-    private var pauseButton: Button? = null
-    private var skipButton: Button? = null
+    private var pauseButton: FloatingActionButton? = null
+    private var skipButton: FloatingActionButton? = null
     private var musicTextView: TextView? = null
+    private var timeSlider: Slider? = null
+
+    private var time: Int = 32
+    private var maxTime: Int = 123
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,12 +38,16 @@ PlayerFragment : Fragment() {
     }
 
     private fun retrieveViews(view: View) {
-        pauseButton = view.findViewById<View>(R.id.PauseButton) as Button
-        skipButton = view.findViewById<View>(R.id.SkipButton) as Button
+        pauseButton = view.findViewById<View>(R.id.PauseButton) as FloatingActionButton
+        skipButton = view.findViewById<View>(R.id.SkipButton) as FloatingActionButton
         musicTextView = view.findViewById<View>(R.id.MusicTextView) as TextView
+        timeSlider = view.findViewById<View>(R.id.TimeSlider) as Slider
     }
 
     private fun setUpViews(activity: Activity) {
+        //time = MusicPlayer.mediaPlayer.currentPosition;
+        musicTextView!!.text = "Yo la musique";
+        timeSlider!!.setValues(12.3f);
         
     }
 

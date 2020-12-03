@@ -21,5 +21,7 @@ object MusicPlayer {
         //Play the music
         mediaPlayer?.start()
 
+        mediaPlayer?.currentPosition
+
     }
 }

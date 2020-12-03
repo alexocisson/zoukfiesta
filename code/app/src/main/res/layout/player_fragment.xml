@@ -7,26 +7,25 @@
     android:layout_height="match_parent">
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+    <!-- Continuous slider -->
+    <com.google.android.material.slider.Slider
+        android:id="@+id/timeSlider"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
+        app:layout_constraintBottom_toTopOf="@+id/PauseButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/MusicTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/SkipButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/PauseButton"
@@ -35,10 +34,9 @@
         android:layout_marginEnd="16dp"
         android:text="Host"
         app:layout_constraintEnd_toStartOf="@+id/SkipButton"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_pause_24"
-        tools:layout_editor_absoluteY="51dp"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+        tools:layout_editor_absoluteY="96dp"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/SkipButton"
@@ -50,5 +48,5 @@
         app:layout_constraintStart_toEndOf="@+id/PauseButton"
         app:srcCompat="@drawable/ic_baseline_skip_next_24"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="51dp"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+        tools:layout_editor_absoluteY="96dp"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,10 @@ import ch.hearc.zoukfiesta.*
 class
 PlayerFragment : Fragment() {
 
+    private var pauseButton: Button? = null
+    private var skipButton: Button? = null
+    private var musicTextView: TextView? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -27,7 +31,9 @@ PlayerFragment : Fragment() {
     }
 
     private fun retrieveViews(view: View) {
-
+        pauseButton = view.findViewById<View>(R.id.PauseButton) as Button
+        skipButton = view.findViewById<View>(R.id.SkipButton) as Button
+        musicTextView = view.findViewById<View>(R.id.MusicTextView) as TextView
     }
 
     private fun setUpViews(activity: Activity) {

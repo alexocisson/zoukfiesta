@@ -66,8 +66,8 @@ class ZoukHostActivity : AppCompatActivity(){
         //Play it
         MusicPlayer.play(this, music.resourceId)
 
-        //Pass to the next music at the end of thze current one
-        Timer("waitingForMusicToFinish", false).schedule(duration.toLong()) {
+        //Pass to the next music at the end of the current one
+        MusicPlayer.mediaPlayer?.setOnCompletionListener {
             //Remove the current music from the list
             MusicStore.musics.removeAt(0)
 

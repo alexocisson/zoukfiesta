@@ -1,6 +1,8 @@
 package ch.hearc.zoukfiesta.utils.nearby
 
 import android.app.Activity
+import ch.hearc.zoukfiesta.utils.music.MusicPlayer
+import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.player.ClientAdapter
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
@@ -116,7 +118,17 @@ class NearbyServer(
                         println("We're connected! Can now start sending and receiving data.")
                         clientAdapter?.notifyDataSetChanged()
 
-                        sendPlaylist(endpointId,)
+                        var mapMusic : MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
+                        MusicStore.musics.forEach {
+                            mapMusic[it.name] = it.voteSkip
+                        }
+                        MusicPlayer.getTimestamp()?.let {timestamp ->
+                            MusicPlayer.getDuration()?.let { duration ->
+                                sendPlaylist(endpointId,mapMusic,
+                                    timestamp, duration
+                                )
+                            }
+                        }
                     }
                     ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                         println("The connection was rejected by one or both sides.")

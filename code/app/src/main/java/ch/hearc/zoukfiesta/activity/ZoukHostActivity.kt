@@ -65,12 +65,13 @@ class ZoukHostActivity : AppCompatActivity(){
         var duration = music.duration
 
         //Play it
-        MusicPlayer.play(this, music.resourceId)
+        music.resourceId?.let { MusicPlayer.play(this, it) }
 
         //Pass to the next music at the end of thze current one
         Timer("waitingForMusicToFinish", false).schedule(duration.toLong()) {
             //Remove the current music from the list
             MusicStore.musics.removeAt(0)
+            //NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
 
             //Play the next one
             updateMusicPlayer()

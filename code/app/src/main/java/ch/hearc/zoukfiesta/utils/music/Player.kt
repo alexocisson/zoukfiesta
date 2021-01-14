@@ -22,4 +22,12 @@ object MusicPlayer {
         mediaPlayer?.start()
 
     }
+
+    fun getTimestamp(): Int? {
+        return mediaPlayer?.currentPosition
+    }
+
+    fun getDuration(): Int? {
+        return mediaPlayer?.duration
+    }
 }

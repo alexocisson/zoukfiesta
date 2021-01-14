@@ -13,6 +13,7 @@ import ch.hearc.zoukfiesta.fragments.SettingsFragment
 import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
+import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import java.util.*
 import kotlin.concurrent.schedule
 

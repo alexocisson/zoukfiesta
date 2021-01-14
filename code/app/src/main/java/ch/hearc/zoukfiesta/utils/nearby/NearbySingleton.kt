@@ -19,4 +19,6 @@ object NearbySingleton {
     val STRATEGY: Strategy = Strategy.P2P_STAR
     var PACKAGE_NAME: String = ""
     var USERNAME: String = ""
+    var musicPointAdapter: MusicAdapter? = null
+
 }

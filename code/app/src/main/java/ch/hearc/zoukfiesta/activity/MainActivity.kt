@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.utils.music.MusicAdapter
 import ch.hearc.zoukfiesta.utils.nearby.*
 import com.google.android.gms.nearby.connection.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         NearbySingleton.USERNAME = "Utilisateur " + (0..100).random().toString()
         NearbySingleton.PACKAGE_NAME = packageName
+        NearbySingleton.musicPointAdapter = MusicAdapter(this)
 
         retrieveViews()
         setUpViews()
@@ -224,35 +226,6 @@ class MainActivity : AppCompatActivity() {
                 var ep = NearbyEndPointStore.findEndPointByName(endpointId)
                 NearbyEndPointStore.ENDPOINTS.remove(ep)
                 nearbyEndPointAdapter?.notifyDataSetChanged()
-            }
-        }
-
-    // Callbacks for connections to other devices (SERVER SIDE)
-    private val connectionLifecycleCallback: ConnectionLifecycleCallback =
-        object : ConnectionLifecycleCallback() {
-            override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
-//                Log.i(TAG, "onConnectionInitiated: accepting connection")
-//                connectionsClient!!.acceptConnection(endpointId, payloadCallback)
-//                opponentName = connectionInfo.endpointName
-            }
-
-            override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
-//                if (result.status.isSuccess) {
-//                    Log.i(TAG, "onConnectionResult: connection successful")
-//                    connectionsClient!!.stopDiscovery()
-//                    connectionsClient.stopAdvertising()
-//                    opponentEndpointId = endpointId
-//                    setOpponentName(opponentName)
-//                    setStatusText(getString(R.string.status_connected))
-//                    setButtonState(true)
-//                } else {
-//                    Log.i(TAG, "onConnectionResult: connection failed")
-//                }
-            }
-
-            override fun onDisconnected(endpointId: String) {
-//                Log.i(TAG, "onDisconnected: disconnected from the opponent")
-//                resetGame()
             }
         }
 }

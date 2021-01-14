@@ -115,6 +115,8 @@ class NearbyServer(
                     ConnectionsStatusCodes.STATUS_OK -> {
                         println("We're connected! Can now start sending and receiving data.")
                         clientAdapter?.notifyDataSetChanged()
+
+                        sendPlaylist(endpointId,)
                     }
                     ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                         println("The connection was rejected by one or both sides.")

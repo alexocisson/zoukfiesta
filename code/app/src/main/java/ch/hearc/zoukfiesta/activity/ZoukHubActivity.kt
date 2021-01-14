@@ -48,6 +48,8 @@ class ZoukHubActivity() : AppCompatActivity(){
             this.playlist = playlist;
             this.currentTime = currentTime;
             this.totalTime = totalTime;
+
+            NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
         }
         NearbySingleton.nearbyClient?.onAvailable = {
                 availableMusics -> this.availableMusics = availableMusics

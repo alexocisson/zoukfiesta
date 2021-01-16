@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.utils.music.Music
+import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import com.google.android.gms.nearby.Nearby
@@ -48,6 +50,13 @@ class ZoukHubActivity() : AppCompatActivity(){
             this.playlist = playlist;
             this.currentTime = currentTime;
             this.totalTime = totalTime;
+
+            MusicStore.musics.clear()
+            playlist.forEach { musicName, musicVote ->
+                MusicStore.musics.add(Music(musicName, musicVote))
+            }
+
+            NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
         }
         NearbySingleton.nearbyClient?.onAvailable = {
                 availableMusics -> this.availableMusics = availableMusics

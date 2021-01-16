@@ -22,7 +22,7 @@ class MusicQueueFragment : Fragment() {
     private var settingsButton: Button? = null
     private var musicListView: ListView? = null
     private var musicSearchView: SearchView? = null
-    private var musicPointAdapter: MusicAdapter? = null
+//    private var musicPointAdapter: MusicAdapter? = null
 
 
     override fun onCreateView(
@@ -49,9 +49,9 @@ class MusicQueueFragment : Fragment() {
     }
 
     private fun setUpViews(activity: Activity) {
-        musicPointAdapter = MusicAdapter(activity)
+//        musicPointAdapter = MusicAdapter(activity)
 
-        musicListView!!.adapter = musicPointAdapter
+        musicListView!!.adapter = NearbySingleton.musicPointAdapter
 
         musicSearchView!!.isSubmitButtonEnabled = true
         musicSearchView!!.queryHint = "Music name..."
@@ -63,7 +63,7 @@ class MusicQueueFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                val filter = musicPointAdapter!!.filter!!
+                val filter = NearbySingleton.musicPointAdapter!!.filter!!
 
                 if (TextUtils.isEmpty(newText)) {
                     // Empty search field = no filtering

@@ -10,8 +10,11 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.*
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
+import ch.hearc.zoukfiesta.utils.music.MusicStore
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
+import java.util.*
+import kotlin.concurrent.schedule
 
 class
 PlayerFragment : Fragment() {
@@ -21,13 +24,19 @@ PlayerFragment : Fragment() {
     private var musicTextView: TextView? = null
     private var timeSlider: Slider? = null
 
-    private var time: Int = 32
-    private var maxTime: Int = 123
+    private var time: Float = 10f
+    private var maxTime: Float = 132f
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.player_fragment, container, false)
+
+        Timer("increase time on slider", false).schedule(1) {
+            //Increse the timer value
+            time=time+1f;
+            timeSlider!!.setValue(time);
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,7 +56,9 @@ PlayerFragment : Fragment() {
     private fun setUpViews(activity: Activity) {
         //time = MusicPlayer.mediaPlayer.currentPosition;
         musicTextView!!.text = "Yo la musique";
-        timeSlider!!.setValues(12.3f);
+        timeSlider!!.setValue(time);
+
+
         
     }
 

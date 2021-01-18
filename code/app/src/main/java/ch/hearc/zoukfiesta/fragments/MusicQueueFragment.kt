@@ -18,8 +18,6 @@ import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 
 class MusicQueueFragment : Fragment() {
 
-    private var addButton: Button? = null
-    private var settingsButton: Button? = null
     private var musicListView: ListView? = null
     private var musicSearchView: SearchView? = null
 //    private var musicPointAdapter: MusicAdapter? = null
@@ -42,8 +40,6 @@ class MusicQueueFragment : Fragment() {
     }
 
     private fun retrieveViews(view: View) {
-        addButton = view.findViewById<View>(R.id.addMusicButton) as Button
-        settingsButton = view.findViewById<View>(R.id.settingsButton) as Button
         musicListView = view.findViewById<View>(R.id.musicListView) as ListView
         musicSearchView = view.findViewById<View>(R.id.musicSearchView) as SearchView
     }
@@ -75,12 +71,6 @@ class MusicQueueFragment : Fragment() {
                 return true
             }
         })
-
-        settingsButton!!.setOnClickListener {
-
-            //TODO: OUVRIR LE SETTINGSFRAGMENT
-
-        }
     }
 
     override fun onResume() {

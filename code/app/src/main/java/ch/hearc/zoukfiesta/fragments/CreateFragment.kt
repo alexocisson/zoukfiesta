@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.activity.ZoukHostActivity
+import ch.hearc.zoukfiesta.utils.music.MusicAdapter
 import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
 import ch.hearc.zoukfiesta.utils.nearby.NearbyServer
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
@@ -39,7 +40,6 @@ class CreateFragment : Fragment() {
     
     private fun setUpViews(activity: Activity) {
         startButton!!.setOnClickListener {
-
             NearbySingleton.nearbyServer = NearbyServer(activity,NearbySingleton.USERNAME)
             NearbySingleton.nearbyServer!!.startAdvertising(NearbySingleton.PACKAGE_NAME,NearbySingleton.STRATEGY)
 

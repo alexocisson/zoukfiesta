@@ -11,8 +11,8 @@ import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.fragments.MusicQueueFragment
 import ch.hearc.zoukfiesta.fragments.SettingsFragment
 import ch.hearc.zoukfiesta.utils.music.Music
-import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
+import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import java.util.*
 import kotlin.concurrent.schedule
@@ -26,6 +26,8 @@ class ZoukHostActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.zouk_host_activity)
+
+        //NearbySingleton.musicPointAdapter = MusicAdapter(this)
 
         // Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById(R.id.pager)
@@ -58,6 +60,7 @@ class ZoukHostActivity : AppCompatActivity(){
     //Tell the music player to play the first music in music store
     fun updateMusicPlayer()
     {
+
         //Get the next music to play
         var music = MusicStore.musics[0]
 
@@ -68,11 +71,27 @@ class ZoukHostActivity : AppCompatActivity(){
         music.resourceId?.let { MusicPlayer.play(this, it) }
 
         //Pass to the next music at the end of thze current one
-        Timer("waitingForMusicToFinish", false).schedule(duration.toLong()) {
+        Timer("waitingForMusicToFinish", false).schedule(10000) {
             //Remove the current music from the list
             MusicStore.musics.removeAt(0)
-            //NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
 
+            runOnUiThread {
+                NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
+            }
+
+            var mapMusic : MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
+            MusicStore.musics.forEach {
+                mapMusic[it.name] = it.voteSkip
+            }
+
+            NearbySingleton.nearbyServer?.clientsById?.forEach { endpointId, name ->
+
+                MusicPlayer.getDuration()?.let { duration ->
+                    NearbySingleton.nearbyServer?.sendPlaylist(endpointId,mapMusic,
+                        0, duration
+                    )
+                }
+            }
             //Play the next one
             updateMusicPlayer()
         }

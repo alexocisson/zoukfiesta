@@ -24,10 +24,11 @@ PlayerFragment : Fragment() {
     private var pauseButton: FloatingActionButton? = null
     private var skipButton: FloatingActionButton? = null
     private var musicTextView: TextView? = null
+    private var timeView: TextView? = null
     private var timeSlider: Slider? = null
 
-    private var time: Float = 10f
-    private var maxTime: Float = 132f
+    private var time: Float = 1f
+    private var maxTime: Float = 1000f
     private val mainHandler = Handler(Looper.getMainLooper())
 
 
@@ -55,6 +56,7 @@ PlayerFragment : Fragment() {
         pauseButton = view.findViewById<View>(R.id.PauseButton) as FloatingActionButton
         skipButton = view.findViewById<View>(R.id.SkipButton) as FloatingActionButton
         musicTextView = view.findViewById<View>(R.id.MusicTextView) as TextView
+        timeView = view.findViewById<View>(R.id.TimeView) as TextView
         timeSlider = view.findViewById<View>(R.id.TimeSlider) as Slider
     }
 
@@ -62,7 +64,13 @@ PlayerFragment : Fragment() {
         //time = MusicPlayer.mediaPlayer.currentPosition;
         musicTextView!!.text = "Yo la musique"
         timeSlider!!.setValue(time)
-
+        timeSlider!!.setValueTo(maxTime)
+        /*
+        timeSlider!!.isFocusableInTouchMode = false
+        timeSlider!!.isClickable = false
+        timeSlider!!.isActivated = false
+        */
+        timeSlider!!.isEnabled = false
     }
 
     override fun onResume() {
@@ -73,11 +81,21 @@ PlayerFragment : Fragment() {
 
     private fun updateSlider(){
             time+=1f
-            timeSlider!!.setValue(time)
+            if (time<maxTime) {
+                timeSlider!!.setValue(time)
+                timeView!!.text = "" + (time/60).toInt() + ":" + (time%60).toInt()
+            }
     }
 
-    public fun setNewTimeInfo(newTime: Int, newMaxTime: Int){
+    public fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String){
         time = newTime.toFloat()/1e3f
         maxTime = newMaxTime.toFloat()/1e3f
+        timeSlider!!.setValueTo(maxTime)
+        musicTextView!!.text = musicName
+    }
+
+    public fun setAsHost()
+    {
+        timeSlider!!.isEnabled = true
     }
 }

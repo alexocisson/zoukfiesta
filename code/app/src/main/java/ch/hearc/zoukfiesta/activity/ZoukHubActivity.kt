@@ -36,7 +36,7 @@ class ZoukHubActivity() : AppCompatActivity(){
             this.playlist = playlist;
 
             //Update current time and max time
-            playerFragment.setNewTimeInfo(currentTime, totalTime)
+            playerFragment.setNewTimeInfo(currentTime, totalTime, playlist.keys.first())
 
             MusicStore.musics.clear()
             playlist.forEach { musicName, musicVote ->

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.*
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
@@ -65,12 +66,8 @@ PlayerFragment : Fragment() {
         musicTextView!!.text = "Yo la musique"
         timeSlider!!.setValue(time)
         timeSlider!!.setValueTo(maxTime)
-        /*
-        timeSlider!!.isFocusableInTouchMode = false
-        timeSlider!!.isClickable = false
-        timeSlider!!.isActivated = false
-        */
         timeSlider!!.isEnabled = false
+        pauseButton!!.setVisibility(View.GONE)
     }
 
     override fun onResume() {
@@ -97,5 +94,6 @@ PlayerFragment : Fragment() {
     public fun setAsHost()
     {
         timeSlider!!.isEnabled = true
+        pauseButton!!.setVisibility(View.VISIBLE)
     }
 }

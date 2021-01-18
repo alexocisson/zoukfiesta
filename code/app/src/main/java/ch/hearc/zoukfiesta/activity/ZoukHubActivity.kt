@@ -1,23 +1,25 @@
 package ch.hearc.zoukfiesta.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.fragments.PlayerFragment
 import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import com.google.android.gms.nearby.Nearby
 
+
 class ZoukHubActivity() : AppCompatActivity(){
 
-    lateinit var availableMusics : Array<String>;
-    lateinit var nearbyClient : NearbyClient;
-    lateinit var  playlist : Map<String, Int>;
-    var currentTime : Int = 0
-    var totalTime : Int = 0
-    var endpointId: String = ""
+    private lateinit var availableMusics : Array<String>;
+    private lateinit var nearbyClient : NearbyClient;
+    private lateinit var  playlist : Map<String, Int>;
+    private var endpointId: String = ""
+    private lateinit var playerFragment: PlayerFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -25,31 +27,16 @@ class ZoukHubActivity() : AppCompatActivity(){
         //Get the endpoint
         endpointId = intent.getStringExtra("endpointId").toString()
 
-//        //Init nearby client
-//        nearbyClient = NearbyClient(
-//            endpointId,
-//            this,
-//            {
-//                playlist, currentTime, totalTime ->
-//                this.playlist = playlist;
-//                this.currentTime = currentTime;
-//                this.totalTime = totalTime;
-//            }, //On playlist call back
-//            //On available call back
-//            {
-//                availableMusics -> this.availableMusics = availableMusics
-//            },
-//            // On kick call back
-//            {
-//                println("I JUST GOT KICKED");
-//            }
-//        )
+        //Set playerfragment
+        if (savedInstanceState == null) {
+            playerFragment = (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)!!
+        }
 
-        NearbySingleton.nearbyClient?.onPlaylist = {
-                playlist, currentTime, totalTime ->
+        NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime ->
             this.playlist = playlist;
-            this.currentTime = currentTime;
-            this.totalTime = totalTime;
+
+            //Update current time and max time
+            playerFragment.setNewTimeInfo(currentTime, totalTime)
 
             MusicStore.musics.clear()
             playlist.forEach { musicName, musicVote ->
@@ -58,9 +45,10 @@ class ZoukHubActivity() : AppCompatActivity(){
 
             NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
         }
-        NearbySingleton.nearbyClient?.onAvailable = {
-                availableMusics -> this.availableMusics = availableMusics
+
+        NearbySingleton.nearbyClient?.onAvailable = { availableMusics -> this.availableMusics = availableMusics
         }
+
         NearbySingleton.nearbyClient?.onKick = {
             Nearby.getConnectionsClient(baseContext).disconnectFromEndpoint(endpointId)
             println("I JUST GOT KICKED OMG");

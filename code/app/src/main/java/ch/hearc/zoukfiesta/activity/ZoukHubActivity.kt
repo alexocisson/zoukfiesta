@@ -33,7 +33,7 @@ class ZoukHubActivity() : AppCompatActivity(){
         NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime ->
 
             //Update current time and max time
-            playerFragment.setNewTimeInfo(currentTime, totalTime)
+            playerFragment.setNewTimeInfo(currentTime, totalTime, playlist.keys.first())
 
             MusicStore.musics.clear()
             playlist.forEach { musicName, musicVote ->

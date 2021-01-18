@@ -71,8 +71,13 @@ PlayerFragment : Fragment() {
         super.onResume()
     }
 
-    fun updateSlider(){
+    private fun updateSlider(){
             time+=1f
             timeSlider!!.setValue(time)
+    }
+
+    public fun setNewTimeInfo(newTime: Int, newMaxTime: Int){
+        time = newTime.toFloat()/1e3f
+        maxTime = newMaxTime.toFloat()/1e3f
     }
 }

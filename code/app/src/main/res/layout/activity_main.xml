@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/searchView"></ListView>
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/playerFragment"
         android:name="ch.hearc.zoukfiesta.fragments.PlayerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

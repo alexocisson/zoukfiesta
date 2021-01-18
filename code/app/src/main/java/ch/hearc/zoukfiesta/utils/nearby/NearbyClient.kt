@@ -119,7 +119,7 @@ class NearbyClient(
             .addOnSuccessListener { unused: Void? ->
                 println("We successfully requested a connection.")
                 endpointServerId = endpointId }
-            .addOnFailureListener { e: Exception? -> println("Nearby Connections failed to request the connection.")}
+            .addOnFailureListener { e: Exception? -> println("Nearby Connections failed to request the connection.\n" + e.toString())}
     }
 
     private val connectionLifecycleCallback: ConnectionLifecycleCallback =

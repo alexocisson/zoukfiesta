@@ -16,14 +16,12 @@ import com.google.android.gms.nearby.Nearby
 class ZoukHubActivity() : AppCompatActivity(){
 
     private lateinit var availableMusics : Array<String>;
-    private lateinit var nearbyClient : NearbyClient;
-    private lateinit var  playlist : Map<String, Int>;
     private var endpointId: String = ""
     private lateinit var playerFragment: PlayerFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState);
-
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.zouk_hub_activity)
         //Get the endpoint
         endpointId = intent.getStringExtra("endpointId").toString()
 
@@ -33,7 +31,6 @@ class ZoukHubActivity() : AppCompatActivity(){
         }
 
         NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime ->
-            this.playlist = playlist;
 
             //Update current time and max time
             playerFragment.setNewTimeInfo(currentTime, totalTime)
@@ -60,7 +57,5 @@ class ZoukHubActivity() : AppCompatActivity(){
         }
 
         NearbySingleton.nearbyClient?.start()
-
-        setContentView(R.layout.zouk_hub_activity)
     }
 }

@@ -2,6 +2,8 @@ package ch.hearc.zoukfiesta.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -26,17 +28,20 @@ PlayerFragment : Fragment() {
 
     private var time: Float = 10f
     private var maxTime: Float = 132f
+    private val mainHandler = Handler(Looper.getMainLooper())
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        mainHandler.post(object : Runnable {
+            override fun run() {
+                updateSlider()
+                mainHandler.postDelayed(this, 1000)
+            }
+        })
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.player_fragment, container, false)
-
-        Timer("increase time on slider", false).schedule(1) {
-            //Increse the timer value
-            time=time+1f;
-            timeSlider!!.setValue(time);
-        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,16 +60,19 @@ PlayerFragment : Fragment() {
 
     private fun setUpViews(activity: Activity) {
         //time = MusicPlayer.mediaPlayer.currentPosition;
-        musicTextView!!.text = "Yo la musique";
-        timeSlider!!.setValue(time);
+        musicTextView!!.text = "Yo la musique"
+        timeSlider!!.setValue(time)
 
-
-        
     }
 
     override fun onResume() {
         // Important! Refresh our list when we return to this activity (from another one)
 
         super.onResume()
+    }
+
+    fun updateSlider(){
+            time+=1f
+            timeSlider!!.setValue(time)
     }
 }

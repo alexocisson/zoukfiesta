@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_VERTICAL
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.fragments.MusicQueueFragment
+import ch.hearc.zoukfiesta.fragments.PlayerFragment
 import ch.hearc.zoukfiesta.fragments.SettingsFragment
 import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
@@ -26,6 +27,10 @@ class ZoukHostActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.zouk_host_activity)
+
+        if (savedInstanceState == null) {
+            (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)?.setAsHost()
+        }
 
         //NearbySingleton.musicPointAdapter = MusicAdapter(this)
 
@@ -71,7 +76,7 @@ class ZoukHostActivity : AppCompatActivity(){
         music.resourceId?.let { MusicPlayer.play(this, it) }
 
         //Pass to the next music at the end of thze current one
-        Timer("waitingForMusicToFinish", false).schedule(10000) {
+        Timer("waitingForMusicToFinish", false).schedule(duration.toLong()) {
             //Remove the current music from the list
             MusicStore.musics.removeAt(0)
 

@@ -31,6 +31,7 @@ PlayerFragment : Fragment() {
     private var time: Float = 1f
     private var maxTime: Float = 1000f
     private val mainHandler = Handler(Looper.getMainLooper())
+    private var isHost : Boolean = false;
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,8 +67,9 @@ PlayerFragment : Fragment() {
         musicTextView!!.text = "Yo la musique"
         timeSlider!!.setValue(time)
         timeSlider!!.setValueTo(maxTime)
-        timeSlider!!.isEnabled = false
-        pauseButton!!.setVisibility(View.GONE)
+
+        timeSlider!!.isEnabled = isHost
+        pauseButton!!.setVisibility(if (isHost) View.VISIBLE else View.GONE)
     }
 
     override fun onResume() {
@@ -84,16 +86,15 @@ PlayerFragment : Fragment() {
             }
     }
 
-    public fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String){
+    fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String){
         time = newTime.toFloat()/1e3f
         maxTime = newMaxTime.toFloat()/1e3f
         timeSlider!!.setValueTo(maxTime)
         musicTextView!!.text = musicName
     }
 
-    public fun setAsHost()
+    fun setAsHost()
     {
-        timeSlider!!.isEnabled = true
-        pauseButton!!.setVisibility(View.VISIBLE)
+        isHost = true
     }
 }

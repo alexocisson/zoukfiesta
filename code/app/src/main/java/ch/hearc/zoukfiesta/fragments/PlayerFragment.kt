@@ -4,20 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.*
-import ch.hearc.zoukfiesta.utils.music.MusicPlayer
-import ch.hearc.zoukfiesta.utils.music.MusicStore
+import ch.hearc.zoukfiesta.activity.CreateActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
-import java.util.*
-import kotlin.concurrent.schedule
 
 class
 PlayerFragment : Fragment() {
@@ -26,13 +21,18 @@ PlayerFragment : Fragment() {
     private var skipButton: FloatingActionButton? = null
     private var musicTextView: TextView? = null
     private var timeView: TextView? = null
-    private var timeSlider: Slider? = null
+    var timeSlider: Slider? = null
+    private var isPlaying: Boolean = true
 
     private var time: Float = 1f
     private var maxTime: Float = 1000f
     private val mainHandler = Handler(Looper.getMainLooper())
     private var isHost : Boolean = false;
+    private var maxTimeInit: Float = 0f
+    private var musicNameInit: String = ""
 
+    public var onValueChange: ((slider: Slider, value: Float, fromUser: Boolean) -> Unit)? = null
+    public var onPause: ((it: View) -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -70,6 +70,20 @@ PlayerFragment : Fragment() {
 
         timeSlider!!.isEnabled = isHost
         pauseButton!!.setVisibility(if (isHost) View.VISIBLE else View.GONE)
+
+        timeSlider!!.setValueTo(maxTimeInit)
+        musicTextView!!.text = musicNameInit
+
+        //Set on click event
+        timeSlider!!.addOnChangeListener { slider, value, fromUser ->
+            onValueChange?.let { it(slider, value, fromUser) }
+        }
+
+        //Set on pause event
+        pauseButton!!.setOnClickListener {it ->
+            isPlaying = !isPlaying
+            onPause?.let { it1 -> it1(it) }
+        }
     }
 
     override fun onResume() {
@@ -79,22 +93,40 @@ PlayerFragment : Fragment() {
     }
 
     private fun updateSlider(){
+        if(isPlaying)
+        {
             time+=1f
             if (time<maxTime) {
                 timeSlider!!.setValue(time)
-                timeView!!.text = "" + (time/60).toInt() + ":" + (time%60).toInt()
+                timeView!!.text = "" + (time/60).toInt() + ":" + String.format("%02d",(time%60).toInt())
             }
+        }
     }
 
     fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String){
         time = newTime.toFloat()/1e3f
         maxTime = newMaxTime.toFloat()/1e3f
-        timeSlider!!.setValueTo(maxTime)
-        musicTextView!!.text = musicName
+
+        if(timeSlider != null) {
+            timeSlider!!.setValue(time)
+            timeSlider!!.setValueTo(maxTime)
+            musicTextView!!.text = musicName
+            timeView!!.text = "" + (time/60).toInt() + ":" + String.format("%02d",(time%60).toInt())
+        }
+        else
+        {
+            maxTimeInit = maxTime
+            musicNameInit = musicName
+        }
     }
 
     fun setAsHost()
     {
         isHost = true
+    }
+
+    fun setCurrentTime(newTime: Float)
+    {
+        time =  newTime
     }
 }

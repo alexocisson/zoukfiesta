@@ -8,7 +8,7 @@ object MusicPlayer {
     init {
         }
 
-    var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayer: MediaPlayer? = null
 
     fun play(context: Context, resid: Int) {
 
@@ -23,11 +23,23 @@ object MusicPlayer {
 
     }
 
+    fun moveTo(newTime: Float) {
+        mediaPlayer?.seekTo((newTime*1e3).toInt())
+    }
+
     fun getTimestamp(): Int? {
         return mediaPlayer?.currentPosition
     }
 
     fun getDuration(): Int? {
         return mediaPlayer?.duration
+    }
+
+    fun pause() {
+        mediaPlayer?.pause()
+    }
+
+    fun resume() {
+        mediaPlayer?.start()
     }
 }

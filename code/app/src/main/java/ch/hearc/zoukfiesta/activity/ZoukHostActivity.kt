@@ -22,6 +22,9 @@ import kotlin.concurrent.schedule
 class ZoukHostActivity : AppCompatActivity(){
 
     private lateinit var viewPager: ViewPager2
+    private lateinit var playerFragment: PlayerFragment
+    private lateinit var musicTimer: TimerTask
+    private var isPlaying: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +32,37 @@ class ZoukHostActivity : AppCompatActivity(){
         setContentView(R.layout.zouk_host_activity)
 
         if (savedInstanceState == null) {
-            (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)?.setAsHost()
+            //Get the player fragment
+            playerFragment = (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)!!
+
+            //Set it to host mode
+            playerFragment?.setAsHost()
+
+            //Set the change event function callback
+            playerFragment.onValueChange = { slider, value, fromUser ->
+                if(fromUser)
+                {
+                    //Set the current time
+                    updateScheduleRemainingTime(value)
+                }
+            }
+
+            //Set the pause event function callback
+            playerFragment.onPause = { it ->
+                if(isPlaying)
+                {
+                    //Pause the music
+                    MusicPlayer.pause()
+                }
+                else
+                {
+                    //Resume the music
+                    MusicPlayer.resume()
+                }
+
+                //Inverse state
+                isPlaying = !isPlaying
+            }
         }
 
         //NearbySingleton.musicPointAdapter = MusicAdapter(this)
@@ -48,7 +81,7 @@ class ZoukHostActivity : AppCompatActivity(){
         MusicStore.musics.add(Music("Signatune - DJ Mehdi", 1,R.raw.dililme, resources.openRawResourceFd(R.raw.dililme)))
 
         // Start by playing the first music in the store
-        updateMusicPlayer()
+        nextMusic()
     }
 
     override fun onBackPressed() {
@@ -63,7 +96,7 @@ class ZoukHostActivity : AppCompatActivity(){
     }
 
     //Tell the music player to play the first music in music store
-    fun updateMusicPlayer()
+    fun nextMusic()
     {
 
         //Get the next music to play
@@ -75,30 +108,74 @@ class ZoukHostActivity : AppCompatActivity(){
         //Play it
         music.resourceId?.let { MusicPlayer.play(this, it) }
 
+        runOnUiThread {
+            //Set the timer
+            playerFragment.setNewTimeInfo(0, duration, music.name)
+
+            //Notify the change
+            NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
+        }
+
         //Pass to the next music at the end of thze current one
-        Timer("waitingForMusicToFinish", false).schedule(duration.toLong()) {
-            //Remove the current music from the list
-            MusicStore.musics.removeAt(0)
+        musicTimer = Timer("waitingForMusicToFinish", false).schedule(music.duration.toLong()) {
+            passToNextMusic()
+        }
+    }
 
-            runOnUiThread {
-                NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
+    //Tell the music player to play the first music in music store
+    fun updateScheduleRemainingTime(newTime: Float)
+    {
+        runOnUiThread{
+            playerFragment.setCurrentTime(newTime)
+        }
+
+        //Get the next music to play
+        var music = MusicStore.musics[0]
+
+        //Get its duration
+        var duration = music.duration
+
+        musicTimer.cancel()
+
+        //Move current music player
+        MusicPlayer.moveTo(newTime)
+
+        //Send to all clients
+        sendToAllClient(newTime)
+
+        //Pass to the next music at the end of thze current one
+        musicTimer = Timer("waitingForMusicToFinish", false).schedule((duration - newTime*1e3).toLong()) {
+            passToNextMusic()
+        }
+    }
+
+    private fun passToNextMusic()
+    {
+        //Send to all clients
+        sendToAllClient(0f)
+
+        MusicStore.musics.removeAt(0)
+
+        //Play the next one
+        nextMusic()
+    }
+
+    //Send to all clients
+    private fun sendToAllClient(currentMusicTime: Float)
+    {
+        var mapMusic : MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
+        MusicStore.musics.forEach {
+            mapMusic[it.name] = it.voteSkip
+        }
+
+        //Send to all clients
+        NearbySingleton.nearbyServer?.clientsById?.forEach { endpointId, name ->
+
+            MusicPlayer.getDuration()?.let { duration ->
+                NearbySingleton.nearbyServer?.sendPlaylist(endpointId,mapMusic,
+                    (currentMusicTime*1e3).toInt(), duration
+                )
             }
-
-            var mapMusic : MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
-            MusicStore.musics.forEach {
-                mapMusic[it.name] = it.voteSkip
-            }
-
-            NearbySingleton.nearbyServer?.clientsById?.forEach { endpointId, name ->
-
-                MusicPlayer.getDuration()?.let { duration ->
-                    NearbySingleton.nearbyServer?.sendPlaylist(endpointId,mapMusic,
-                        0, duration
-                    )
-                }
-            }
-            //Play the next one
-            updateMusicPlayer()
         }
     }
 

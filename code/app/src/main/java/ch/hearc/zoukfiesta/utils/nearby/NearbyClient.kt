@@ -110,7 +110,13 @@ class NearbyClient(
             id, endpointDiscoveryCallback,
             DiscoveryOptions.Builder().setStrategy(STRATEGY).build()
         )?.addOnSuccessListener { unused: Void? -> println("We're discovering!")}
-            ?.addOnFailureListener { e: Exception? -> println("We're unable to start discovering.")}
+            ?.addOnFailureListener { e: Exception? -> println("We're unable to start discovering.\n" + e)}
+    }
+
+    fun stopDiscovery(
+    ) {
+        println("Stop discovering!")
+        Nearby.getConnectionsClient(context).stopDiscovery()
     }
 
     fun requestConnection(endpointId: String){

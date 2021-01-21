@@ -1,6 +1,9 @@
 package ch.hearc.zoukfiesta.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -65,8 +68,6 @@ class ZoukHostActivity : AppCompatActivity(){
             }
         }
 
-        //NearbySingleton.musicPointAdapter = MusicAdapter(this)
-
         // Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById(R.id.pager)
         viewPager.orientation = ORIENTATION_VERTICAL
@@ -75,16 +76,46 @@ class ZoukHostActivity : AppCompatActivity(){
         val pagerAdapter = ScreenSlidePagerAdapter(this)
         viewPager.adapter = pagerAdapter
 
-        //Add some musics to test
         // Start by playing the first music in the store
         nextMusic()
     }
 
     override fun onBackPressed() {
         if (viewPager.currentItem == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed()
+
+            // Build an AlertDialog
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+            // Set a title for alert dialog
+            builder.setTitle("Select your answer.")
+
+            // Ask the final question
+            builder.setMessage("Are you sure to end the fiesta?")
+
+            // Set the alert dialog yes button click listener
+            builder.setPositiveButton("Yes",
+                DialogInterface.OnClickListener { dialog, which -> // Do something when user clicked the Yes button
+                    // If the user is currently looking at the first step, allow the system to handle the
+                    // Back button. This calls finish() on this activity and pops the back stack.
+                    MusicPlayer.stop()
+                    NearbySingleton.nearbyServer?.stopAdvertising()
+                    NearbySingleton.nearbyClient?.startDiscovery(NearbySingleton.PACKAGE_NAME,NearbySingleton.ENDPOINTDISCOVERYCALLBACK,NearbySingleton.STRATEGY)
+                    this.finish()
+                    super.onBackPressed()
+                })
+
+            // Set the alert dialog no button click listener
+            builder.setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog, which -> // Do something when No button clicked
+                    Toast.makeText(
+                        applicationContext,
+                        "Fiesta is not over !", Toast.LENGTH_SHORT
+                    ).show()
+                })
+
+            val dialog: AlertDialog = builder.create()
+            // Display the alert dialog on interface
+            dialog.show()
         } else {
             // Otherwise, select the previous step.
             viewPager.currentItem = viewPager.currentItem - 1

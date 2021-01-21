@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import ch.hearc.zoukfiesta.activity.CreateActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
 import kotlinx.android.synthetic.main.player_fragment.*
+import java.text.NumberFormat
+import kotlin.math.roundToInt
 
 class
 PlayerFragment : Fragment() {
@@ -74,6 +77,10 @@ PlayerFragment : Fragment() {
 
         timeSlider!!.setValueTo(maxTimeInit)
         musicTextView!!.text = musicNameInit
+
+        timeSlider!!.setLabelFormatter{ secs: Float ->
+            return@setLabelFormatter "" + (secs/60).toInt() + ":" + String.format("%02d",(secs%60).toInt())
+        }
 
         //Set on click event
         timeSlider!!.addOnChangeListener { slider, value, fromUser ->

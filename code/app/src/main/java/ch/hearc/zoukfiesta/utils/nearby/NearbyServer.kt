@@ -66,7 +66,7 @@ class NearbyServer(
         //Send
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
 
-//        Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
+        Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
     }
 
     override fun myCallback(bytes: ByteArray) {
@@ -101,6 +101,13 @@ class NearbyServer(
         )?.addOnSuccessListener { unused: Void? -> println("We're advertising!")}
             ?.addOnFailureListener { e: Exception? -> println("We were unable to start advertising")}
 
+    }
+
+    fun stopAdvertising(){
+        Nearby.getConnectionsClient(context)?.stopAdvertising()
+        this.clientsById.forEach { id, name ->
+            this.sendKick(id)
+        }
     }
 
     private val connectionLifecycleCallback: ConnectionLifecycleCallback =

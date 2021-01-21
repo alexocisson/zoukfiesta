@@ -13,7 +13,7 @@ object MusicPlayer {
 
     fun play(context: Context, resid: Int) {
 
-        //Stop the current musi
+        //Stop the current music
         mediaPlayer?.stop()
 
         //Change current music
@@ -49,6 +49,10 @@ object MusicPlayer {
 
     fun pause() {
         mediaPlayer?.pause()
+    }
+
+    fun stop() {
+        mediaPlayer?.stop();
     }
 
     fun resume() {

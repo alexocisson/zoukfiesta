@@ -16,7 +16,6 @@ import ch.hearc.zoukfiesta.utils.nearby.*
 import com.google.android.gms.nearby.connection.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
-import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
@@ -56,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         NearbySingleton.USERNAME = "Utilisateur " + (0..100).random().toString()
         NearbySingleton.PACKAGE_NAME = packageName
+        NearbySingleton.ENDPOINTDISCOVERYCALLBACK = endpointDiscoveryCallback
         NearbySingleton.musicPointAdapter = MusicAdapter(this)
 
         retrieveViews()
@@ -194,21 +194,6 @@ class MainActivity : AppCompatActivity() {
         recreate()
     }
 
-
-
-//    // Callbacks for receiving payloads
-//    private val payloadCallback: PayloadCallback = object : PayloadCallback() {
-//        override fun onPayloadReceived(endpointId: String, payload: Payload) {
-//            opponentChoice = GameChoice.valueOf(String(payload.asBytes()!!, UTF_8))
-//        }
-//
-//        override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {
-//            if (update.status == Status.SUCCESS && myChoice != null && opponentChoice != null) {
-//                finishRound()
-//            }
-//        }
-//    }
-
     // Callbacks for finding other devices (CLIENT SIDE)
     private val endpointDiscoveryCallback: EndpointDiscoveryCallback =
         object : EndpointDiscoveryCallback() {
@@ -228,4 +213,17 @@ class MainActivity : AppCompatActivity() {
                 nearbyEndPointAdapter?.notifyDataSetChanged()
             }
         }
+
+    override fun onPause() {
+        super.onPause()
+//        NearbySingleton.nearbyClient?.stopDiscovery()
+//        NearbyEndPointStore.ENDPOINTS.clear()
+//        nearbyEndPointAdapter?.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,NearbySingleton.ENDPOINTDISCOVERYCALLBACK,
+//            NearbySingleton.STRATEGY)
+    }
 }

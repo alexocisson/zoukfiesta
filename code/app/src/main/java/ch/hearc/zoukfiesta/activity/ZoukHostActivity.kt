@@ -87,7 +87,7 @@ class ZoukHostActivity : AppCompatActivity(){
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
 
             // Set a title for alert dialog
-            builder.setTitle("Select your answer.")
+            builder.setTitle("Stop Fiesta")
 
             // Ask the final question
             builder.setMessage("Are you sure to end the fiesta?")

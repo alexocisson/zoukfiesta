@@ -13,9 +13,13 @@ import androidx.core.content.ContextCompat
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.music.MusicAdapter
 import ch.hearc.zoukfiesta.utils.nearby.*
-import com.google.android.gms.nearby.connection.*
+import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo
+import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import org.json.JSONObject
+import java.io.*
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,7 +57,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        NearbySingleton.USERNAME = "Utilisateur " + (0..100).random().toString()
+        //Pour garder le username dans un fichier
+        var userConfigJSON:JSONObject
+        try {
+            userConfigJSON = readJSONFile("user.config")
+            if (!userConfigJSON.has("username"))
+            {
+                userConfigJSON.put("username", "User " + (0..100).random().toString())
+                writeJSONFile(userConfigJSON,"user.config")
+            }
+        }
+        catch (e:Exception)
+        {
+            println(e.toString())
+            userConfigJSON = JSONObject();
+            userConfigJSON.put("username", "User " + (0..100).random().toString())
+            writeJSONFile(userConfigJSON,"user.config")
+        }
+
+
+        NearbySingleton.USERNAME = userConfigJSON.get("username").toString()
         NearbySingleton.PACKAGE_NAME = packageName
         NearbySingleton.ENDPOINTDISCOVERYCALLBACK = endpointDiscoveryCallback
         NearbySingleton.musicPointAdapter = MusicAdapter(this)
@@ -140,6 +163,10 @@ class MainActivity : AppCompatActivity() {
             {
                 NearbySingleton.USERNAME = name
                 toastText = "Username changed to " + NearbySingleton.USERNAME
+
+                val userConfigJSON = readJSONFile("user.config")
+                userConfigJSON.put("username", name)
+                writeJSONFile(userConfigJSON,"user.config")
             }
             else
             {
@@ -151,6 +178,36 @@ class MainActivity : AppCompatActivity() {
             val toast = Toast.makeText(this, toastText, duration)
             toast.show()
         }
+    }
+
+    private fun readJSONFile(fileName:String):JSONObject
+    {
+        val jsonFile = File(this.filesDir, fileName)
+        if (jsonFile.exists())
+        {
+            val fileReader = FileReader(jsonFile)
+            val bufferedReader = BufferedReader(fileReader)
+            val stringBuilder = StringBuilder()
+            var line: String? = bufferedReader.readLine()
+            while (line != null) {
+                stringBuilder.append(line).append("\n")
+                line = bufferedReader.readLine()
+            }
+            bufferedReader.close()
+            // This responce will have Json Format String
+            val responce = stringBuilder.toString()
+            return JSONObject(responce)
+        }
+        throw Exception("File "+fileName+" doesn't exist")
+    }
+
+    private fun writeJSONFile(jsonObject: JSONObject,fileName:String)
+    {
+        val jsonFile = File(this.filesDir, fileName)
+        val fileWriter = FileWriter(jsonFile)
+        val bufferedWriter = BufferedWriter(fileWriter)
+        bufferedWriter.write(jsonObject.toString())
+        bufferedWriter.close()
     }
 
     override fun onStart() {
@@ -215,6 +272,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onPause() {
+        println("MainActivity on Pause")
         super.onPause()
 //        NearbySingleton.nearbyClient?.stopDiscovery()
 //        NearbyEndPointStore.ENDPOINTS.clear()
@@ -222,6 +280,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        println("MainActivity on Resume")
         super.onResume()
 //        NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,NearbySingleton.ENDPOINTDISCOVERYCALLBACK,
 //            NearbySingleton.STRATEGY)

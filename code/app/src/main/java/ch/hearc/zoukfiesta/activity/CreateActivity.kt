@@ -36,7 +36,9 @@ class CreateActivity : AppCompatActivity(){
                 files.forEach { df ->
                     //Is it a file ?
                     if(df.isFile) {
-                        if (df.type == "audio/mpeg" && df.canRead()) {
+                        println(df.name.toString() + " - " + df.type)
+                        if ((df.type == "audio/mpeg" || df.type == "audio/flac")
+                            && df.canRead()) {
                             MusicStore.musics.add(Music(df.name.toString(), 2, df.uri, this))
                         }
                     }

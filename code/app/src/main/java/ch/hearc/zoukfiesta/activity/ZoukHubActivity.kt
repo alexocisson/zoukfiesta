@@ -1,14 +1,12 @@
 package ch.hearc.zoukfiesta.activity
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.fragments.PlayerFragment
 import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicStore
-import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import com.google.android.gms.nearby.Nearby
 

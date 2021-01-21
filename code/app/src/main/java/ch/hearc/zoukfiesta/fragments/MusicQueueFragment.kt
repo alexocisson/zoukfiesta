@@ -60,7 +60,6 @@ class MusicQueueFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 val filter = NearbySingleton.musicPointAdapter!!.filter!!
-
                 if (TextUtils.isEmpty(newText)) {
                     // Empty search field = no filtering
                     filter.filter(null)

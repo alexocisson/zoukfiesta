@@ -76,10 +76,6 @@ class ZoukHostActivity : AppCompatActivity(){
         viewPager.adapter = pagerAdapter
 
         //Add some musics to test
-        MusicStore.musics.add(Music("Dancing With The DJ - The Knocks", 2, R.raw.apareka, resources.openRawResourceFd(R.raw.apareka)))
-        MusicStore.musics.add(Music("1979 - The Smashings Pumpkins", 5,R.raw.rachuli, resources.openRawResourceFd(R.raw.rachuli)))
-        MusicStore.musics.add(Music("Signatune - DJ Mehdi", 1,R.raw.dililme, resources.openRawResourceFd(R.raw.dililme)))
-
         // Start by playing the first music in the store
         nextMusic()
     }
@@ -105,8 +101,11 @@ class ZoukHostActivity : AppCompatActivity(){
         //Get its duration
         var duration = music.duration
 
+
         //Play it
-        music.resourceId?.let { MusicPlayer.play(this, it) }
+        music.resourceUri?.let {
+            MusicPlayer.play(this, it)
+        }
 
         runOnUiThread {
             //Set the timer

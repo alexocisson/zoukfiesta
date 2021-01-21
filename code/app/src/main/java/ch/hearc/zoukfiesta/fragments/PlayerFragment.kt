@@ -13,6 +13,7 @@ import ch.hearc.zoukfiesta.*
 import ch.hearc.zoukfiesta.activity.CreateActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
+import kotlinx.android.synthetic.main.player_fragment.*
 
 class
 PlayerFragment : Fragment() {
@@ -65,8 +66,8 @@ PlayerFragment : Fragment() {
     private fun setUpViews(activity: Activity) {
         //time = MusicPlayer.mediaPlayer.currentPosition;
         musicTextView!!.text = "Yo la musique"
-        timeSlider!!.setValue(time)
         timeSlider!!.setValueTo(maxTime)
+        timeSlider!!.setValue(time)
 
         timeSlider!!.isEnabled = isHost
         pauseButton!!.setVisibility(if (isHost) View.VISIBLE else View.GONE)
@@ -82,6 +83,7 @@ PlayerFragment : Fragment() {
         //Set on pause event
         pauseButton!!.setOnClickListener {it ->
             isPlaying = !isPlaying
+            PauseButton.setImageResource(if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24);
             onPause?.let { it1 -> it1(it) }
         }
     }

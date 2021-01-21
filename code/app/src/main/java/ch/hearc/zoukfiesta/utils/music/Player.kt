@@ -2,6 +2,7 @@ package ch.hearc.zoukfiesta.utils.music
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.net.Uri
 
 object MusicPlayer {
 
@@ -20,7 +21,18 @@ object MusicPlayer {
 
         //Play the music
         mediaPlayer?.start()
+    }
 
+    fun play(context: Context, uri: Uri) {
+
+        //Stop the current music
+        mediaPlayer?.stop()
+
+        //Change current music
+        mediaPlayer = MediaPlayer.create(context, uri)
+
+        //Play the music
+        mediaPlayer?.start()
     }
 
     fun moveTo(newTime: Float) {

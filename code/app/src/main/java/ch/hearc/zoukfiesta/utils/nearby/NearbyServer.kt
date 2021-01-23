@@ -27,7 +27,8 @@ class NearbyServer(
         endpointId: String,
         musics: Map<String, String>,
         currentMusicTime: Int,
-        currentMusicLength: Int
+        currentMusicLength: Int,
+        isPlaying : Boolean
     ) {
         //Command name
         val commandName = CommandsName.PLAYLIST
@@ -38,7 +39,8 @@ class NearbyServer(
                 commandName,
                 musics,
                 currentMusicTime,
-                currentMusicLength
+                currentMusicLength,
+                isPlaying
             )
         )
 
@@ -134,11 +136,14 @@ class NearbyServer(
                             musicJSON.put("vote", music.voteSkip)
                             mapMusic[music.name] = musicJSON.toString()
                         }
+
                         MusicPlayer.getTimestamp()?.let {timestamp ->
                             MusicPlayer.getDuration()?.let { duration ->
-                                sendPlaylist(endpointId,mapMusic,
-                                    timestamp, duration
-                                )
+                                MusicPlayer.isPlaying()?.let {isPlaying ->
+                                    sendPlaylist(endpointId,mapMusic,
+                                        timestamp, duration, isPlaying
+                                    )
+                                }
                             }
                         }
                     }

@@ -12,7 +12,8 @@ interface INearbyServer {
             endpointId: String,
             musics : Map<String, String>,
             currentMusicTime : Int,
-            currentMusicLength : Int)
+            currentMusicLength : Int,
+            isPlaying : Boolean)
     public fun sendAvailable(endpointId: String, musics : Array<String>)
     public fun sendKick(endpointId: String)
 }

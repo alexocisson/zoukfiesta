@@ -50,7 +50,7 @@ class ZoukHubActivity() : AppCompatActivity(){
         val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
         viewPager.adapter = pagerAdapter
 
-        NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime ->
+        NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime, isPlaying ->
 
             MusicStore.musicQueue.clear()
             playlist.forEach { musicName, musicJSON ->
@@ -61,6 +61,8 @@ class ZoukHubActivity() : AppCompatActivity(){
             //Update current time and max time
             val musicToPlay : Music = MusicStore.musicQueue.first()
             playerFragment.setNewTimeInfo(currentTime, totalTime, musicToPlay.name,musicToPlay.artist)
+
+            if (isPlaying) playerFragment.play() else playerFragment.pause()
 
             NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
         }

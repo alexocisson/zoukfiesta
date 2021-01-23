@@ -139,7 +139,13 @@ class ZoukHostActivity : AppCompatActivity(){
     {
 
         //Get the next music to play
-        var music = MusicStore.musicQueue.firstOrNull() ?: return
+        var music = MusicStore.musicQueue.firstOrNull()
+        if (music == null)
+        {
+            //Update Player UI
+            playerFragment.pause()
+            return
+        }
 
         //Update Player UI
         playerFragment.play()
@@ -221,7 +227,7 @@ class ZoukHostActivity : AppCompatActivity(){
 
             MusicPlayer.getDuration()?.let { duration ->
                 NearbySingleton.nearbyServer?.sendPlaylist(endpointId,mapMusic,
-                    (currentMusicTime).toInt(), duration
+                    (currentMusicTime).toInt(), duration, playerFragment.isPlaying
                 )
             }
         }

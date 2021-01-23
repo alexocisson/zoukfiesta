@@ -58,4 +58,9 @@ object MusicPlayer {
     fun resume() {
         mediaPlayer?.start()
     }
+
+    fun isPlaying(): Boolean?
+    {
+        return mediaPlayer?.isPlaying
+    }
 }

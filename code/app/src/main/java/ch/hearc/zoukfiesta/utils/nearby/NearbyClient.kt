@@ -15,7 +15,7 @@ class NearbyClient(
     val context: Activity,
     private val username: String,
 //    var connectionsClient: ConnectionsClient,
-    override var onPlaylist: ((Map<String, String>, Int, Int) -> Unit)? = null,
+    override var onPlaylist: ((Map<String, String>, Int, Int, Boolean) -> Unit)? = null,
     override var onAvailable: ((musics: Array<String>) -> Unit)? = null,
     override var onKick: (() -> Unit)? = null,
     var endpointServerId: String = "",
@@ -93,8 +93,9 @@ class NearbyClient(
             //Call onPlaylist
             onPlaylist?.let { it(
                 obj.musics,
-                obj.currentMusicTime.toInt(),
-                obj.currentMusicLength.toInt()
+                obj.currentMusicTime,
+                obj.currentMusicLength,
+                obj.isPlaying
             ) }
         }
     }

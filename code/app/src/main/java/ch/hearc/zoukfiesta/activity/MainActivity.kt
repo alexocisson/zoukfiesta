@@ -57,22 +57,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if (!hasPermissions(this, *REQUIRED_PERMISSIONS)) {
+            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
+        }
+        else
+        {
+            init()
+        }
+    }
+
+    private fun init() {
         //Pour garder le username dans un fichier
-        var userConfigJSON:JSONObject
+        var userConfigJSON: JSONObject
         try {
             userConfigJSON = readJSONFile("user.config")
-            if (!userConfigJSON.has("username"))
-            {
+            if (!userConfigJSON.has("username")) {
                 userConfigJSON.put("username", "User " + (0..100).random().toString())
-                writeJSONFile(userConfigJSON,"user.config")
+                writeJSONFile(userConfigJSON, "user.config")
             }
-        }
-        catch (e:Exception)
-        {
+        } catch (e: Exception) {
             println(e.toString())
             userConfigJSON = JSONObject();
             userConfigJSON.put("username", "User " + (0..100).random().toString())
-            writeJSONFile(userConfigJSON,"user.config")
+            writeJSONFile(userConfigJSON, "user.config")
         }
 
 
@@ -85,13 +92,15 @@ class MainActivity : AppCompatActivity() {
         setUpViews()
 
 
-        NearbySingleton.nearbyClient = NearbyClient(this,NearbySingleton.USERNAME);
+        NearbySingleton.nearbyClient = NearbyClient(this, NearbySingleton.USERNAME);
 
-//        startAdvertising();
-        NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,endpointDiscoveryCallback,
-            NearbySingleton.STRATEGY);
+        //        startAdvertising();
+        NearbySingleton.nearbyClient!!.startDiscovery(
+            NearbySingleton.PACKAGE_NAME, endpointDiscoveryCallback,
+            NearbySingleton.STRATEGY
+        );
 
-        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("endpointID", "Username",null))
+        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("endpointID", "Username", null))
     }
 
     private fun retrieveViews() {
@@ -210,14 +219,6 @@ class MainActivity : AppCompatActivity() {
         bufferedWriter.close()
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        if (!hasPermissions(this, *REQUIRED_PERMISSIONS)) {
-            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
-        }
-    }
-
     /** Returns true if the app was granted all the permissions. Otherwise, returns false.  */
     private fun hasPermissions(context: Context, vararg permissions: String): Boolean {
         for (permission in permissions) {
@@ -248,7 +249,8 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-        recreate()
+//        recreate()
+        init()
     }
 
     // Callbacks for finding other devices (CLIENT SIDE)
@@ -273,16 +275,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         println("MainActivity on Pause")
-        super.onPause()
 //        NearbySingleton.nearbyClient?.stopDiscovery()
 //        NearbyEndPointStore.ENDPOINTS.clear()
 //        nearbyEndPointAdapter?.notifyDataSetChanged()
+        super.onPause()
+
     }
 
     override fun onResume() {
         println("MainActivity on Resume")
-        super.onResume()
 //        NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,NearbySingleton.ENDPOINTDISCOVERYCALLBACK,
 //            NearbySingleton.STRATEGY)
+        super.onResume()
     }
 }

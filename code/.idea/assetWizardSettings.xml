@@ -91,7 +91,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="G:\Téléchargement\ic_launcher_foreground.xml" />
+                                                <entry key="imagePath" value="G:\Téléchargement\zouklogo.png" />
+                                                <entry key="scalingPercent" value="65" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -124,7 +125,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="foregroundAssetType" value="CLIP_ART" />
+                                      <entry key="backgroundColor" value="5d01e7" />
                                     </map>
                                   </option>
                                 </PersistentState>

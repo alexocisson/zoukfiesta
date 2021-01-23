@@ -21,7 +21,6 @@ class MusicQueueAdapter(
     private var musicFilter: Filter? = null
 
     init {
-
         construct()
     }
 

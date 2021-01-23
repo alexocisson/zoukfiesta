@@ -28,6 +28,7 @@ class ZoukHostActivity : AppCompatActivity(){
 
     private lateinit var viewPager: ViewPager2
     private lateinit var playerFragment: PlayerFragment
+    private var remainingTimePause: Float = 0.0f
     private lateinit var musicTimer: TimerTask
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,15 +54,18 @@ class ZoukHostActivity : AppCompatActivity(){
 
             //Set the pause event function callback
             playerFragment.onPause = { it ->
-                if(playerFragment.isPlaying)
+                if(playerFragment.isPlaying/*isPlaying*/)
                 {
                     //Pause the music
                     MusicPlayer.pause()
+                    musicTimer.cancel()
+                    remainingTimePause = MusicPlayer.getTimestamp()!!.toFloat()
                 }
                 else
                 {
                     //Resume the music
                     MusicPlayer.resume()
+                    updateScheduleRemainingTime(remainingTimePause)
                 }
 
                 //Inverse state

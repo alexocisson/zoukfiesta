@@ -72,6 +72,17 @@ class NearbyServer(
         Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
     }
 
+    override fun sendPause(endpointId: String) {
+        //Command name
+        val commandName = CommandsName.PAUSE;
+
+        //Payload
+        val payload = Payload.fromBytes(Tools.createPayload(commandName))
+
+        //Send
+        Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
+    }
+
     override fun myCallback(bytes: ByteArray) {
         //Convert bytes to string
         val string = String(bytes)

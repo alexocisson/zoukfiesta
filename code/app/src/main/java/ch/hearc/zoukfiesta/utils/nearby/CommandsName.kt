@@ -7,5 +7,6 @@ enum class CommandsName {
     ADD,
     PLAYLIST,
     KICK,
-    AVAILABLE
+    AVAILABLE,
+    PAUSE
 }

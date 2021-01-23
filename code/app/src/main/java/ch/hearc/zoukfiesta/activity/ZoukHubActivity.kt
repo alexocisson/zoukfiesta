@@ -50,7 +50,7 @@ class ZoukHubActivity() : AppCompatActivity(){
         val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
         viewPager.adapter = pagerAdapter
 
-        NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime, isPlaying ->
+        NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime/*, isPlaying*/ ->
 
             MusicStore.musicQueue.clear()
             playlist.forEach { musicName, musicJSON ->
@@ -62,7 +62,7 @@ class ZoukHubActivity() : AppCompatActivity(){
             val musicToPlay : Music = MusicStore.musicQueue.first()
             playerFragment.setNewTimeInfo(currentTime, totalTime, musicToPlay.name,musicToPlay.artist)
 
-            if (isPlaying) playerFragment.play() else playerFragment.pause()
+            //if (isPlaying) playerFragment.play() else playerFragment.pause()
 
             NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
         }
@@ -78,6 +78,11 @@ class ZoukHubActivity() : AppCompatActivity(){
             val toast = Toast.makeText(baseContext, toastText, duration)
             toast.show()
             this.finish()
+        }
+
+        NearbySingleton.nearbyClient?.onPause = {
+            //Stop the slider
+            playerFragment.isPlaying = !playerFragment.isPlaying
         }
 
         NearbySingleton.nearbyClient?.start()

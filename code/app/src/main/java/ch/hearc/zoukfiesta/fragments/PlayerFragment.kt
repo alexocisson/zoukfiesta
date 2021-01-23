@@ -30,11 +30,11 @@ PlayerFragment : Fragment() {
     var timeSlider: Slider? = null
     var isPlaying: Boolean = false
 
-    private var time: Float = 1f
+    private var time: Float = 0f
     private var maxTime: Float = Float.MAX_VALUE
     private val mainHandler = Handler(Looper.getMainLooper())
     private var isHost : Boolean = false;
-    private var maxTimeInit: Float = 0f
+    private var maxTimeInit: Float = Float.MAX_VALUE
     private var musicNameInit: String = ""
     private var artistNameInit: String = ""
 

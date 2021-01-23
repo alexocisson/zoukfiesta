@@ -8,27 +8,53 @@
 
     <TextView
         android:id="@+id/idTextView"
-        android:layout_width="377dp"
-        android:layout_height="19dp"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
         android:text="Identifiant"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
     <TextView
         android:id="@+id/nameTextView"
-        android:layout_width="377dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="14dp"
         android:text="Username"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="28dp"
+        android:gravity="center"
+        android:text="JOIN"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import org.json.JSONObject
 
 
 class NearbyServer(
@@ -24,7 +25,7 @@ class NearbyServer(
 
     override fun sendPlaylist(
         endpointId: String,
-        votes: Map<String, Int>,
+        musics: Map<String, String>,
         currentMusicTime: Int,
         currentMusicLength: Int
     ) {
@@ -35,7 +36,7 @@ class NearbyServer(
         val payload = Payload.fromBytes(
             Tools.createPayload(
                 commandName,
-                votes,
+                musics,
                 currentMusicTime,
                 currentMusicLength
             )
@@ -125,9 +126,13 @@ class NearbyServer(
                         println("We're connected! Can now start sending and receiving data.")
                         clientAdapter?.notifyDataSetChanged()
 
-                        var mapMusic : MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
-                        MusicStore.musics.forEach {
-                            mapMusic[it.name] = it.voteSkip
+                        var mapMusic : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
+                        MusicStore.musicQueue.forEach { music ->
+                            val musicJSON = JSONObject();
+                            musicJSON.put("name", music.name)
+                            musicJSON.put("artist", music.artist)
+                            musicJSON.put("vote", music.voteSkip)
+                            mapMusic[music.name] = musicJSON.toString()
                         }
                         MusicPlayer.getTimestamp()?.let {timestamp ->
                             MusicPlayer.getDuration()?.let { duration ->

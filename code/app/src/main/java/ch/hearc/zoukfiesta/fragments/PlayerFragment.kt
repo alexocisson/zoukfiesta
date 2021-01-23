@@ -24,19 +24,22 @@ PlayerFragment : Fragment() {
     private var pauseButton: FloatingActionButton? = null
     private var skipButton: FloatingActionButton? = null
     private var musicTextView: TextView? = null
+    private var artistTextView: TextView? = null
     private var timeView: TextView? = null
+
     var timeSlider: Slider? = null
-    private var isPlaying: Boolean = true
+    var isPlaying: Boolean = false
 
     private var time: Float = 1f
-    private var maxTime: Float = 1000f
+    private var maxTime: Float = Float.MAX_VALUE
     private val mainHandler = Handler(Looper.getMainLooper())
     private var isHost : Boolean = false;
     private var maxTimeInit: Float = 0f
     private var musicNameInit: String = ""
+    private var artistNameInit: String = ""
 
-    public var onValueChange: ((slider: Slider, value: Float, fromUser: Boolean) -> Unit)? = null
-    public var onPause: ((it: View) -> Unit)? = null
+    var onValueChange: ((slider: Slider, value: Float, fromUser: Boolean) -> Unit)? = null
+    var onPause: ((it: View) -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -62,21 +65,21 @@ PlayerFragment : Fragment() {
         pauseButton = view.findViewById<View>(R.id.PauseButton) as FloatingActionButton
         skipButton = view.findViewById<View>(R.id.SkipButton) as FloatingActionButton
         musicTextView = view.findViewById<View>(R.id.MusicTextView) as TextView
+        artistTextView = view.findViewById<View>(R.id.artistPlayerTextView) as TextView
         timeView = view.findViewById<View>(R.id.TimeView) as TextView
         timeSlider = view.findViewById<View>(R.id.TimeSlider) as Slider
     }
 
     private fun setUpViews(activity: Activity) {
         //time = MusicPlayer.mediaPlayer.currentPosition;
-        musicTextView!!.text = "Yo la musique"
         timeSlider!!.setValueTo(maxTime)
         timeSlider!!.setValue(time)
 
         timeSlider!!.isEnabled = isHost
         pauseButton!!.setVisibility(if (isHost) View.VISIBLE else View.GONE)
 
-        timeSlider!!.setValueTo(maxTimeInit)
         musicTextView!!.text = musicNameInit
+        artistTextView!!.text = artistNameInit
 
         timeSlider!!.setLabelFormatter{ secs: Float ->
             return@setLabelFormatter "" + (secs/60).toInt() + ":" + String.format("%02d",(secs%60).toInt())
@@ -89,10 +92,22 @@ PlayerFragment : Fragment() {
 
         //Set on pause event
         pauseButton!!.setOnClickListener {it ->
-            isPlaying = !isPlaying
-            PauseButton.setImageResource(if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24);
+//            isPlaying = !isPlaying
+            PauseButton.setImageResource(if (!isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24)
             onPause?.let { it1 -> it1(it) }
         }
+    }
+
+    fun play()
+    {
+        isPlaying = true
+        PauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
+    }
+
+    fun pause()
+    {
+        isPlaying = false
+        PauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
     }
 
     override fun onResume() {
@@ -104,28 +119,30 @@ PlayerFragment : Fragment() {
     private fun updateSlider(){
         if(isPlaying)
         {
-            time+=1f
+            time+=1000f
             if (time<maxTime) {
                 timeSlider!!.setValue(time)
-                timeView!!.text = "" + (time/60).toInt() + ":" + String.format("%02d",(time%60).toInt())
+                timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format("%02d",((time/1000)%60).toInt())
             }
         }
     }
 
-    fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String){
-        time = newTime.toFloat()/1e3f
-        maxTime = newMaxTime.toFloat()/1e3f
+    fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String,artistName: String){
+        time = newTime.toFloat()
+        maxTime = newMaxTime.toFloat()
 
         if(timeSlider != null) {
-            timeSlider!!.setValue(time)
             timeSlider!!.setValueTo(maxTime)
+            timeSlider!!.setValue(time)
             musicTextView!!.text = musicName
-            timeView!!.text = "" + (time/60).toInt() + ":" + String.format("%02d",(time%60).toInt())
+            artistTextView!!.text = artistName
+            timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format("%02d",((time/1000)%60).toInt())
         }
         else
         {
             maxTimeInit = maxTime
             musicNameInit = musicName
+            artistNameInit = artistName
         }
     }
 

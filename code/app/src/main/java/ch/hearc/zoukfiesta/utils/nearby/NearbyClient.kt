@@ -15,7 +15,7 @@ class NearbyClient(
     val context: Activity,
     private val username: String,
 //    var connectionsClient: ConnectionsClient,
-    override var onPlaylist: ((Map<String, Int>, Int, Int) -> Unit)? = null,
+    override var onPlaylist: ((Map<String, String>, Int, Int) -> Unit)? = null,
     override var onAvailable: ((musics: Array<String>) -> Unit)? = null,
     override var onKick: (() -> Unit)? = null,
     var endpointServerId: String = "",

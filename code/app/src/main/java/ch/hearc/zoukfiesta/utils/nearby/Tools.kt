@@ -3,7 +3,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
 @Serializable
-class DataPlaylist(val commandsName: String, val musics: Map<String, Int>, val currentMusicTime: Int, val currentMusicLength: Int)
+class DataPlaylist(val commandsName: String, val musics: Map<String, String>, val currentMusicTime: Int, val currentMusicLength: Int)
 
 class Tools{
     companion object {
@@ -16,8 +16,8 @@ class Tools{
             return json.toByteArray()
         }
 
-        fun createPayload(commandsName: CommandsName, musis: Map<String, Int>, currentMusicTime: Int, currentMusicLength: Int): ByteArray {
-            val json = Json.encodeToString(DataPlaylist(commandsName.toString(), musis, currentMusicTime, currentMusicLength)) //Work
+        fun createPayload(commandsName: CommandsName, musics: Map<String, String>, currentMusicTime: Int, currentMusicLength: Int): ByteArray {
+            val json = Json.encodeToString(DataPlaylist(commandsName.toString(), musics, currentMusicTime, currentMusicLength)) //Work
             return json.toByteArray()
         }
     }

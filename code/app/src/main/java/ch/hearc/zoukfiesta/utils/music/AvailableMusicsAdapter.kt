@@ -12,7 +12,7 @@ import ch.hearc.zoukfiesta.R
 
 import java.util.ArrayList
 
-class MusicAdapter(
+class AvailableMusicsAdapter(
     private val context: Context
 ) : BaseAdapter(), Filterable {
 
@@ -27,7 +27,7 @@ class MusicAdapter(
 
     private fun construct() {
         // Display all music by default
-        filteredMusics = MusicStore.musics
+        filteredMusics = MusicStore.availableMusics
 
         // Create our musics' filter
         musicFilter = object : Filter() {
@@ -36,11 +36,11 @@ class MusicAdapter(
                 if (constraint == null) {
                     // No constraint -> show all
 
-                    filteredMusics = MusicStore.musics
+                    filteredMusics = MusicStore.availableMusics
                 } else {
                     filteredMusics = ArrayList()
 
-                    for (music in MusicStore.musics) {
+                    for (music in MusicStore.availableMusics) {
                         // Filter by music name
 
                         if (music.name!!.toLowerCase()
@@ -83,12 +83,12 @@ class MusicAdapter(
 
         if (convertView == null) {
             convertView =
-                LayoutInflater.from(context).inflate(R.layout.music_list_row, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.available_music_row, parent, false)
 
             holder = MusicHolder()
 
             holder.nameTextView = convertView.findViewById<View>(R.id.nameTextView) as TextView
-            holder.voteSkipTextView = convertView.findViewById<View>(R.id.voteSkipTextView) as TextView
+            holder.artistTextView = convertView.findViewById<View>(R.id.artistTextView) as TextView
 
             /*
              * We have 2 views, but we only can set one object (tag) into our convertView object.
@@ -103,7 +103,7 @@ class MusicAdapter(
         val music = filteredMusics!![position]
 
         holder.nameTextView!!.text = music.name
-        holder.voteSkipTextView!!.text = music.voteSkip.toString()
+        holder.artistTextView!!.text = music.artist
 
         return convertView
     }
@@ -117,6 +117,6 @@ class MusicAdapter(
      */
     private class MusicHolder {
         internal var nameTextView: TextView? = null
-        internal var voteSkipTextView: TextView? = null
+        internal var artistTextView: TextView? = null
     }
 }

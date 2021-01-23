@@ -1,11 +1,7 @@
 package ch.hearc.zoukfiesta.utils.nearby
 
-import android.content.Context
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import ch.hearc.zoukfiesta.utils.music.MusicAdapter
-import ch.hearc.zoukfiesta.utils.nearby.NearbyClient
-import ch.hearc.zoukfiesta.utils.nearby.NearbyServer
+import ch.hearc.zoukfiesta.utils.music.AvailableMusicsAdapter
+import ch.hearc.zoukfiesta.utils.music.MusicQueueAdapter
 import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
 import com.google.android.gms.nearby.connection.Strategy
 
@@ -21,6 +17,7 @@ object NearbySingleton {
     lateinit var ENDPOINTDISCOVERYCALLBACK: EndpointDiscoveryCallback
     var PACKAGE_NAME: String = ""
     var USERNAME: String = ""
-    var musicPointAdapter: MusicAdapter? = null
+    var availableMusicsAdapter: AvailableMusicsAdapter? = null
+    var musicQueueAdapter: MusicQueueAdapter? = null
 
 }

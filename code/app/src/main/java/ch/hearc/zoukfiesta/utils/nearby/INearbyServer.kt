@@ -10,7 +10,7 @@ interface INearbyServer {
     //Send
     public fun sendPlaylist(
             endpointId: String,
-            votes : Map<String, Int>,
+            musics : Map<String, String>,
             currentMusicTime : Int,
             currentMusicLength : Int)
     public fun sendAvailable(endpointId: String, musics : Array<String>)

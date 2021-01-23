@@ -11,7 +11,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import ch.hearc.zoukfiesta.R
-import ch.hearc.zoukfiesta.utils.music.MusicAdapter
+import ch.hearc.zoukfiesta.utils.music.AvailableMusicsAdapter
+import ch.hearc.zoukfiesta.utils.music.MusicQueueAdapter
 import ch.hearc.zoukfiesta.utils.nearby.*
 import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo
 import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
@@ -86,7 +87,8 @@ class MainActivity : AppCompatActivity() {
         NearbySingleton.USERNAME = userConfigJSON.get("username").toString()
         NearbySingleton.PACKAGE_NAME = packageName
         NearbySingleton.ENDPOINTDISCOVERYCALLBACK = endpointDiscoveryCallback
-        NearbySingleton.musicPointAdapter = MusicAdapter(this)
+        NearbySingleton.availableMusicsAdapter = AvailableMusicsAdapter(this)
+        NearbySingleton.musicQueueAdapter = MusicQueueAdapter(this)
 
         retrieveViews()
         setUpViews()
@@ -130,7 +132,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("endpointId", endpoint.id)
 
             startActivity(intent)
-
         }
 
         // The core for the search view: what to do when the text change!
@@ -249,7 +250,6 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-//        recreate()
         init()
     }
 
@@ -261,8 +261,6 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "onEndpointFound: endpoint found")
                 NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint(endpointId, info.endpointName ,info))
                 nearbyEndPointAdapter?.notifyDataSetChanged()
-//                var con = NearbyEndpoint(endpointId, info.endpointName ,info)
-//                con.connect(connectionsClient!!,codeName,connectionLifecycleCallback)
             }
 
             override fun onEndpointLost(endpointId: String) {
@@ -275,17 +273,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         println("MainActivity on Pause")
-//        NearbySingleton.nearbyClient?.stopDiscovery()
-//        NearbyEndPointStore.ENDPOINTS.clear()
-//        nearbyEndPointAdapter?.notifyDataSetChanged()
         super.onPause()
 
     }
 
     override fun onResume() {
         println("MainActivity on Resume")
-//        NearbySingleton.nearbyClient!!.startDiscovery(NearbySingleton.PACKAGE_NAME,NearbySingleton.ENDPOINTDISCOVERYCALLBACK,
-//            NearbySingleton.STRATEGY)
         super.onResume()
     }
 }

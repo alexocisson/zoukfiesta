@@ -1,21 +1,21 @@
 package ch.hearc.zoukfiesta.utils.music
 
 import android.content.Context
-import android.content.res.AssetFileDescriptor
 import android.net.Uri
 
 object MusicStore   {
-    var musics: MutableList<Music> = emptyList<Music>().toMutableList()
+    var availableMusics: MutableList<Music> = emptyList<Music>().toMutableList()
+    var musicQueue: MutableList<Music> = emptyList<Music>().toMutableList()
 
-    public fun addToStore(musicName : String, voteSkip : Int, resourceUri : Uri, context: Context?)
+    public fun addToStore(musicName : String, artistName:String,voteSkip : Int, resourceUri : Uri, context: Context?)
     {
-        musics.add(Music(musicName, voteSkip, resourceUri, context));
+        availableMusics.add(Music(musicName, artistName,voteSkip, resourceUri, context));
     }
 
     public fun findMusicByName(name: String): Music? {
         var result: Music? = null
 
-        for (music in musics) {
+        for (music in availableMusics) {
             if (music.name == name) {
                 result = music
             }

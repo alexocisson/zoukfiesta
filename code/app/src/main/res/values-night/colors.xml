@@ -6,6 +6,5 @@
     <color name="colorSecondary">#03DAC6</color>
     <color name="colorSecondaryVariant">#018786</color>
     <color name="colorOnSecondary">#000000</color>
-    <color name="colorPlayer">#D6D6D6</color>
-
+    <color name="colorPlayer">#252525</color>
 </resources>

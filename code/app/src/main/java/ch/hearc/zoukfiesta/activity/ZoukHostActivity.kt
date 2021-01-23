@@ -11,6 +11,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_VERTICAL
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.fragments.AvailableMusicsFragment
 import ch.hearc.zoukfiesta.fragments.MusicQueueFragment
 import ch.hearc.zoukfiesta.fragments.PlayerFragment
 import ch.hearc.zoukfiesta.fragments.SettingsFragment
@@ -18,6 +19,7 @@ import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
 import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import org.json.JSONObject
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -27,7 +29,6 @@ class ZoukHostActivity : AppCompatActivity(){
     private lateinit var viewPager: ViewPager2
     private lateinit var playerFragment: PlayerFragment
     private lateinit var musicTimer: TimerTask
-    private var isPlaying: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +53,7 @@ class ZoukHostActivity : AppCompatActivity(){
 
             //Set the pause event function callback
             playerFragment.onPause = { it ->
-                if(isPlaying)
+                if(playerFragment.isPlaying)
                 {
                     //Pause the music
                     MusicPlayer.pause()
@@ -64,8 +65,10 @@ class ZoukHostActivity : AppCompatActivity(){
                 }
 
                 //Inverse state
-                isPlaying = !isPlaying
+                playerFragment.isPlaying = !playerFragment.isPlaying
             }
+
+            playerFragment.pause()
         }
 
         // Instantiate a ViewPager2 and a PagerAdapter.
@@ -73,7 +76,16 @@ class ZoukHostActivity : AppCompatActivity(){
         viewPager.orientation = ORIENTATION_VERTICAL
 
         // The pager adapter, which provides the pages to the view pager widget.
-        val pagerAdapter = ScreenSlidePagerAdapter(this)
+        val availableMusicsFragment = AvailableMusicsFragment()
+        availableMusicsFragment.onItemClick = {parent, view, position, id ->
+            val music = parent!!.getItemAtPosition(position) as Music
+
+            MusicStore.musicQueue.add(music)
+            if (!playerFragment.isPlaying) nextMusic()
+            NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
+        }
+
+        val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
         viewPager.adapter = pagerAdapter
 
         // Start by playing the first music in the store
@@ -127,11 +139,13 @@ class ZoukHostActivity : AppCompatActivity(){
     {
 
         //Get the next music to play
-        var music = MusicStore.musics[0]
+        var music = MusicStore.musicQueue.firstOrNull() ?: return
+
+        //Update Player UI
+        playerFragment.play()
 
         //Get its duration
         var duration = music.duration
-
 
         //Play it
         music.resourceUri?.let {
@@ -140,16 +154,19 @@ class ZoukHostActivity : AppCompatActivity(){
 
         runOnUiThread {
             //Set the timer
-            playerFragment.setNewTimeInfo(0, duration, music.name)
+            playerFragment.setNewTimeInfo(0, duration, music.name, music.artist)
 
             //Notify the change
-            NearbySingleton.musicPointAdapter?.notifyDataSetChanged()
+            NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
         }
 
-        //Pass to the next music at the end of thze current one
+        //Pass to the next music at the end of the current one
         musicTimer = Timer("waitingForMusicToFinish", false).schedule(music.duration.toLong()) {
             passToNextMusic()
         }
+
+        //Send to all clients
+        sendMusicQueueToAllClient(0f)
     }
 
     //Tell the music player to play the first music in music store
@@ -160,7 +177,7 @@ class ZoukHostActivity : AppCompatActivity(){
         }
 
         //Get the next music to play
-        var music = MusicStore.musics[0]
+        var music = MusicStore.musicQueue.first()
 
         //Get its duration
         var duration = music.duration
@@ -171,31 +188,32 @@ class ZoukHostActivity : AppCompatActivity(){
         MusicPlayer.moveTo(newTime)
 
         //Send to all clients
-        sendToAllClient(newTime)
+        sendMusicQueueToAllClient(newTime)
 
-        //Pass to the next music at the end of thze current one
-        musicTimer = Timer("waitingForMusicToFinish", false).schedule((duration - newTime*1e3).toLong()) {
+        //Pass to the next music at the end of the current one
+        musicTimer = Timer("waitingForMusicToFinish", false).schedule((duration - newTime).toLong()) {
             passToNextMusic()
         }
     }
 
     private fun passToNextMusic()
     {
-        //Send to all clients
-        sendToAllClient(0f)
-
-        MusicStore.musics.removeAt(0)
+        MusicStore.musicQueue.removeAt(0)
 
         //Play the next one
         nextMusic()
     }
 
     //Send to all clients
-    private fun sendToAllClient(currentMusicTime: Float)
+    private fun sendMusicQueueToAllClient(currentMusicTime: Float)
     {
-        var mapMusic : MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
-        MusicStore.musics.forEach {
-            mapMusic[it.name] = it.voteSkip
+        var mapMusic : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
+        MusicStore.musicQueue.forEach { music ->
+            val musicJSON = JSONObject();
+            musicJSON.put("name", music.name)
+            musicJSON.put("artist", music.artist)
+            musicJSON.put("vote", music.voteSkip)
+            mapMusic[music.name] = musicJSON.toString()
         }
 
         //Send to all clients
@@ -203,21 +221,29 @@ class ZoukHostActivity : AppCompatActivity(){
 
             MusicPlayer.getDuration()?.let { duration ->
                 NearbySingleton.nearbyServer?.sendPlaylist(endpointId,mapMusic,
-                    (currentMusicTime*1e3).toInt(), duration
+                    (currentMusicTime).toInt(), duration
                 )
             }
         }
     }
 
-    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = 2
+    private inner class ScreenSlidePagerAdapter(
+        fa: FragmentActivity,
+        availableMusicsFragment: AvailableMusicsFragment
+    ) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = 3
 
         var settingFragment : Fragment = SettingsFragment()
         var musicQueueFragment : Fragment = MusicQueueFragment()
+        var availableMusicsFragment : Fragment = availableMusicsFragment
+
 
         override fun createFragment(position: Int): Fragment
         {
             if(position == 1) {
+                return availableMusicsFragment
+            }
+            else if(position == 2) {
                 return settingFragment
             }
             else {

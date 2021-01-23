@@ -39,7 +39,7 @@ class CreateActivity : AppCompatActivity(){
                         println(df.name.toString() + " - " + df.type)
                         if ((df.type == "audio/mpeg" || df.type == "audio/flac")
                             && df.canRead()) {
-                            MusicStore.musics.add(Music(df.name.toString(), 2, df.uri, this))
+                            MusicStore.availableMusics.add(Music(df.name.toString(), "",2, df.uri, this))
                         }
                     }
                 }

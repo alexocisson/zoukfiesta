@@ -36,7 +36,7 @@ object MusicPlayer {
     }
 
     fun moveTo(newTime: Float) {
-        mediaPlayer?.seekTo((newTime*1e3).toInt())
+        mediaPlayer?.seekTo((newTime).toInt())
     }
 
     fun getTimestamp(): Int? {

@@ -5,18 +5,24 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.utils.music.Music
+import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import com.google.android.material.slider.Slider
+import kotlinx.android.synthetic.main.available_musics_fragment.*
 
 
-class MusicQueueFragment : Fragment() {
+class AvailableMusicsFragment : Fragment() {
 
-    private var musicListView: ListView? = null
-    private var musicSearchView: SearchView? = null
-//    private var musicPointAdapter: MusicAdapter? = null
+    private var availableMusicsListView: ListView? = null
+    private var availableMusicsSearchView: SearchView? = null
+
+    var onItemClick: ((parent : AdapterView<*>, view:View, position:Int, id:Long) -> Unit)? = null
 
 
     override fun onCreateView(
@@ -25,7 +31,7 @@ class MusicQueueFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.music_queue_fragment, container, false)
+        return inflater.inflate(R.layout.available_musics_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,26 +42,29 @@ class MusicQueueFragment : Fragment() {
     }
 
     private fun retrieveViews(view: View) {
-        musicListView = view.findViewById<View>(R.id.musicQueueListView) as ListView
-        musicSearchView = view.findViewById<View>(R.id.musicQueueSearchView) as SearchView
+        availableMusicsListView = view.findViewById<View>(R.id.availableMusicsListView) as ListView
+        availableMusicsSearchView = view.findViewById<View>(R.id.availableMusicsSearchView) as SearchView
     }
 
     private fun setUpViews(activity: Activity) {
 //        musicPointAdapter = MusicAdapter(activity)
 
-        musicListView!!.adapter = NearbySingleton.musicQueueAdapter
+        availableMusicsListView!!.adapter = NearbySingleton.availableMusicsAdapter
+        availableMusicsListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            onItemClick?.let { it(parent, view, position, id) }
+        }
 
-        musicSearchView!!.isSubmitButtonEnabled = true
-        musicSearchView!!.queryHint = "Music name..."
+        availableMusicsSearchView!!.isSubmitButtonEnabled = true
+        availableMusicsSearchView!!.queryHint = "Music name..."
 
-        musicSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        availableMusicsSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                val filter = NearbySingleton.musicQueueAdapter!!.filter!!
+                val filter = NearbySingleton.availableMusicsAdapter!!.filter!!
                 if (TextUtils.isEmpty(newText)) {
                     // Empty search field = no filtering
                     filter.filter(null)
@@ -70,7 +79,7 @@ class MusicQueueFragment : Fragment() {
 
     override fun onResume() {
         // Important! Refresh our list when we return to this activity (from another one)
-        NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
+        NearbySingleton.availableMusicsAdapter?.notifyDataSetChanged()
         super.onResume()
     }
 }

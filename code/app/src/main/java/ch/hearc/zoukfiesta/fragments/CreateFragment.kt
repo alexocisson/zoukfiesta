@@ -13,11 +13,12 @@ import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.activity.ZoukHostActivity
 import ch.hearc.zoukfiesta.utils.nearby.NearbyServer
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class CreateFragment : Fragment() {
 
     private var startButton: Button? = null
-    private var findMusicFolder: Button? = null
+    private var findMusicFolder: FloatingActionButton? = null
     private var fiestaNameTextView: TextView? = null
     //private var musicFolder: String = null
 
@@ -39,7 +40,7 @@ class CreateFragment : Fragment() {
 
     private fun retrieveViews(view: View) {
         startButton = view.findViewById<View>(R.id.startZouking) as Button
-        findMusicFolder = view.findViewById<View>(R.id.findMusicFolder) as Button
+        findMusicFolder = view.findViewById<View>(R.id.findMusicFolder) as FloatingActionButton
         fiestaNameTextView = view.findViewById<View>(R.id.fiestaNameLabel) as TextView
     }
     

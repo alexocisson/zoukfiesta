@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import ch.hearc.zoukfiesta.R
+import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 
 import java.util.ArrayList
 
@@ -104,7 +105,8 @@ class MusicQueueAdapter(
 
         holder.nameTextView!!.text = music.name
         holder.artistTextView!!.text = music.artist
-        holder.voteSkipTextView!!.text = music.voteSkip.toString()
+
+        holder.voteSkipTextView!!.text = (music.voteNeeded - music.voteSkip).toString()
 
         return convertView
     }

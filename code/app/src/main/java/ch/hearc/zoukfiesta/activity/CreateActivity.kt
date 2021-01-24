@@ -40,9 +40,9 @@ class CreateActivity : AppCompatActivity(){
                         println(df.name.toString() + " - " + df.type)
                         if ((df.type == "audio/mpeg" || df.type == "audio/flac")
                             && df.canRead()) {
-                            val numberOfZoukers = NearbySingleton.nearbyServer?.clientsById?.size
-                            val toSkip = if (numberOfZoukers == null) 1 else (numberOfZoukers + 1) / 2
-                            MusicStore.availableMusics.add(Music(df.name.toString(), "", toSkip, df.uri, this))
+//                            val numberOfZoukers = NearbySingleton.nearbyServer?.clientsById?.size
+//                            val toSkip = if (numberOfZoukers == null) 1 else (numberOfZoukers + 1) / 2
+                            MusicStore.availableMusics.add(Music(df.name.toString(), "", 0, df.uri, this))
                         }
                     }
                 }

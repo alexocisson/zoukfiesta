@@ -13,9 +13,7 @@ import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.fragments.AvailableMusicsFragment
 import ch.hearc.zoukfiesta.fragments.MusicQueueFragment
 import ch.hearc.zoukfiesta.fragments.PlayerFragment
-import ch.hearc.zoukfiesta.fragments.SettingsFragment
 import ch.hearc.zoukfiesta.utils.music.Music
-import ch.hearc.zoukfiesta.utils.music.MusicPlayer
 import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import com.google.android.gms.nearby.Nearby
@@ -55,13 +53,18 @@ class ZoukHubActivity() : AppCompatActivity(){
     private fun setUpViews(savedInstanceState: Bundle?)
     {
         // The pager adapter, which provides the pages to the view pager widget.
+        val musicQueueFragment = MusicQueueFragment()
+        musicQueueFragment.onItemClick = {parent, view, position, id ->
+            NearbySingleton.nearbyClient?.sendSkip(position)
+        }
+
         val availableMusicsFragment = AvailableMusicsFragment()
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
             val music = parent!!.getItemAtPosition(position) as Music
             NearbySingleton.nearbyClient?.sendAdd(music.name)
         }
 
-        val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
+        val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment,musicQueueFragment)
         viewPager.adapter = pagerAdapter
     }
     private fun setUpListeners(savedInstanceState: Bundle?)
@@ -71,7 +74,9 @@ class ZoukHubActivity() : AppCompatActivity(){
             MusicStore.musicQueue.clear()
             playlist.forEach { musicName, musicJSON ->
                 val music = JSONObject(musicJSON)
-                MusicStore.musicQueue.add(Music(music.getString("name"), music.getString("artist"),music.getInt("vote")))
+                val musicObj = Music(music.getString("name"), music.getString("artist"),music.getInt("vote"))
+                musicObj.voteNeeded = music.getInt("voteNeeded")
+                MusicStore.musicQueue.add(musicObj)
             }
 
             //Update current time and max time
@@ -157,11 +162,12 @@ class ZoukHubActivity() : AppCompatActivity(){
 
     private inner class ScreenSlidePagerAdapter(
         fa: FragmentActivity,
-        availableMusicsFragment: AvailableMusicsFragment
+        availableMusicsFragment: AvailableMusicsFragment,
+        musicQueueFragment: MusicQueueFragment
     ) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = 2
 
-        var musicQueueFragment : Fragment = MusicQueueFragment()
+        var musicQueueFragment : Fragment = musicQueueFragment
         var availableMusicsFragment : Fragment = availableMusicsFragment
 
 

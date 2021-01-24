@@ -2,7 +2,7 @@ package ch.hearc.zoukfiesta.utils.nearby
 
 interface INearbyServer {
     //Receive
-    var onSkip: ((musicName : String) -> Unit)?
+    var onSkip: ((endpointId:String,musicIndex : Int) -> Unit)?
     var onAdd: ((musicName : String) -> Unit)?
     
     //Send

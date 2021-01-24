@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -16,8 +17,8 @@ class MusicQueueFragment : Fragment() {
 
     private var musicListView: ListView? = null
     private var musicSearchView: SearchView? = null
-//    private var musicPointAdapter: MusicAdapter? = null
 
+    var onItemClick: ((parent : AdapterView<*>, view:View, position:Int, id:Long) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,9 +42,11 @@ class MusicQueueFragment : Fragment() {
     }
 
     private fun setUpViews(activity: Activity) {
-//        musicPointAdapter = MusicAdapter(activity)
 
         musicListView!!.adapter = NearbySingleton.musicQueueAdapter
+        musicListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            onItemClick?.let { it(parent, view, position, id) }
+        }
 
         musicSearchView!!.isSubmitButtonEnabled = true
         musicSearchView!!.queryHint = "Music name..."

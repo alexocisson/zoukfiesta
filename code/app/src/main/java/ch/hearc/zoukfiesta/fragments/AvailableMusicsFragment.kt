@@ -24,7 +24,6 @@ class AvailableMusicsFragment : Fragment() {
 
     var onItemClick: ((parent : AdapterView<*>, view:View, position:Int, id:Long) -> Unit)? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +46,6 @@ class AvailableMusicsFragment : Fragment() {
     }
 
     private fun setUpViews(activity: Activity) {
-//        musicPointAdapter = MusicAdapter(activity)
 
         availableMusicsListView!!.adapter = NearbySingleton.availableMusicsAdapter
         availableMusicsListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->

@@ -18,6 +18,7 @@ import ch.hearc.zoukfiesta.fragments.SettingsFragment
 import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
 import ch.hearc.zoukfiesta.utils.music.MusicStore
+import ch.hearc.zoukfiesta.utils.nearby.NearbyServer
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import org.json.JSONObject
 import java.util.*
@@ -70,7 +71,7 @@ class ZoukHostActivity : AppCompatActivity(){
         // The pager adapter, which provides the pages to the view pager widget.
         val availableMusicsFragment = AvailableMusicsFragment()
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
-            val music = parent!!.getItemAtPosition(position) as Music
+            val music = (parent!!.getItemAtPosition(position) as Music).clone()
 
             if (MusicStore.musicQueue.isEmpty())
             {
@@ -86,15 +87,21 @@ class ZoukHostActivity : AppCompatActivity(){
             NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
         }
 
-        val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
+        val musicQueueFragment = MusicQueueFragment()
+        musicQueueFragment.onItemClick = {parent, view, position, id ->
+            NearbySingleton.nearbyServer?.onSkip?.let { it("SERVERID",position) }
+        }
+
+        val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment,musicQueueFragment)
         viewPager.adapter = pagerAdapter
     }
 
     private fun setUpListeners(savedInstanceState: Bundle?) {
         NearbySingleton.nearbyServer?.onAdd = { musicName ->
-            val musicToAdd: Music? =MusicStore.availableMusics.firstOrNull{it.name == musicName}
+            var musicToAdd: Music? =  MusicStore.availableMusics.firstOrNull{it.name == musicName}
             if (musicToAdd != null)
             {
+                musicToAdd = musicToAdd.clone()
                 if (MusicStore.musicQueue.isEmpty())
                 {
                     MusicStore.musicQueue.add(musicToAdd)
@@ -110,7 +117,31 @@ class ZoukHostActivity : AppCompatActivity(){
             }
         }
 
-        NearbySingleton.nearbyServer?.onSkip = { musicName ->
+        NearbySingleton.nearbyServer?.onSkip = { endpointId, musicIndex ->
+            val music = MusicStore.musicQueue.get(musicIndex)
+            if (!music.voters.contains(endpointId))
+            {
+                music.voters.add(endpointId)
+                music.voteSkip += 1
+                if (music.voteNeeded-music.voteSkip <=0)
+                {
+                    if (musicIndex == 0)
+                    {
+                        passToNextMusic()
+                    }
+                    else{
+                        MusicStore.musicQueue.removeAt(musicIndex)
+                        NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
+                        MusicPlayer.getTimestamp()?.toFloat()?.let { sendMusicQueueToAllClient(it) }
+                    }
+
+                }
+                else
+                {
+                    NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
+                    MusicPlayer.getTimestamp()?.toFloat()?.let { sendMusicQueueToAllClient(it) }
+                }
+            }
 
         }
 
@@ -120,7 +151,8 @@ class ZoukHostActivity : AppCompatActivity(){
             playerFragment.onValueChange = { slider, value, fromUser ->
                 if(fromUser)
                 {
-                    if(playerFragment.isPlaying/*isPlaying*/)
+
+                    if(playerFragment.isPlaying)
                     {
                         //Set the current time
                         updateScheduleRemainingTime(value)
@@ -294,7 +326,7 @@ class ZoukHostActivity : AppCompatActivity(){
     private fun passToNextMusic()
     {
         MusicStore.musicQueue.removeAt(0)
-
+        musicTimer.cancel()
         //Play the next one
         nextMusic()
     }
@@ -302,12 +334,16 @@ class ZoukHostActivity : AppCompatActivity(){
     //Send to all clients
     private fun sendMusicQueueToAllClient(currentMusicTime: Float)
     {
+        val numberOfZoukers = NearbySingleton.nearbyServer?.clientsById?.size
+        val voteNeeded = if (numberOfZoukers == null) 1 else (numberOfZoukers + 1)// / 2
         var mapMusic : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
         MusicStore.musicQueue.forEachIndexed { index, music ->
+            music.voteNeeded = voteNeeded
             val musicJSON = JSONObject();
             musicJSON.put("name", music.name)
             musicJSON.put("artist", music.artist)
             musicJSON.put("vote", music.voteSkip)
+            musicJSON.put("voteNeeded", music.voteNeeded)
             mapMusic[music.name + index.toString()] = musicJSON.toString()
         }
 
@@ -348,12 +384,13 @@ class ZoukHostActivity : AppCompatActivity(){
 
     private inner class ScreenSlidePagerAdapter(
         fa: FragmentActivity,
-        availableMusicsFragment: AvailableMusicsFragment
+        availableMusicsFragment: AvailableMusicsFragment,
+        musicQueueFragment: MusicQueueFragment
     ) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = 3
 
         var settingFragment : Fragment = SettingsFragment()
-        var musicQueueFragment : Fragment = MusicQueueFragment()
+        var musicQueueFragment : Fragment = musicQueueFragment
         var availableMusicsFragment : Fragment = availableMusicsFragment
 
 

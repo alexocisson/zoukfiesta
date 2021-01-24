@@ -8,11 +8,13 @@ import java.io.File
 class Music(
     private val fileName: String,
     var artist: String = "",
-    val voteSkip: Int = 0,
+    var voteSkip: Int = 0,
     val resourceUri: Uri? = null,
     val context: Context? = null
 ) {
     var duration: Int = 0
+    var voteNeeded:Int = 1
+    var voters : MutableSet<String> = mutableSetOf()
     lateinit var name: String
 
     init {
@@ -31,6 +33,11 @@ class Music(
         {
             name=fileName
         }
+    }
+
+    fun clone():Music
+    {
+        return Music(fileName,artist,voteSkip,resourceUri,context)
     }
 
     override fun toString(): String {

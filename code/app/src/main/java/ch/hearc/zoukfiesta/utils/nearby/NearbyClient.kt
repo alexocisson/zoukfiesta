@@ -23,12 +23,12 @@ class NearbyClient(
     var onConnection: (() -> Unit)? = null,
 ) : INearbyClient, NearbyListener() {
 
-    override fun sendSkip(musicName: String) {
+    override fun sendSkip(musicIndex: Int) {
         //Command name
         val commandName = CommandsName.SKIP
 
         //Payload
-        val payload = Payload.fromBytes(Tools.createPayload(commandName, arrayOf(musicName)))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName, arrayOf(musicIndex.toString())))
 
         //Send
         Nearby.getConnectionsClient(context).sendPayload(endpointServerId, payload)
@@ -46,7 +46,7 @@ class NearbyClient(
     }
 
     //Here we receive the messages
-    override fun myCallback(bytes: ByteArray) {
+    override fun myCallback(endpointId: String,bytes: ByteArray) {
         //Convert bytes to string
         val string = String(bytes)
 

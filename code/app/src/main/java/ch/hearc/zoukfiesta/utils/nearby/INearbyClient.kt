@@ -8,6 +8,6 @@ interface INearbyClient {
     var onPause: ((isPlaying : Boolean) -> Unit)?
 
     //Send
-    public fun sendSkip(musicName : String)
+    public fun sendSkip(musicIndex : Int)
     public fun sendAdd(musicName : String)
 }

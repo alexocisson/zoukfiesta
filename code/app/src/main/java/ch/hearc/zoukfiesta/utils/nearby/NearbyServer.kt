@@ -14,7 +14,7 @@ import org.json.JSONObject
 class NearbyServer(
     private val context : Activity,
     private val username: String,
-    override var onSkip: ((musicName: String) -> Unit)? = null,
+    override var onSkip: ((endpointId:String,musicIndex: Int) -> Unit)? = null,
     override var onAdd: ((musicName: String) -> Unit)? = null
 ) : INearbyServer, NearbyListener() {
 
@@ -79,7 +79,7 @@ class NearbyServer(
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
-    override fun myCallback(bytes: ByteArray) {
+    override fun myCallback(endpointId: String,bytes: ByteArray) {
         //Convert bytes to string
         val string = String(bytes)
 
@@ -92,7 +92,7 @@ class NearbyServer(
         //If the first argument is a string
         when (CommandsName.valueOf(obj[0])) {
             //Send obj[1-...] to the command
-            CommandsName.SKIP -> onSkip?.let { it(obj[1]) }
+            CommandsName.SKIP -> onSkip?.let { it(endpointId,obj[1].toInt()) }
             CommandsName.ADD -> onAdd?.let { it(obj[1]) }
         }
     }
@@ -133,12 +133,16 @@ class NearbyServer(
                         println("We're connected! Can now start sending and receiving data.")
                         clientAdapter?.notifyDataSetChanged()
 
+                        val numberOfZoukers = NearbySingleton.nearbyServer?.clientsById?.size
+                        val voteNeeded = if (numberOfZoukers == null) 1 else (numberOfZoukers + 1)// / 2
                         var mapMusicQueue : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
                         MusicStore.musicQueue.forEach { music ->
+                            music.voteNeeded = voteNeeded
                             val musicJSON = JSONObject();
                             musicJSON.put("name", music.name)
                             musicJSON.put("artist", music.artist)
                             musicJSON.put("vote", music.voteSkip)
+                            musicJSON.put("voteNeeded", music.voteNeeded)
                             mapMusicQueue[music.name] = musicJSON.toString()
                         }
 
@@ -163,6 +167,7 @@ class NearbyServer(
                         sendAvailable(endpointId,mapAvailableMusics)
 
                         MusicPlayer.isPlaying()?.let { sendPause(endpointId, it) }
+                        NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
                     }
                     ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                         println("The connection was rejected by one or both sides.")

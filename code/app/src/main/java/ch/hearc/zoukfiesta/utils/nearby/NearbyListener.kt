@@ -18,7 +18,7 @@ abstract class NearbyListener {
         isListening = false
     }
 
-    protected abstract fun myCallback(bytes: ByteArray)
+    protected abstract fun myCallback(endpointId:String,bytes: ByteArray)
 
     // Callbacks for receiving payloads
     protected val payloadCallback: PayloadCallback = object : PayloadCallback() {
@@ -27,7 +27,7 @@ abstract class NearbyListener {
 
             //IF they are bytes, call our callback function and listening
             if (receivedBytes != null && isListening) {
-                myCallback(receivedBytes)
+                myCallback(endpointId,receivedBytes)
             }
         }
 

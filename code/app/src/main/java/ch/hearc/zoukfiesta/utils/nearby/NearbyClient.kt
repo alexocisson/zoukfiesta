@@ -61,22 +61,33 @@ class NearbyClient(
             //If the first argument is a string
             when (CommandsName.valueOf(obj[0])) {
                 //Send obj[1-...] to the command
-                CommandsName.AVAILABLE -> onAvailable?.let { it(Array<String>(obj.size - 1) { i -> obj[i + 1] }) }
                 CommandsName.KICK -> onKick?.let { it() }
                 CommandsName.PAUSE -> onPause?.let { it(parseBoolean(obj[1])) }
                 }
         }
-        catch (e: IllegalArgumentException)
-        {
+        catch (e: IllegalArgumentException) {
             //Try deserialize DataPlaylist object
-            val obj = Json.decodeFromString<DataPlaylist>(string)
+            try {
+                val obj = Json.decodeFromString<DataPlaylist>(string)
 
-            //Call onPlaylist
-            onPlaylist?.let { it(
-                obj.musics,
-                obj.currentMusicTime,
-                obj.currentMusicLength
-            ) }
+                //Call onPlaylist
+                onPlaylist?.let {
+                    it(
+                        obj.musics,
+                        obj.currentMusicTime,
+                        obj.currentMusicLength,
+                    )
+                }
+            } catch (e: IllegalArgumentException) {
+                val obj = Json.decodeFromString<DataAvailable>(string)
+
+                //Call onPlaylist
+                onAvailable?.let {
+                    it(
+                        obj.musics
+                    )
+                }
+            }
         }
     }
 

@@ -70,12 +70,12 @@ class NearbyServer(
         Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
     }
 
-    override fun sendPause(endpointId: String, isPlaying:Boolean) {
+    override fun sendPause(endpointId: String, isPlaying: Boolean) {
         //Command name
         val commandName = CommandsName.PAUSE;
 
         //Payload
-        val payload = Payload.fromBytes(Tools.createPayload(commandName))
+        val payload = Payload.fromBytes(Tools.createPayload(commandName, arrayOf(isPlaying.toString())))
 
         //Send
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)

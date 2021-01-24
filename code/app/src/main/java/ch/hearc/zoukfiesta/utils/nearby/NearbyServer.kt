@@ -27,8 +27,7 @@ class NearbyServer(
         endpointId: String,
         musics: Map<String, String>,
         currentMusicTime: Int,
-        currentMusicLength: Int,
-        isPlaying : Boolean
+        currentMusicLength: Int
     ) {
         //Command name
         val commandName = CommandsName.PLAYLIST
@@ -39,8 +38,7 @@ class NearbyServer(
                 commandName,
                 musics,
                 currentMusicTime,
-                currentMusicLength,
-                isPlaying
+                currentMusicLength
             )
         )
 
@@ -72,7 +70,7 @@ class NearbyServer(
         Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointId)
     }
 
-    override fun sendPause(endpointId: String) {
+    override fun sendPause(endpointId: String, isPlaying:Boolean) {
         //Command name
         val commandName = CommandsName.PAUSE;
 
@@ -152,7 +150,7 @@ class NearbyServer(
                             MusicPlayer.getDuration()?.let { duration ->
                                 MusicPlayer.isPlaying()?.let {isPlaying ->
                                     sendPlaylist(endpointId,mapMusic,
-                                        timestamp, duration, isPlaying
+                                        timestamp, duration
                                     )
                                 }
                             }

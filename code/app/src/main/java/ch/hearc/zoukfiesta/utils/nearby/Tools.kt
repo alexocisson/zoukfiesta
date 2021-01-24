@@ -16,8 +16,8 @@ class Tools{
             return json.toByteArray()
         }
 
-        fun createPayload(commandsName: CommandsName, musics: Map<String, String>, currentMusicTime: Int, currentMusicLength: Int, isPlaying:Boolean): ByteArray {
-            val json = Json.encodeToString(DataPlaylist(commandsName.toString(), musics, currentMusicTime, currentMusicLength, isPlaying)) //Work
+        fun createPayload(commandsName: CommandsName, musics: Map<String, String>, currentMusicTime: Int, currentMusicLength: Int): ByteArray {
+            val json = Json.encodeToString(DataPlaylist(commandsName.toString(), musics, currentMusicTime, currentMusicLength)) //Work
             return json.toByteArray()
         }
     }

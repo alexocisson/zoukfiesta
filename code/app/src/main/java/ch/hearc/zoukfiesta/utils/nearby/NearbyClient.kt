@@ -84,7 +84,7 @@ class NearbyClient(
                 //Send obj[1-...] to the command
                 CommandsName.AVAILABLE -> onAvailable?.let { it(Array<String>(obj.size - 1) { i -> obj[i + 1] }) }
                 CommandsName.KICK -> onKick?.let { it() }
-                CommandsName.PAUSE -> onPause?.let { it(obj[1]) }
+                CommandsName.PAUSE -> onPause?.let { it() }
                 }
         }
         catch (e: IllegalArgumentException)

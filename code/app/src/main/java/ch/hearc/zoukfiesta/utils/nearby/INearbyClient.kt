@@ -9,7 +9,5 @@ interface INearbyClient {
 
     //Send
     public fun sendSkip(musicName : String)
-    public fun sendWhat()
-    public fun sendMusics()
     public fun sendAdd(musicName : String)
 }

@@ -35,28 +35,6 @@ class NearbyClient(
         Nearby.getConnectionsClient(context).sendPayload(endpointServerId, payload)
     }
 
-    override fun sendWhat() {
-        //Command name
-        val commandName = CommandsName.WHAT
-
-        //Payload
-        val payload = Payload.fromBytes(Tools.createPayload(commandName))
-
-        //Send
-        Nearby.getConnectionsClient(context).sendPayload(endpointServerId, payload)
-    }
-
-    override fun sendMusics() {
-        //Command name
-        val commandName = CommandsName.MUSICS
-
-        //Payload
-        val payload = Payload.fromBytes(Tools.createPayload(commandName))
-
-        //Send
-        Nearby.getConnectionsClient(context).sendPayload(endpointServerId, payload)
-    }
-
     override fun sendAdd(musicName: String) {
         //Command name
         val commandName = CommandsName.ADD

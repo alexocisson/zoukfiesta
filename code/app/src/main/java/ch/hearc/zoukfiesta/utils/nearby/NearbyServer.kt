@@ -15,8 +15,6 @@ class NearbyServer(
     private val context : Activity,
     private val username: String,
     override var onSkip: ((musicName: String) -> Unit)? = null,
-    override var onWhat: (() -> Unit)? = null,
-    override var onMusics: (() -> Unit)? = null,
     override var onAdd: ((musicName: String) -> Unit)? = null
 ) : INearbyServer, NearbyListener() {
 
@@ -46,7 +44,7 @@ class NearbyServer(
         Nearby.getConnectionsClient(context).sendPayload(endpointId, payload)
     }
 
-    override fun sendAvailable(endpointId: String, musics: Array<String>) {
+    override fun sendAvailable(endpointId: String, musics:  Map<String, String>) {
         //Command name
         val commandName = CommandsName.AVAILABLE
 
@@ -95,8 +93,6 @@ class NearbyServer(
         when (CommandsName.valueOf(obj[0])) {
             //Send obj[1-...] to the command
             CommandsName.SKIP -> onSkip?.let { it(obj[1]) }
-            CommandsName.WHAT -> onWhat?.let { it() }
-            CommandsName.MUSICS -> onMusics?.let { it() }
             CommandsName.ADD -> onAdd?.let { it(obj[1]) }
         }
     }

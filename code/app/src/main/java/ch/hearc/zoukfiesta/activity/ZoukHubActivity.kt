@@ -31,6 +31,15 @@ class ZoukHubActivity() : AppCompatActivity(){
         //Get the endpoint
         endpointId = intent.getStringExtra("endpointId").toString()
 
+        retrieveViews(savedInstanceState)
+        setUpViews(savedInstanceState)
+        setUpListeners(savedInstanceState)
+
+        NearbySingleton.nearbyClient?.start()
+    }
+
+    private fun retrieveViews(savedInstanceState: Bundle?)
+    {
         //Set playerfragment
         if (savedInstanceState == null) {
             playerFragment = (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)!!
@@ -39,7 +48,9 @@ class ZoukHubActivity() : AppCompatActivity(){
         // Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById(R.id.pager)
         viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
-
+    }
+    private fun setUpViews(savedInstanceState: Bundle?)
+    {
         // The pager adapter, which provides the pages to the view pager widget.
         val availableMusicsFragment = AvailableMusicsFragment()
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
@@ -49,7 +60,9 @@ class ZoukHubActivity() : AppCompatActivity(){
 
         val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
         viewPager.adapter = pagerAdapter
-
+    }
+    private fun setUpListeners(savedInstanceState: Bundle?)
+    {
         NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime ->
 
             MusicStore.musicQueue.clear()
@@ -93,12 +106,10 @@ class ZoukHubActivity() : AppCompatActivity(){
             this.finish()
         }
 
-        NearbySingleton.nearbyClient?.onPause = {
+        NearbySingleton.nearbyClient?.onPause = {isPlaying:Boolean ->
             //Stop the slider
-            playerFragment.isPlaying = !playerFragment.isPlaying
+            playerFragment.isPlaying = isPlaying
         }
-
-        NearbySingleton.nearbyClient?.start()
     }
 
     private inner class ScreenSlidePagerAdapter(

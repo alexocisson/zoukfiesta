@@ -67,26 +67,13 @@
         android:id="@+id/SkipButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
         android:backgroundTint="#009688"
         android:text="Skip"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/PauseButton"
         app:layout_constraintTop_toBottomOf="@+id/TimeSlider"
         app:srcCompat="@drawable/ic_baseline_skip_next_24"
-        tools:ignore="MissingConstraints"></com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/AddButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#009688"
-        android:text="Add"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TimeSlider"
-        app:srcCompat="@drawable/ic_baseline_add_24"
         tools:ignore="MissingConstraints"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <TextView

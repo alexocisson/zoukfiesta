@@ -27,6 +27,10 @@ class Music(
             name = metadataName ?: File(fileName).nameWithoutExtension
             artist = metadataArtist ?: "INCONNU"
         }
+        else
+        {
+            name=fileName
+        }
     }
 
     override fun toString(): String {

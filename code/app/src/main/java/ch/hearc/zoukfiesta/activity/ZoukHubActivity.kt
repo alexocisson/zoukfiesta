@@ -1,5 +1,7 @@
 package ch.hearc.zoukfiesta.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ import ch.hearc.zoukfiesta.fragments.MusicQueueFragment
 import ch.hearc.zoukfiesta.fragments.PlayerFragment
 import ch.hearc.zoukfiesta.fragments.SettingsFragment
 import ch.hearc.zoukfiesta.utils.music.Music
+import ch.hearc.zoukfiesta.utils.music.MusicPlayer
 import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 import com.google.android.gms.nearby.Nearby
@@ -109,6 +112,46 @@ class ZoukHubActivity() : AppCompatActivity(){
         NearbySingleton.nearbyClient?.onPause = {isPlaying:Boolean ->
             //Stop the slider
             playerFragment.isPlaying = isPlaying
+        }
+    }
+
+    override fun onBackPressed() {
+        if (viewPager.currentItem == 0) {
+
+            // Build an AlertDialog
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+            // Set a title for alert dialog
+            builder.setTitle("Leave Fiesta")
+
+            // Ask the final question
+            builder.setMessage("Are you sure to leave the fiesta?")
+
+            // Set the alert dialog yes button click listener
+            builder.setPositiveButton("Yes",
+                DialogInterface.OnClickListener { dialog, which -> // Do something when user clicked the Yes button
+                    // If the user is currently looking at the first step, allow the system to handle the
+                    // Back button. This calls finish() on this activity and pops the back stack.
+                    NearbySingleton.nearbyClient?.stop()
+                    this.finish()
+                    super.onBackPressed()
+                })
+
+            // Set the alert dialog no button click listener
+            builder.setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog, which -> // Do something when No button clicked
+                    Toast.makeText(
+                        applicationContext,
+                        "Fiesta is not over !", Toast.LENGTH_SHORT
+                    ).show()
+                })
+
+            val dialog: AlertDialog = builder.create()
+            // Display the alert dialog on interface
+            dialog.show()
+        } else {
+            // Otherwise, select the previous step.
+            viewPager.currentItem = viewPager.currentItem - 1
         }
     }
 

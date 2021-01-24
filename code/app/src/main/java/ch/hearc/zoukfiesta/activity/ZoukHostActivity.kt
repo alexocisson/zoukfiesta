@@ -186,6 +186,7 @@ class ZoukHostActivity : AppCompatActivity(){
                     // Back button. This calls finish() on this activity and pops the back stack.
                     MusicPlayer.stop()
                     NearbySingleton.nearbyServer?.stopAdvertising()
+                    NearbySingleton.nearbyServer?.stop()
                     NearbySingleton.nearbyClient?.startDiscovery(NearbySingleton.PACKAGE_NAME,NearbySingleton.ENDPOINTDISCOVERYCALLBACK,NearbySingleton.STRATEGY)
                     this.finish()
                     super.onBackPressed()

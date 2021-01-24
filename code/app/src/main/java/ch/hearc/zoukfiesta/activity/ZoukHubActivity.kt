@@ -43,7 +43,7 @@ class ZoukHubActivity() : AppCompatActivity(){
         // The pager adapter, which provides the pages to the view pager widget.
         val availableMusicsFragment = AvailableMusicsFragment()
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
-            NearbySingleton.nearbyClient?.sendWhat()
+            //NearbySingleton.nearbyClient?.sendWhat()
         }
 
         val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
@@ -72,12 +72,11 @@ class ZoukHubActivity() : AppCompatActivity(){
         }
 
         NearbySingleton.nearbyClient?.onAvailable = { availableMusics ->
-            MusicStore.availableMusics = availableMusics
 
             MusicStore.availableMusics.clear()
             availableMusics.forEach { musicName, musicJSON ->
                 val music = JSONObject(musicJSON)
-                MusicStore.musicQueue.add(Music(music.getString("name"), music.getString("artist"),music.getInt("vote")))
+                MusicStore.availableMusics.add(Music(music.getString("name"), music.getString("artist")))
             }
 
             NearbySingleton.availableMusicsAdapter?.notifyDataSetChanged()

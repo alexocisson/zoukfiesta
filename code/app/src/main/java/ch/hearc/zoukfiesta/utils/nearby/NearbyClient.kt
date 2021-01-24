@@ -75,8 +75,7 @@ class NearbyClient(
             onPlaylist?.let { it(
                 obj.musics,
                 obj.currentMusicTime,
-                obj.currentMusicLength,
-                //obj.isPlaying
+                obj.currentMusicLength
             ) }
         }
     }

@@ -147,7 +147,6 @@ class NearbyServer(
                             val musicJSON = JSONObject();
                             musicJSON.put("name", music.name)
                             musicJSON.put("artist", music.artist)
-                            musicJSON.put("vote", music.voteSkip)
                             mapAvailableMusics[music.name] = musicJSON.toString()
                         }
 

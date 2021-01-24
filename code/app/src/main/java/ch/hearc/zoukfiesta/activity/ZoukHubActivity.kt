@@ -59,10 +59,15 @@ class ZoukHubActivity() : AppCompatActivity(){
             }
 
             //Update current time and max time
-            val musicToPlay : Music = MusicStore.musicQueue.first()
-            playerFragment.setNewTimeInfo(currentTime, totalTime, musicToPlay.name,musicToPlay.artist)
-
-            //if (isPlaying) playerFragment.play() else playerFragment.pause()
+            if (MusicStore.musicQueue.isEmpty())
+            {
+                playerFragment.setNewTimeInfo(0, Float.MAX_VALUE.toInt(), "","")
+            }
+            else
+            {
+                val musicToPlay : Music = MusicStore.musicQueue.first()
+                playerFragment.setNewTimeInfo(currentTime, totalTime, musicToPlay.name,musicToPlay.artist)
+            }
 
             NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
         }

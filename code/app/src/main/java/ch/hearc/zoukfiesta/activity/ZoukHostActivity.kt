@@ -90,6 +90,7 @@ class ZoukHostActivity : AppCompatActivity(){
                     playerFragment.isPlaying = false
                     playerFragment.pause()
                 }
+                sendPlayPauseToAllClient(playerFragment.isPlaying)
             }
 
             playerFragment.pause()
@@ -182,7 +183,8 @@ class ZoukHostActivity : AppCompatActivity(){
                 //Notify the change
                 NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
             }
-            if (playerFragment.isPlaying) sendPlayPauseToAllClient()
+            sendMusicQueueToAllClient(0f)
+            sendPlayPauseToAllClient(false)
             return
         }
 
@@ -212,7 +214,7 @@ class ZoukHostActivity : AppCompatActivity(){
 
         //Send to all clients
         sendMusicQueueToAllClient(0f)
-        if (playerFragment.isPlaying) sendPlayPauseToAllClient()
+        sendPlayPauseToAllClient(true)
     }
 
     //Tell the music player to play the first music in music store
@@ -267,17 +269,17 @@ class ZoukHostActivity : AppCompatActivity(){
 
             MusicPlayer.getDuration()?.let { duration ->
                 NearbySingleton.nearbyServer?.sendPlaylist(endpointId,mapMusic,
-                    (currentMusicTime).toInt(), duration, playerFragment.isPlaying
+                    (currentMusicTime).toInt(), duration
                 )
             }
         }
     }
 
-    private fun sendPlayPauseToAllClient()
+    private fun sendPlayPauseToAllClient(isPlaying:Boolean)
     {
         NearbySingleton.nearbyServer?.clientsById?.forEach { endpointId, name ->
 
-            NearbySingleton.nearbyServer!!.sendPause(endpointId)
+            NearbySingleton.nearbyServer!!.sendPause(endpointId,isPlaying)
         }
     }
 

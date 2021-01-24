@@ -155,6 +155,8 @@ class NearbyServer(
                                 }
                             }
                         }
+
+                        MusicPlayer.isPlaying()?.let { sendPause(endpointId, it) }
                     }
                     ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                         println("The connection was rejected by one or both sides.")

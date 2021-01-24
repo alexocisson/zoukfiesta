@@ -3,7 +3,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
 @Serializable
-class DataPlaylist(val commandsName: String, val musics: Map<String, String>, val currentMusicTime: Int, val currentMusicLength: Int, val isPlaying: Boolean)
+class DataPlaylist(val commandsName: String, val musics: Map<String, String>, val currentMusicTime: Int, val currentMusicLength: Int)
 
 class Tools{
     companion object {

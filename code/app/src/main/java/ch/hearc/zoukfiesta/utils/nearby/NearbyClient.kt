@@ -110,6 +110,11 @@ class NearbyClient(
         Nearby.getConnectionsClient(context).stopDiscovery()
     }
 
+    fun disconnectFromServer()
+    {
+        Nearby.getConnectionsClient(context).disconnectFromEndpoint(endpointServerId)
+    }
+
     fun requestConnection(endpointId: String){
         Nearby.getConnectionsClient(context)
             .requestConnection(NearbySingleton.USERNAME, endpointId, connectionLifecycleCallback)

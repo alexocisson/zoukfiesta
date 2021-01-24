@@ -40,6 +40,7 @@ PlayerFragment : Fragment() {
 
     var onValueChange: ((slider: Slider, value: Float, fromUser: Boolean) -> Unit)? = null
     var onPause: ((it: View) -> Unit)? = null
+    var onSkip: ((it: View) -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -92,10 +93,14 @@ PlayerFragment : Fragment() {
 
         //Set on pause event
         pauseButton!!.setOnClickListener {it ->
-//            isPlaying = !isPlaying
-            PauseButton.setImageResource(if (!isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24)
             onPause?.let { it1 -> it1(it) }
         }
+
+        //Set on skip event
+        skipButton!!.setOnClickListener {it ->
+            onSkip?.let { it1 -> it1(it) }
+        }
+
     }
 
     fun play()
@@ -112,7 +117,6 @@ PlayerFragment : Fragment() {
 
     override fun onResume() {
         // Important! Refresh our list when we return to this activity (from another one)
-
         super.onResume()
     }
 

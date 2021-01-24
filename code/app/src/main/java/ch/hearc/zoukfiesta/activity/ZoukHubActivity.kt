@@ -44,6 +44,11 @@ class ZoukHubActivity() : AppCompatActivity(){
         //Set playerfragment
         if (savedInstanceState == null) {
             playerFragment = (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)!!
+
+            //Set the skip event function callback
+            playerFragment.onSkip = {it ->
+                if (MusicStore.musicQueue.isNotEmpty()) NearbySingleton.nearbyClient?.sendSkip(0)
+            }
         }
 
         // Instantiate a ViewPager2 and a PagerAdapter.
@@ -105,7 +110,8 @@ class ZoukHubActivity() : AppCompatActivity(){
         }
 
         NearbySingleton.nearbyClient?.onKick = {
-            Nearby.getConnectionsClient(baseContext).disconnectFromEndpoint(endpointId)
+            NearbySingleton.nearbyClient?.disconnectFromServer()
+            NearbySingleton.nearbyClient?.stop()
             println("I JUST GOT KICKED OMG");
             val toastText = "You have been kicked"
             val duration = Toast.LENGTH_LONG
@@ -137,6 +143,7 @@ class ZoukHubActivity() : AppCompatActivity(){
                 DialogInterface.OnClickListener { dialog, which -> // Do something when user clicked the Yes button
                     // If the user is currently looking at the first step, allow the system to handle the
                     // Back button. This calls finish() on this activity and pops the back stack.
+                    NearbySingleton.nearbyClient?.disconnectFromServer()
                     NearbySingleton.nearbyClient?.stop()
                     this.finish()
                     super.onBackPressed()

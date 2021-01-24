@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
         //        startAdvertising();
         NearbySingleton.nearbyClient!!.startDiscovery(
-            NearbySingleton.PACKAGE_NAME, endpointDiscoveryCallback,
+            NearbySingleton.PACKAGE_NAME, NearbySingleton.ENDPOINTDISCOVERYCALLBACK,
             NearbySingleton.STRATEGY
         );
 

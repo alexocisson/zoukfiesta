@@ -137,24 +137,35 @@ class NearbyServer(
                         println("We're connected! Can now start sending and receiving data.")
                         clientAdapter?.notifyDataSetChanged()
 
-                        var mapMusic : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
+                        var mapMusicQueue : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
                         MusicStore.musicQueue.forEach { music ->
                             val musicJSON = JSONObject();
                             musicJSON.put("name", music.name)
                             musicJSON.put("artist", music.artist)
                             musicJSON.put("vote", music.voteSkip)
-                            mapMusic[music.name] = musicJSON.toString()
+                            mapMusicQueue[music.name] = musicJSON.toString()
+                        }
+
+                        var mapAvailableMusics : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
+                        MusicStore.availableMusics.forEach { music ->
+                            val musicJSON = JSONObject();
+                            musicJSON.put("name", music.name)
+                            musicJSON.put("artist", music.artist)
+                            musicJSON.put("vote", music.voteSkip)
+                            mapAvailableMusics[music.name] = musicJSON.toString()
                         }
 
                         MusicPlayer.getTimestamp()?.let {timestamp ->
                             MusicPlayer.getDuration()?.let { duration ->
                                 MusicPlayer.isPlaying()?.let {isPlaying ->
-                                    sendPlaylist(endpointId,mapMusic,
+                                    sendPlaylist(endpointId,mapMusicQueue,
                                         timestamp, duration
                                     )
                                 }
                             }
                         }
+
+                        sendAvailable(endpointId,mapAvailableMusics)
 
                         MusicPlayer.isPlaying()?.let { sendPause(endpointId, it) }
                     }

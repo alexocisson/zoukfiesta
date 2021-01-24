@@ -68,7 +68,7 @@ class ZoukHostActivity : AppCompatActivity(){
             playerFragment.onPause = { it ->
                 if (!MusicStore.musicQueue.isEmpty())
                 {
-                    if(playerFragment.isPlaying/*isPlaying*/)
+                    if(playerFragment.isPlaying)
                     {
                         //Pause the music
                         MusicPlayer.pause()

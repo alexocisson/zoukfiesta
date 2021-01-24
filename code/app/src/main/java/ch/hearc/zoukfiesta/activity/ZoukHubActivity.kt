@@ -22,7 +22,6 @@ import org.json.JSONObject
 class ZoukHubActivity() : AppCompatActivity(){
 
     private lateinit var viewPager: ViewPager2
-    private lateinit var availableMusics : Array<String>;
     private var endpointId: String = ""
     private lateinit var playerFragment: PlayerFragment
 
@@ -44,13 +43,13 @@ class ZoukHubActivity() : AppCompatActivity(){
         // The pager adapter, which provides the pages to the view pager widget.
         val availableMusicsFragment = AvailableMusicsFragment()
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
-            val music = parent!!.getItemAtPosition(position) as Music
+            NearbySingleton.nearbyClient?.sendWhat()
         }
 
         val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
         viewPager.adapter = pagerAdapter
 
-        NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime/*, isPlaying*/ ->
+        NearbySingleton.nearbyClient?.onPlaylist = { playlist, currentTime, totalTime ->
 
             MusicStore.musicQueue.clear()
             playlist.forEach { musicName, musicJSON ->
@@ -72,7 +71,16 @@ class ZoukHubActivity() : AppCompatActivity(){
             NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
         }
 
-        NearbySingleton.nearbyClient?.onAvailable = { availableMusics -> this.availableMusics = availableMusics
+        NearbySingleton.nearbyClient?.onAvailable = { availableMusics ->
+            MusicStore.availableMusics = availableMusics
+
+            MusicStore.availableMusics.clear()
+            availableMusics.forEach { musicName, musicJSON ->
+                val music = JSONObject(musicJSON)
+                MusicStore.musicQueue.add(Music(music.getString("name"), music.getString("artist"),music.getInt("vote")))
+            }
+
+            NearbySingleton.availableMusicsAdapter?.notifyDataSetChanged()
         }
 
         NearbySingleton.nearbyClient?.onKick = {

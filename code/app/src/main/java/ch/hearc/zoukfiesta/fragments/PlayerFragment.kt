@@ -120,10 +120,10 @@ PlayerFragment : Fragment() {
         if(isPlaying)
         {
             time+=1000f
-            if (time<maxTime) {
-                timeSlider!!.setValue(time)
-                timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format("%02d",((time/1000)%60).toInt())
-            }
+        }
+        if (time<maxTime) {
+            timeSlider!!.setValue(time)
+            timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format("%02d",((time/1000)%60).toInt())
         }
     }
 

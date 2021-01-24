@@ -5,7 +5,7 @@ interface INearbyClient {
     var onPlaylist: ((votes: Map<String, String>, currentMusicTime: Int, currentMusicLength: Int,/* isPlaying : Boolean*/) -> Unit)?
     var onAvailable: ((musics: Array<String>) -> Unit)?
     var onKick: (() -> Unit)?
-    var onPause: (() -> Unit)?
+    var onPause: ((isPlaying : Boolean) -> Unit)?
 
     //Send
     public fun sendSkip(musicName : String)

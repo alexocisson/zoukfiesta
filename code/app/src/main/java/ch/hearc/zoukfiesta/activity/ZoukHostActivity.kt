@@ -19,6 +19,7 @@ import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
 import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
+import kotlinx.android.synthetic.main.create_activity.*
 import org.json.JSONObject
 import java.util.*
 import kotlin.concurrent.schedule
@@ -47,29 +48,48 @@ class ZoukHostActivity : AppCompatActivity(){
             playerFragment.onValueChange = { slider, value, fromUser ->
                 if(fromUser)
                 {
-                    //Set the current time
-                    updateScheduleRemainingTime(value)
+                    if(playerFragment.isPlaying/*isPlaying*/)
+                    {
+                        //Set the current time
+                        updateScheduleRemainingTime(value)
+                    }
+                    else
+                    {
+                        remainingTimePause = value
+                        runOnUiThread{
+                            playerFragment.setCurrentTime(value)
+                        }
+                    }
+
                 }
             }
 
             //Set the pause event function callback
             playerFragment.onPause = { it ->
-                if(playerFragment.isPlaying/*isPlaying*/)
+                if (!MusicStore.musicQueue.isEmpty())
                 {
-                    //Pause the music
-                    MusicPlayer.pause()
-                    musicTimer.cancel()
-                    remainingTimePause = MusicPlayer.getTimestamp()!!.toFloat()
+                    if(playerFragment.isPlaying/*isPlaying*/)
+                    {
+                        //Pause the music
+                        MusicPlayer.pause()
+                        musicTimer.cancel()
+                        remainingTimePause = MusicPlayer.getTimestamp()!!.toFloat()
+                    }
+                    else
+                    {
+                        //Resume the music
+                        MusicPlayer.resume()
+                        updateScheduleRemainingTime(remainingTimePause)
+                    }
+
+                    //Inverse state
+                    playerFragment.isPlaying = !playerFragment.isPlaying
                 }
                 else
                 {
-                    //Resume the music
-                    MusicPlayer.resume()
-                    updateScheduleRemainingTime(remainingTimePause)
+                    playerFragment.isPlaying = false
+                    playerFragment.pause()
                 }
-
-                //Inverse state
-                playerFragment.isPlaying = !playerFragment.isPlaying
             }
 
             playerFragment.pause()
@@ -84,8 +104,15 @@ class ZoukHostActivity : AppCompatActivity(){
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
             val music = parent!!.getItemAtPosition(position) as Music
 
-            MusicStore.musicQueue.add(music)
-            if (!playerFragment.isPlaying) nextMusic()
+            if (MusicStore.musicQueue.isEmpty())
+            {
+                MusicStore.musicQueue.add(music)
+                nextMusic()
+            }
+            else
+            {
+                MusicStore.musicQueue.add(music)
+            }
             NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
         }
 
@@ -146,8 +173,16 @@ class ZoukHostActivity : AppCompatActivity(){
         var music = MusicStore.musicQueue.firstOrNull()
         if (music == null)
         {
-            //Update Player UI
-            playerFragment.pause()
+            runOnUiThread {
+                //Update Player UI
+                playerFragment.pause()
+                //Set the timer
+                playerFragment.setNewTimeInfo(0, Float.MAX_VALUE.toInt(), "", "")
+
+                //Notify the change
+                NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
+            }
+            if (playerFragment.isPlaying) sendPlayPauseToAllClient()
             return
         }
 
@@ -177,6 +212,7 @@ class ZoukHostActivity : AppCompatActivity(){
 
         //Send to all clients
         sendMusicQueueToAllClient(0f)
+        if (playerFragment.isPlaying) sendPlayPauseToAllClient()
     }
 
     //Tell the music player to play the first music in music store
@@ -234,6 +270,14 @@ class ZoukHostActivity : AppCompatActivity(){
                     (currentMusicTime).toInt(), duration, playerFragment.isPlaying
                 )
             }
+        }
+    }
+
+    private fun sendPlayPauseToAllClient()
+    {
+        NearbySingleton.nearbyServer?.clientsById?.forEach { endpointId, name ->
+
+            NearbySingleton.nearbyServer!!.sendPause(endpointId)
         }
     }
 

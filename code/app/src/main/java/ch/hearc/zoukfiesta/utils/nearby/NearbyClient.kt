@@ -18,7 +18,7 @@ class NearbyClient(
     override var onPlaylist: ((Map<String, String>, Int, Int/*, Boolean*/) -> Unit)? = null,
     override var onAvailable: ((musics: Array<String>) -> Unit)? = null,
     override var onKick: (() -> Unit)? = null,
-    override var onPause: (() -> Unit)? = null,
+    override var onPause: ((isPlaying : Boolean) -> Unit)? = null,
     var endpointServerId: String = "",
     var onConnection: (() -> Unit)? = null,
 ) : INearbyClient, NearbyListener() {
@@ -84,7 +84,7 @@ class NearbyClient(
                 //Send obj[1-...] to the command
                 CommandsName.AVAILABLE -> onAvailable?.let { it(Array<String>(obj.size - 1) { i -> obj[i + 1] }) }
                 CommandsName.KICK -> onKick?.let { it() }
-                CommandsName.PAUSE -> onPause?.let { it() }
+                CommandsName.PAUSE -> onPause?.let { it(obj[1]) }
                 }
         }
         catch (e: IllegalArgumentException)

@@ -8,6 +8,7 @@ import androidx.documentfile.provider.DocumentFile
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicStore
+import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
 
 
 class CreateActivity : AppCompatActivity(){
@@ -39,7 +40,9 @@ class CreateActivity : AppCompatActivity(){
                         println(df.name.toString() + " - " + df.type)
                         if ((df.type == "audio/mpeg" || df.type == "audio/flac")
                             && df.canRead()) {
-                            MusicStore.availableMusics.add(Music(df.name.toString(), "",2, df.uri, this))
+                            val numberOfZoukers = NearbySingleton.nearbyServer?.clientsById?.size
+                            val toSkip = if (numberOfZoukers == null) 1 else (numberOfZoukers + 1) / 2
+                            MusicStore.availableMusics.add(Music(df.name.toString(), "", toSkip, df.uri, this))
                         }
                     }
                 }

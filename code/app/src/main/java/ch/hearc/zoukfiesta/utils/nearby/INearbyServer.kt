@@ -16,5 +16,5 @@ interface INearbyServer {
             isPlaying : Boolean)
     public fun sendAvailable(endpointId: String, musics : Array<String>)
     public fun sendKick(endpointId: String)
-    public fun sendPause(endpointId: String)
+    public fun sendPause(endpointId: String, isPlaying: Boolean)
 }

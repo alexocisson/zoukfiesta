@@ -19,7 +19,6 @@ import ch.hearc.zoukfiesta.utils.music.Music
 import ch.hearc.zoukfiesta.utils.music.MusicPlayer
 import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.NearbySingleton
-import kotlinx.android.synthetic.main.create_activity.*
 import org.json.JSONObject
 import java.util.*
 import kotlin.concurrent.schedule
@@ -37,6 +36,28 @@ class ZoukHostActivity : AppCompatActivity(){
 
         setContentView(R.layout.zouk_host_activity)
 
+        retrieveViews(savedInstanceState)
+        setUpViews(savedInstanceState)
+        setUpListeners(savedInstanceState)
+
+        NearbySingleton.nearbyServer?.start()
+        // Start by playing the first music in the store
+        nextMusic()
+    }
+
+    private fun retrieveViews(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            //Get the player fragment
+            playerFragment =
+                (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)!!
+        }
+
+        // Instantiate a ViewPager2 and a PagerAdapter.
+        viewPager = findViewById(R.id.pager)
+        viewPager.orientation = ORIENTATION_VERTICAL
+    }
+
+    private fun setUpViews(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             //Get the player fragment
             playerFragment = (supportFragmentManager.findFragmentById(R.id.playerFragment) as PlayerFragment?)!!
@@ -96,10 +117,6 @@ class ZoukHostActivity : AppCompatActivity(){
             playerFragment.pause()
         }
 
-        // Instantiate a ViewPager2 and a PagerAdapter.
-        viewPager = findViewById(R.id.pager)
-        viewPager.orientation = ORIENTATION_VERTICAL
-
         // The pager adapter, which provides the pages to the view pager widget.
         val availableMusicsFragment = AvailableMusicsFragment()
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
@@ -119,9 +136,83 @@ class ZoukHostActivity : AppCompatActivity(){
 
         val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)
         viewPager.adapter = pagerAdapter
+    }
 
-        // Start by playing the first music in the store
-        nextMusic()
+    private fun setUpListeners(savedInstanceState: Bundle?) {
+        NearbySingleton.nearbyServer?.onAdd = { musicName ->
+            val musicToAdd: Music? =MusicStore.availableMusics.firstOrNull{it.name == musicName}
+            if (musicToAdd != null)
+            {
+                if (MusicStore.musicQueue.isEmpty())
+                {
+                    MusicStore.musicQueue.add(musicToAdd)
+                    nextMusic()
+                }
+                else
+                {
+                    MusicStore.musicQueue.add(musicToAdd)
+                }
+                NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
+            }
+        }
+
+        NearbySingleton.nearbyServer?.onSkip = { musicName ->
+
+        }
+
+        if (savedInstanceState == null) {
+
+            //Set the change event function callback
+            playerFragment.onValueChange = { slider, value, fromUser ->
+                if(fromUser)
+                {
+                    if(playerFragment.isPlaying/*isPlaying*/)
+                    {
+                        //Set the current time
+                        updateScheduleRemainingTime(value)
+                    }
+                    else
+                    {
+                        remainingTimePause = value
+                        runOnUiThread{
+                            playerFragment.setCurrentTime(value)
+                        }
+                    }
+
+                }
+            }
+
+            //Set the pause event function callback
+            playerFragment.onPause = { it ->
+                if (!MusicStore.musicQueue.isEmpty())
+                {
+                    if(playerFragment.isPlaying)
+                    {
+                        //Pause the music
+                        MusicPlayer.pause()
+                        musicTimer.cancel()
+                        remainingTimePause = MusicPlayer.getTimestamp()!!.toFloat()
+                    }
+                    else
+                    {
+                        //Resume the music
+                        MusicPlayer.resume()
+                        updateScheduleRemainingTime(remainingTimePause)
+                    }
+
+                    //Inverse state
+                    playerFragment.isPlaying = !playerFragment.isPlaying
+                }
+                else
+                {
+                    playerFragment.isPlaying = false
+                    playerFragment.pause()
+                }
+                sendPlayPauseToAllClient(playerFragment.isPlaying)
+            }
+
+            playerFragment.pause()
+        }
     }
 
     override fun onBackPressed() {

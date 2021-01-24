@@ -43,7 +43,8 @@ class ZoukHubActivity() : AppCompatActivity(){
         // The pager adapter, which provides the pages to the view pager widget.
         val availableMusicsFragment = AvailableMusicsFragment()
         availableMusicsFragment.onItemClick = {parent, view, position, id ->
-            //NearbySingleton.nearbyClient?.sendWhat()
+            val music = parent!!.getItemAtPosition(position) as Music
+            NearbySingleton.nearbyClient?.sendAdd(music.name)
         }
 
         val pagerAdapter = ScreenSlidePagerAdapter(this,availableMusicsFragment)

@@ -104,9 +104,8 @@ class ZoukHubActivity() : AppCompatActivity(){
         fa: FragmentActivity,
         availableMusicsFragment: AvailableMusicsFragment
     ) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = 3
+        override fun getItemCount(): Int = 2
 
-        var settingFragment : Fragment = SettingsFragment()
         var musicQueueFragment : Fragment = MusicQueueFragment()
         var availableMusicsFragment : Fragment = availableMusicsFragment
 
@@ -115,9 +114,6 @@ class ZoukHubActivity() : AppCompatActivity(){
         {
             if(position == 1) {
                 return availableMusicsFragment
-            }
-            else if(position == 2) {
-                return settingFragment
             }
             else {
                 return musicQueueFragment

@@ -183,6 +183,7 @@ class ZoukHostActivity : AppCompatActivity(){
                 //Notify the change
                 NearbySingleton.musicQueueAdapter?.notifyDataSetChanged()
             }
+            sendAvailableMusicsToAllClient()
             sendMusicQueueToAllClient(0f)
             sendPlayPauseToAllClient(false)
             return
@@ -213,6 +214,7 @@ class ZoukHostActivity : AppCompatActivity(){
         }
 
         //Send to all clients
+        sendAvailableMusicsToAllClient()
         sendMusicQueueToAllClient(0f)
         sendPlayPauseToAllClient(true)
     }
@@ -236,6 +238,7 @@ class ZoukHostActivity : AppCompatActivity(){
         MusicPlayer.moveTo(newTime)
 
         //Send to all clients
+        sendAvailableMusicsToAllClient()
         sendMusicQueueToAllClient(newTime)
 
         //Pass to the next music at the end of the current one
@@ -272,6 +275,22 @@ class ZoukHostActivity : AppCompatActivity(){
                     (currentMusicTime).toInt(), duration
                 )
             }
+        }
+    }
+
+    private fun sendAvailableMusicsToAllClient()
+    {
+        var mapMusic : MutableMap<String, String> = emptyMap<String, String>().toMutableMap()
+        MusicStore.availableMusics.forEach { music ->
+            val musicJSON = JSONObject();
+            musicJSON.put("name", music.name)
+            musicJSON.put("artist", music.artist)
+            mapMusic[music.name] = musicJSON.toString()
+        }
+
+        //Send to all clients
+        NearbySingleton.nearbyServer?.clientsById?.forEach { endpointId, name ->
+            NearbySingleton.nearbyServer!!.sendAvailable(endpointId,mapMusic)
         }
     }
 

@@ -40,8 +40,6 @@ class ZoukHostActivity : AppCompatActivity(){
 
         NearbySingleton.nearbyServer?.start()
         playerFragment.pause()
-        // Start by playing the first music in the store
-        nextMusic()
     }
 
     private fun retrieveViews(savedInstanceState: Bundle?) {
@@ -237,9 +235,12 @@ class ZoukHostActivity : AppCompatActivity(){
         if (music == null)
         {
             stop()
-            return
+            playerFragment.disable()
         }
-        play(music)
+        else {
+            playerFragment.enable()
+            play(music)
+        }
     }
 
 

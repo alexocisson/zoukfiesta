@@ -34,9 +34,9 @@ PlayerFragment : Fragment() {
     private var maxTime: Float = Float.MAX_VALUE
     private val mainHandler = Handler(Looper.getMainLooper())
     private var isHost : Boolean = false;
-    private var maxTimeInit: Float = Float.MAX_VALUE
     private var musicNameInit: String = ""
     private var artistNameInit: String = ""
+    private var isEnableInit: Boolean = false
 
     var onValueChange: ((slider: Slider, value: Float, fromUser: Boolean) -> Unit)? = null
     var onPause: ((it: View) -> Unit)? = null
@@ -81,6 +81,7 @@ PlayerFragment : Fragment() {
 
         musicTextView!!.text = musicNameInit
         artistTextView!!.text = artistNameInit
+        timeSlider!!.isEnabled = isEnableInit
 
         timeSlider!!.setLabelFormatter{ secs: Float ->
             return@setLabelFormatter "" + (secs/60).toInt() + ":" + String.format("%02d",(secs%60).toInt())
@@ -144,7 +145,6 @@ PlayerFragment : Fragment() {
         }
         else
         {
-            maxTimeInit = maxTime
             musicNameInit = musicName
             artistNameInit = artistName
         }
@@ -158,5 +158,15 @@ PlayerFragment : Fragment() {
     fun setCurrentTime(newTime: Float)
     {
         time =  newTime
+    }
+
+    fun disable()
+    {
+        timeSlider!!.isEnabled = false
+    }
+
+    fun enable()
+    {
+        timeSlider!!.isEnabled = true
     }
 }

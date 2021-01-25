@@ -78,8 +78,10 @@ object MusicPlayer {
 
     fun release()
     {
-        if (mediaPlayer!!.isPlaying) mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        if(mediaPlayer != null) {
+            if (mediaPlayer!!.isPlaying) mediaPlayer?.stop()
+            mediaPlayer?.release()
+            mediaPlayer = null
+        }
     }
 }

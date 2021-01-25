@@ -1,22 +1,17 @@
 package ch.hearc.zoukfiesta.fragments
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import ch.hearc.zoukfiesta.*
-import ch.hearc.zoukfiesta.activity.CreateActivity
+import ch.hearc.zoukfiesta.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
 import kotlinx.android.synthetic.main.player_fragment.*
-import java.text.NumberFormat
-import kotlin.math.roundToInt
 
 class
 PlayerFragment : Fragment() {
@@ -42,7 +37,11 @@ PlayerFragment : Fragment() {
     var onPause: ((it: View) -> Unit)? = null
     var onSkip: ((it: View) -> Unit)? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         mainHandler.post(object : Runnable {
             override fun run() {
@@ -84,7 +83,10 @@ PlayerFragment : Fragment() {
         timeSlider!!.isEnabled = isEnableInit
 
         timeSlider!!.setLabelFormatter{ secs: Float ->
-            return@setLabelFormatter "" + (secs/60).toInt() + ":" + String.format("%02d",(secs%60).toInt())
+            return@setLabelFormatter "" + (secs/60).toInt() + ":" + String.format(
+                "%02d",
+                (secs % 60).toInt()
+            )
         }
 
         //Set on click event
@@ -93,13 +95,20 @@ PlayerFragment : Fragment() {
         }
 
         //Set on pause event
-        pauseButton!!.setOnClickListener {it ->
+        pauseButton!!.setOnClickListener { it ->
             onPause?.let { it1 -> it1(it) }
         }
 
         //Set on skip event
-        skipButton!!.setOnClickListener {it ->
+        skipButton!!.setOnClickListener { it ->
             onSkip?.let { it1 -> it1(it) }
+        }
+
+        //Set the time slider texte format
+        timeSlider!!.setLabelFormatter { value: Float ->
+            val minutes = (value / (60 * 1000)).toInt()
+            val seconds = (value / 1000 % 60).toInt()
+            String.format("%d:%02d", minutes, seconds)
         }
 
     }
@@ -128,11 +137,14 @@ PlayerFragment : Fragment() {
         }
         if (time<maxTime) {
             timeSlider!!.setValue(time)
-            timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format("%02d",((time/1000)%60).toInt())
+            timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format(
+                "%02d",
+                ((time / 1000) % 60).toInt()
+            )
         }
     }
 
-    fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String,artistName: String){
+    fun setNewTimeInfo(newTime: Int, newMaxTime: Int, musicName: String, artistName: String){
         time = newTime.toFloat()
         maxTime = newMaxTime.toFloat()
 
@@ -141,7 +153,10 @@ PlayerFragment : Fragment() {
             timeSlider!!.setValue(time)
             musicTextView!!.text = musicName
             artistTextView!!.text = artistName
-            timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format("%02d",((time/1000)%60).toInt())
+            timeView!!.text = "" + ((time/1000)/60).toInt() + ":" + String.format(
+                "%02d",
+                ((time / 1000) % 60).toInt()
+            )
         }
         else
         {

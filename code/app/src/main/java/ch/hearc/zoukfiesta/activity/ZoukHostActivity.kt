@@ -205,6 +205,11 @@ class ZoukHostActivity : AppCompatActivity(){
                     NearbySingleton.nearbyServer?.stopAdvertising()
                     NearbySingleton.nearbyServer?.stop()
                     NearbySingleton.nearbyClient?.startDiscovery(NearbySingleton.PACKAGE_NAME,NearbySingleton.ENDPOINTDISCOVERYCALLBACK,NearbySingleton.STRATEGY)
+
+                    //Clear all the list
+                    MusicStore.musicQueue.clear()
+                    MusicStore.availableMusics.clear()
+
                     this.finish()
                     super.onBackPressed()
                 })

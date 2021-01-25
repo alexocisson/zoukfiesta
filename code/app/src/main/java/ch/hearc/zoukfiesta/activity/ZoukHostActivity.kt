@@ -254,7 +254,7 @@ class ZoukHostActivity : AppCompatActivity(){
         if(MusicStore.musicQueue.size == 1) {
             MusicPlayer.stop()
         }
-        
+
         MusicStore.musicQueue.removeAt(0)
         //Play the next one
         nextMusic()

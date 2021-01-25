@@ -69,7 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:backgroundTint="#009688"
         android:text="Skip"
         app:layout_constraintStart_toEndOf="@+id/PauseButton"
         app:layout_constraintTop_toBottomOf="@+id/TimeSlider"

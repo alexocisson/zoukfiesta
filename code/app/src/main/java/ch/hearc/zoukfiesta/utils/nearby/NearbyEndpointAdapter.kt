@@ -60,7 +60,7 @@ class NearbyEndPointAdapter(
                 return filterResults
             }
 
-            override fun publishResults(constraint: CharSequence, results: Filter.FilterResults) {
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults) {
                 // New filtering -> notify the list adapter (BaseAdapter) that its content changed
                 notifyDataSetChanged()
             }
@@ -84,8 +84,7 @@ class NearbyEndPointAdapter(
         val holder: EndpointHolder
 
         if (convertView == null) {
-            convertView =
-                LayoutInflater.from(context).inflate(R.layout.endpoint_list_row, parent, false)
+            convertView = LayoutInflater.from(context).inflate(R.layout.endpoint_list_row, parent, false)
 
             holder = EndpointHolder()
 
@@ -93,11 +92,6 @@ class NearbyEndPointAdapter(
             holder.nameTextView =
                 convertView.findViewById<View>(R.id.nameTextView) as TextView
 
-            /*
-             * We have 2 views, but we only can set one object (tag) into our convertView object.
-             *
-             * Now we see the whole purpose of our "XyzHolder" wrapper classes.
-             */
             convertView.tag = holder
         } else {
             holder = convertView.tag as EndpointHolder

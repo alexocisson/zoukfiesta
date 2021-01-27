@@ -58,7 +58,7 @@ class AvailableMusicsAdapter(
                 return filterResults
             }
 
-            override fun publishResults(constraint: CharSequence, results: Filter.FilterResults) {
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults) {
                 // New filtering -> notify the list adapter (BaseAdapter) that its content changed
                 notifyDataSetChanged()
             }

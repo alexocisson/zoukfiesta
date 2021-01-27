@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import ch.hearc.zoukfiesta.R
 import ch.hearc.zoukfiesta.utils.music.AvailableMusicsAdapter
 import ch.hearc.zoukfiesta.utils.music.MusicQueueAdapter
+import ch.hearc.zoukfiesta.utils.music.MusicStore
 import ch.hearc.zoukfiesta.utils.nearby.*
 import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo
 import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
@@ -24,13 +25,6 @@ import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
-
-    // Our handle to Nearby Connections
-//    private var connectionsClient: ConnectionsClient? = null
-
-    // Our randomly generated name
-//    private val username: String = "Yo " + Random(32131).nextInt().toString()
-//    private val username: String = "Utilisateur " + (0..100).random().toString()
 
     private val TAG : String = "Zoukfiesta"
 
@@ -44,8 +38,6 @@ class MainActivity : AppCompatActivity() {
     )
 
     private val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
-
-
 
     private var usernameTextField: TextView? = null
     private var setUsernameButton: Button? = null
@@ -61,10 +53,7 @@ class MainActivity : AppCompatActivity() {
         if (!hasPermissions(this, *REQUIRED_PERMISSIONS)) {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
-        else
-        {
-            init()
-        }
+        init()
     }
 
     private fun init() {
@@ -78,17 +67,20 @@ class MainActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             println(e.toString())
-            userConfigJSON = JSONObject();
+            userConfigJSON = JSONObject()
             userConfigJSON.put("username", "User " + (0..100).random().toString())
             writeJSONFile(userConfigJSON, "user.config")
         }
 
-
+        MusicStore.availableMusics.clear()
+        MusicStore.musicQueue.clear()
+//        NearbyEndPointStore.ENDPOINTS.clear()
         NearbySingleton.USERNAME = userConfigJSON.get("username").toString()
         NearbySingleton.PACKAGE_NAME = packageName
         NearbySingleton.ENDPOINTDISCOVERYCALLBACK = endpointDiscoveryCallback
         NearbySingleton.availableMusicsAdapter = AvailableMusicsAdapter(this)
         NearbySingleton.musicQueueAdapter = MusicQueueAdapter(this)
+
 
         retrieveViews()
         setUpViews()
@@ -96,13 +88,15 @@ class MainActivity : AppCompatActivity() {
 
         NearbySingleton.nearbyClient = NearbyClient(this, NearbySingleton.USERNAME);
 
-        //        startAdvertising();
         NearbySingleton.nearbyClient!!.startDiscovery(
             NearbySingleton.PACKAGE_NAME, NearbySingleton.ENDPOINTDISCOVERYCALLBACK,
             NearbySingleton.STRATEGY
-        );
+        )
 
-        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("endpointID", "Username", null))
+        //Endpoint d'exemple
+//        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("1234", "Frictus", null))
+//        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("9876", "Gurix", null))
+//        NearbyEndPointStore.ENDPOINTS.add(NearbyEndpoint("4567", "Raxus", null))
     }
 
     private fun retrieveViews() {
@@ -280,5 +274,15 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         println("MainActivity on Resume")
         super.onResume()
+    }
+
+    override fun onStop() {
+        println("MainActivity is Stopped")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        println("MainActivity is Destroyed HAHAHA")
+        super.onDestroy()
     }
 }
